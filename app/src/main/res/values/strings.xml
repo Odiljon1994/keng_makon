@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">Keng Makon</string>
+    <string name="select_language">Select language</string>
+    <string name="next">Next</string>
+    <string name="get_started">Get started</string>
+    <string name="login">Login</string>
+    <string name="premium_furniture">Premium Class Furniture Showroom</string>
+    <string name="no_account">Haven\'t account? Please</string>
+    <string name="sign_up">Sign up</string>
+    <string name="sign_in">Sign in</string>
+    <string name="forgot_pwd">Forgot password</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="have_account">Already have an account? Please</string>
+    <string name="find_perfect_furniture_title">Find perfect furniture</string>
+    <string name="all_categories_title">All Categories</string>
+    <string name="cashback_title">Cashback</string>
+    <string name="find_perfect_furniture_subtitle">Discover best furniture for your lovely home. You will love it!</string>
+    <string name="all_categories_subtitle">Don’t worry to lose your package. You can track even in real-time</string>
+    <string name="cashback_subtitle">Organize your cashback into some category you want</string>
+    <string name="skip">Skip</string>
+    <string name="incorrect_login_details">Email or Password is incorrect</string>
+    <string name="create_account">Create an account</string>
+    <string name="new_products">New Products</string>
+    <string name="see_all">See all</string>
+    <string name="products">products</string>
+</resources>

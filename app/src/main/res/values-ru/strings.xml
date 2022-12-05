@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Keng Makon</string>
+    <string name="select_language">Выберите язык</string>
+    <string name="next">Дальше</string>
+    <string name="get_started">Начать</string>
+    <string name="login">Войти</string>
+    <string name="premium_furniture">Салон мебели премиум-класса</string>
+    <string name="no_account">Нет аккаунта? Пожалуйста,</string>
+    <string name="sign_up">Зарегистрируйтесь</string>
+    <string name="sign_in">Войти</string>
+    <string name="forgot_pwd">Забыли пароль?</string>
+    <string name="email">Эл. адрес</string>
+    <string name="password">Пароль</string>
+    <string name="have_account">У вас уже есть аккаунт?</string>
+    <string name="find_perfect_furniture_title">Найдите идеальную мебель</string>
+    <string name="all_categories_title">Все категории</string>
+    <string name="cashback_title">Кэшбэк</string>
+    <string name="find_perfect_furniture_subtitle">Откройте для себя лучшую мебель для вашего прекрасного дома.</string>
+    <string name="all_categories_subtitle">Наши категории позволят Вам внимательно рассмотреть все заинтересовавшие Вас изделия.</string>
+    <string name="cashback_subtitle">Покупка мебели с кэшбэком от компании KengMakon. Более 5и популярных магазинов с кэшбэком с каждого заказа.</string>
+    <string name="skip">Пропустить</string>
+    <string name="incorrect_login_details">Email или пароль указан неверно</string>
+    <string name="create_account">Создать новый аккаунт</string>
+    <string name="new_products">Новые продукты</string>
+    <string name="see_all">Увидеть все</string>
+    <string name="products">товары</string>
+</resources>

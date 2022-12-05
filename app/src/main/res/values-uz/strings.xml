@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Keng Makon</string>
+    <string name="select_language">Tilni tanlang</string>
+    <string name="next">Keyingi</string>
+    <string name="get_started">Boshlash</string>
+    <string name="login">Kirish</string>
+    <string name="premium_furniture">Hashamatli premium mebellar</string>
+    <string name="no_account">Hisobingiz yo’qmi?</string>
+    <string name="sign_up">Roʻyxatdan oʻting</string>
+    <string name="sign_in">Login</string>
+    <string name="forgot_pwd">Parolni unutdingizmi?</string>
+    <string name="email">Email</string>
+    <string name="password">Parol</string>
+    <string name="have_account">Ro’yhatdan o’tganmisiz?</string>
+    <string name="find_perfect_furniture_title">Barcha turdagi mebellar</string>
+    <string name="all_categories_title">Kategoriyalar to’plami</string>
+    <string name="cashback_title">Keshbek</string>
+    <string name="find_perfect_furniture_subtitle">Hashamatli uyingizga eng munosib mebellar to’plamini faqat bizning do’konimizdan topishingiz mumkin.</string>
+    <string name="all_categories_subtitle">Mehmonxona, Yotoqxona uchun Premium turdagi mebellar to’plamlari.</string>
+    <string name="cashback_subtitle">Do’konlarimizdan biriga tashrif buyurib Mebel xarid qiling va Keshbekni qo’lga kiriting.</string>
+    <string name="skip">O’tish</string>
+    <string name="incorrect_login_details">Elektron pochta yoki parol noto’g’ri</string>
+    <string name="create_account">Yangi akkaunt ochish</string>
+    <string name="new_products">Yangi mahsulotlar</string>
+    <string name="see_all">Barchasini ko’rish</string>
+    <string name="products">mahsulotlar</string>
+</resources>
