@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.toplevel.kengmakon.ui.viewmodels.AuthVM;
+import com.toplevel.kengmakon.ui.viewmodels.FurnitureDetailsVM;
 import com.toplevel.kengmakon.ui.viewmodels.FurnitureVM;
 
 import dagger.Binds;
@@ -24,5 +25,10 @@ public abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(FurnitureVM.class)
     abstract ViewModel bindFurnitureVm(FurnitureVM furnitureVM);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(FurnitureDetailsVM.class)
+    abstract ViewModel bindFurnitureDetailsVm(FurnitureDetailsVM furnitureDetailsVM);
 
 }

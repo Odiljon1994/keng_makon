@@ -1,5 +1,6 @@
 package com.toplevel.kengmakon.ui.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +23,8 @@ import com.toplevel.kengmakon.di.ViewModelFactory;
 import com.toplevel.kengmakon.models.CategoriesModel;
 import com.toplevel.kengmakon.models.FurnitureModel;
 import com.toplevel.kengmakon.models.SetModel;
+import com.toplevel.kengmakon.ui.CategoryDetailActivity;
+import com.toplevel.kengmakon.ui.SetDetailActivity;
 import com.toplevel.kengmakon.ui.adapters.CategoriesAdapter;
 import com.toplevel.kengmakon.ui.adapters.FurnitureAdapter;
 import com.toplevel.kengmakon.ui.adapters.SetAdapter;
@@ -59,7 +62,9 @@ public class HomeFragment extends Fragment {
 
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         adapter = new SetAdapter(getContext(), item -> {
-
+            Intent intent = new Intent(getActivity(), SetDetailActivity.class);
+            intent.putExtra("id", item.getId());
+            startActivity(intent);
         });
         binding.recyclerView.setAdapter(adapter);
         SnapHelper snapHelper = new LinearSnapHelper();
@@ -67,11 +72,14 @@ public class HomeFragment extends Fragment {
 
         binding.categoryRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         categoriesAdapter = new CategoriesAdapter(getActivity(), item -> {
-
+            Intent intent = new Intent(getActivity(), CategoryDetailActivity.class);
+            intent.putExtra("id", item.getId());
+            intent.putExtra("name", item.getName());
+            startActivity(intent);
         });
         binding.categoryRecycler.setAdapter(categoriesAdapter);
 
-        binding.furnitureRecycler.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        binding.furnitureRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         furnitureAdapter = new FurnitureAdapter(getContext(), new FurnitureAdapter.ClickListener() {
             @Override
             public void onClick(FurnitureModel.FurnitureDataItem model) {

@@ -1,11 +1,13 @@
 package com.toplevel.kengmakon.di;
 
 import com.toplevel.kengmakon.MyApp;
+import com.toplevel.kengmakon.ui.CategoryDetailActivity;
 import com.toplevel.kengmakon.ui.ChooseLanguageActivity;
 import com.toplevel.kengmakon.ui.CreateAccountActivity;
 import com.toplevel.kengmakon.ui.GetStartedActivity;
 import com.toplevel.kengmakon.ui.LoginActivity;
 import com.toplevel.kengmakon.ui.MainActivity;
+import com.toplevel.kengmakon.ui.SetDetailActivity;
 import com.toplevel.kengmakon.ui.SplashActivity;
 import com.toplevel.kengmakon.ui.fragments.HomeFragment;
 
@@ -29,6 +31,8 @@ public interface ApplicationComponent {
     void inject(GetStartedActivity activity);
     void inject(MainActivity activity);
     void inject(CreateAccountActivity activity);
+    void inject(SetDetailActivity activity);
+    void inject(CategoryDetailActivity activity);
     void inject(HomeFragment fragment);
 
 

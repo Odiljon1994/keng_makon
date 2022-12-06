@@ -11,6 +11,7 @@
     <string name="forgot_pwd">Forgot password</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
+    <string name="confirm_password">Confirm password</string>
     <string name="have_account">Already have an account? Please</string>
     <string name="find_perfect_furniture_title">Find perfect furniture</string>
     <string name="all_categories_title">All Categories</string>
@@ -24,4 +25,8 @@
     <string name="new_products">New Products</string>
     <string name="see_all">See all</string>
     <string name="products">products</string>
+   <string name="fill_form">Please fill in the form to continue</string>
+    <string name="full_name">Full name</string>
+    <string name="phone_number">Phone number</string>
+    <string name="search_hint">Try “Table”, “Sofa”, “Chair”</string>
 </resources>

@@ -37,6 +37,7 @@ public class SplashActivity extends AppCompatActivity {
         Uri uri = Uri.parse(videoPath);
         binding.videoView.setVideoURI(uri);
         binding.videoView.start();
+
         System.out.println("TOKEN: " + preferencesUtil.getTOKEN());
         if (preferencesUtil.getLANGUAGE().equals("") || preferencesUtil.getLANGUAGE().equals("uz")) {
             Utils.setAppLocale(this, "uz");

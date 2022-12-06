@@ -12,6 +12,7 @@
     <string name="forgot_pwd">Забыли пароль?</string>
     <string name="email">Эл. адрес</string>
     <string name="password">Пароль</string>
+    <string name="confirm_password">Подтвердить Пароль</string>
     <string name="have_account">У вас уже есть аккаунт?</string>
     <string name="find_perfect_furniture_title">Найдите идеальную мебель</string>
     <string name="all_categories_title">Все категории</string>
@@ -25,4 +26,8 @@
     <string name="new_products">Новые продукты</string>
     <string name="see_all">Увидеть все</string>
     <string name="products">товары</string>
+    <string name="fill_form">Чтобы продолжить, заполните все формы</string>
+    <string name="full_name">ФИО</string>
+    <string name="phone_number">Номер телефона</string>
+    <string name="search_hint">Попробуйте «Стол», «Диван», «Стул»</string>
 </resources>

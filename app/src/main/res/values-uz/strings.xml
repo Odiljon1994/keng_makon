@@ -12,6 +12,7 @@
     <string name="forgot_pwd">Parolni unutdingizmi?</string>
     <string name="email">Email</string>
     <string name="password">Parol</string>
+    <string name="confirm_password">Parolni takroran kiriting</string>
     <string name="have_account">Ro’yhatdan o’tganmisiz?</string>
     <string name="find_perfect_furniture_title">Barcha turdagi mebellar</string>
     <string name="all_categories_title">Kategoriyalar to’plami</string>
@@ -25,4 +26,8 @@
     <string name="new_products">Yangi mahsulotlar</string>
     <string name="see_all">Barchasini ko’rish</string>
     <string name="products">mahsulotlar</string>
+    <string name="fill_form">Davom etish uchun barcha ma’lumotlarni kiriting</string>
+    <string name="full_name">Ism Familiya</string>
+    <string name="phone_number">Tel. Nomer</string>
+    <string name="search_hint">"Stol", \"Divan\", \"Kreslo\" ni sinab ko’ring.</string>
 </resources>
