@@ -6,33 +6,50 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.text.TextUtils;
 import android.widget.MediaController;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProviders;
 
 import com.toplevel.kengmakon.MyApp;
 import com.toplevel.kengmakon.R;
 import com.toplevel.kengmakon.databinding.ActivitySplashBinding;
+import com.toplevel.kengmakon.di.ViewModelFactory;
+import com.toplevel.kengmakon.models.LoginModel;
+import com.toplevel.kengmakon.ui.viewmodels.AuthVM;
 import com.toplevel.kengmakon.utils.PreferencesUtil;
 import com.toplevel.kengmakon.utils.Utils;
 
 import javax.inject.Inject;
 
-public class SplashActivity extends AppCompatActivity {
+public class SplashActivity extends BaseActivity {
 
     ActivitySplashBinding binding;
 
     @Inject
     PreferencesUtil preferencesUtil;
+    @Inject
+    ViewModelFactory viewModelFactory;
+
+    AuthVM authVM;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ((MyApp) getApplication()).getAppComponent().inject(this);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_splash);
+        authVM = ViewModelProviders.of(this, viewModelFactory).get(AuthVM.class);
+        authVM.loginModelLiveData().observe(this, this::onLoginSuccess);
+        authVM.onFailLoginLiveData().observe(this, this::onFailLogin);
 
+        System.out.println("EMAIL: " + preferencesUtil.getEmail());
+        if (!TextUtils.isEmpty(preferencesUtil.getEmail())
+                && !TextUtils.isEmpty(preferencesUtil.getPassword())) {
+            authVM.login(preferencesUtil.getEmail(), preferencesUtil.getPassword());
+        }
         String videoPath = "android.resource://" + getPackageName() + "/" + R.raw.splash_video;
         Uri uri = Uri.parse(videoPath);
         binding.videoView.setVideoURI(uri);
@@ -68,5 +85,20 @@ public class SplashActivity extends AppCompatActivity {
             finish();
 
         }, 2700);
+    }
+
+    public void onLoginSuccess(LoginModel.LoginResModel model) {
+
+        if (model.getCode() == 200) {
+
+            preferencesUtil.saveTOKEN(model.getData().getToken());
+
+            //authVM.getUserInfo(model.getData().getToken());
+
+        }
+    }
+
+    public void onFailLogin(String error) {
+
     }
 }

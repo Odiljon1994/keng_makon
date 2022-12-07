@@ -109,6 +109,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         progressDialog.dismiss();
         if (model.getCode() == 200) {
             preferencesUtil.saveTOKEN(model.getData().getToken());
+            preferencesUtil.saveIsSignedIn(true);
         }
         Intent intent = new Intent(CreateAccountActivity.this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);

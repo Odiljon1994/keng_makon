@@ -4,6 +4,7 @@ import com.toplevel.kengmakon.models.BaseResponse;
 import com.toplevel.kengmakon.models.CategoriesModel;
 import com.toplevel.kengmakon.models.CategoryDetailModel;
 import com.toplevel.kengmakon.models.FurnitureModel;
+import com.toplevel.kengmakon.models.LikeModel;
 import com.toplevel.kengmakon.models.LoginModel;
 import com.toplevel.kengmakon.models.SetDetailModel;
 import com.toplevel.kengmakon.models.SetModel;
@@ -51,4 +52,9 @@ public interface Api {
                                                       @Query("size") int size,
                                                       @Query("id") int id);
 
+    @POST("api/furniture/likeDislike")
+    Single<LikeModel> setLikeDislike(@Header("Authorization") String token, @Body LikeModel.LikeReqModel model);
+
+    @GET("/api/user/wishlist")
+    Single<FurnitureModel> getWishlist(@Header("Authorization") String token);
 }

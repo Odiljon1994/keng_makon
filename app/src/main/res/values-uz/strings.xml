@@ -30,4 +30,8 @@
     <string name="full_name">Ism Familiya</string>
     <string name="phone_number">Tel. Nomer</string>
     <string name="search_hint">"Stol", \"Divan\", \"Kreslo\" ni sinab ko’ring.</string>
+    <string name="included_items">Biriktirilgan mahsulotlar</string>
+    <string name="wishlist">Sevimliklar</string>
+    <string name="empty_wishlist">Hozirda ro’yhatingiz bo’sh</string>
+    <string name="looks_like_not_added_wishlist">Siz hali istaklar roʻyxatiga hech narsa qoʻshmaganga oʻxshaysiz</string>
 </resources>

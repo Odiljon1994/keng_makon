@@ -93,6 +93,7 @@ public class LoginActivity extends AppCompatActivity {
         if (model.getCode() == 200) {
             progressDialog.dismiss();
             preferencesUtil.saveTOKEN(model.getData().getToken());
+            preferencesUtil.saveIsSignedIn(true);
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);

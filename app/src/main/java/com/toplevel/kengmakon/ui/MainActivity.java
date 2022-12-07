@@ -11,6 +11,7 @@ import com.toplevel.kengmakon.MyApp;
 import com.toplevel.kengmakon.R;
 import com.toplevel.kengmakon.databinding.ActivityMainBinding;
 import com.toplevel.kengmakon.ui.fragments.HomeFragment;
+import com.toplevel.kengmakon.ui.fragments.WishlistFragment;
 import com.toplevel.kengmakon.utils.PreferencesUtil;
 import com.toplevel.kengmakon.utils.Utils;
 
@@ -22,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     @Inject
     PreferencesUtil preferencesUtil;
     private HomeFragment homeFragment;
+    private WishlistFragment wishlistFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +32,9 @@ public class MainActivity extends AppCompatActivity {
 
         Utils.setAppLocale(this, preferencesUtil.getLANGUAGE());
         homeFragment = new HomeFragment();
+        wishlistFragment = new WishlistFragment();
         getSupportFragmentManager().beginTransaction().add(R.id.frameContainer, homeFragment).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.frameContainer, wishlistFragment).commit();
         changeState(1);
 
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
@@ -39,13 +43,13 @@ public class MainActivity extends AppCompatActivity {
                     changeState(1);
                     break;
                 case R.id.wishlist:
-                    Toast.makeText(this, "wishlist", Toast.LENGTH_SHORT).show();
+                    changeState(2);
                     break;
                 case R.id.chat:
-                    Toast.makeText(this, "chat", Toast.LENGTH_SHORT).show();
+
                     break;
                 case R.id.profile:
-                    Toast.makeText(this, "profile", Toast.LENGTH_SHORT).show();
+
                     break;
             }
             return true;
@@ -57,7 +61,12 @@ public class MainActivity extends AppCompatActivity {
 
     public void changeState(int position) {
         if (position == 1) {
+            getSupportFragmentManager().beginTransaction().hide(wishlistFragment).commit();
             getSupportFragmentManager().beginTransaction().show(homeFragment).commit();
+
+        } else if (position == 2) {
+            getSupportFragmentManager().beginTransaction().hide(homeFragment).commit();
+            getSupportFragmentManager().beginTransaction().show(wishlistFragment).commit();
         }
     }
 }

@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.toplevel.kengmakon.api.Api;
 import com.toplevel.kengmakon.models.CategoryDetailModel;
+import com.toplevel.kengmakon.models.LikeModel;
 import com.toplevel.kengmakon.models.SetDetailModel;
 import com.toplevel.kengmakon.models.SetModel;
 
@@ -22,6 +23,9 @@ public class FurnitureDetailsVM extends BaseVM {
 
     private MutableLiveData<CategoryDetailModel> categoryDetailModelMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<String> onFailGetCategoryDetailMutableLiveData = new MutableLiveData<>();
+
+    private MutableLiveData<LikeModel> likeModelMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<String> onFailSetLikeMutableLiveData = new MutableLiveData<>();
 
     private Api api;
     private Context context;
@@ -48,6 +52,14 @@ public class FurnitureDetailsVM extends BaseVM {
         return onFailGetCategoryDetailMutableLiveData;
     }
 
+    public LiveData<LikeModel> likeModelLiveData() {
+        return likeModelMutableLiveData;
+    }
+
+    public LiveData<String> onFailSetLikeLiveData() {
+        return onFailSetLikeMutableLiveData;
+    }
+
     public void getSet(String token, int id) {
 
         addToSubscribe(api.getSetDetailList("Bearer " + token, id)
@@ -69,6 +81,19 @@ public class FurnitureDetailsVM extends BaseVM {
                     categoryDetailModelMutableLiveData.postValue(response);
                 }, error -> {
                     onFailGetCategoryDetailMutableLiveData.postValue(error.getMessage());
+                }));
+    }
+
+    public void setLikeDislike(String token, int furniture_id) {
+
+        LikeModel.LikeReqModel likeReqModel = new LikeModel.LikeReqModel(furniture_id);
+        addToSubscribe(api.setLikeDislike("Bearer " + token, likeReqModel)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> {
+                    likeModelMutableLiveData.postValue(response);
+                }, error -> {
+                    onFailSetLikeMutableLiveData.postValue(error.getMessage());
                 }));
     }
 }

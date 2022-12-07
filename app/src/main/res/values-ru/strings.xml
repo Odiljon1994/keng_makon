@@ -30,4 +30,8 @@
     <string name="full_name">ФИО</string>
     <string name="phone_number">Номер телефона</string>
     <string name="search_hint">Попробуйте «Стол», «Диван», «Стул»</string>
+    <string name="included_items">Включенные продукты</string>
+    <string name="wishlist">Избранное</string>
+    <string name="empty_wishlist">Ваш список желаний пуст</string>
+    <string name="looks_like_not_added_wishlist">Похоже, вы еще ничего не добавили в свой список желаний</string>
 </resources>

@@ -29,4 +29,8 @@
     <string name="full_name">Full name</string>
     <string name="phone_number">Phone number</string>
     <string name="search_hint">Try “Table”, “Sofa”, “Chair”</string>
+    <string name="included_items">Included items</string>
+    <string name="wishlist">Wishlist</string>
+    <string name="empty_wishlist">Your wishlist is empty</string>
+    <string name="looks_like_not_added_wishlist">Looks like you haven’t added anything to your wishlist yet</string>
 </resources>

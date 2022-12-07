@@ -1,6 +1,9 @@
 package com.toplevel.kengmakon.ui.adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -13,6 +16,7 @@ import com.bumptech.glide.Glide;
 import com.toplevel.kengmakon.R;
 import com.toplevel.kengmakon.databinding.ItemSetBinding;
 import com.toplevel.kengmakon.databinding.ItemSetDetailBinding;
+import com.toplevel.kengmakon.models.CategoryDetailModel;
 import com.toplevel.kengmakon.models.SetDetailModel;
 import com.toplevel.kengmakon.models.SetModel;
 
@@ -66,6 +70,8 @@ public class SetDetailAdapter extends RecyclerView.Adapter<SetDetailAdapter.View
 
             if (model.getFurniture().isIs_liked()) {
                 binding.likeImage.setImageDrawable(context.getDrawable(R.drawable.red_heart_icon));
+            } else {
+                binding.likeImage.setImageDrawable(context.getDrawable(R.drawable.gray_heart_icon));
             }
             if (!TextUtils.isEmpty(model.getFurniture().getName())) {
                 binding.name.setText(model.getFurniture().getName());
@@ -73,7 +79,21 @@ public class SetDetailAdapter extends RecyclerView.Adapter<SetDetailAdapter.View
             if (!TextUtils.isEmpty(model.getCategory().getName())) {
                 binding.type.setText(model.getCategory().getName());
             }
+            binding.likeImage.setOnClickListener(view -> {
 
+                final Bitmap bitmap = ((BitmapDrawable)binding.likeImage.getDrawable()).getBitmap();
+                final Drawable likeDrawable = context.getResources().getDrawable(R.drawable.red_heart_icon);
+                final Bitmap likeBitmap = ((BitmapDrawable) likeDrawable).getBitmap();
+
+                if (bitmap.sameAs(likeBitmap)) {
+                    binding.likeImage.setImageDrawable(context.getDrawable(R.drawable.gray_heart_icon));
+                    clickListener.onClickLikeBtn(model, false);
+                } else {
+                    binding.likeImage.setImageDrawable(context.getDrawable(R.drawable.red_heart_icon));
+                    clickListener.onClickLikeBtn(model, true);
+                }
+
+            });
             binding.id.setText(String.valueOf(position + 1));
             binding.getRoot().setOnClickListener(v -> clickListener.onClick(model));
 
@@ -87,5 +107,6 @@ public class SetDetailAdapter extends RecyclerView.Adapter<SetDetailAdapter.View
 
     public interface ClickListener {
         void onClick(SetDetailModel.SetDetailData model);
+        void onClickLikeBtn(SetDetailModel.SetDetailData model, boolean isLiked);
     }
 }

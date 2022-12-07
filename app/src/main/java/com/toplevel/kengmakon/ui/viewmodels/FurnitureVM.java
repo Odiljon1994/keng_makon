@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.toplevel.kengmakon.api.Api;
 import com.toplevel.kengmakon.models.CategoriesModel;
 import com.toplevel.kengmakon.models.FurnitureModel;
+import com.toplevel.kengmakon.models.LikeModel;
 import com.toplevel.kengmakon.models.SetModel;
 import com.toplevel.kengmakon.models.SignUpModel;
 
@@ -29,6 +30,9 @@ public class FurnitureVM extends BaseVM {
 
     private MutableLiveData<FurnitureModel> furnitureModelMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<String> onFailGetFurnitureMutableLiveData = new MutableLiveData<>();
+
+    private MutableLiveData<FurnitureModel> onSuccessGetWishlistMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<String> onFailGetWishlistMutableLiveData = new MutableLiveData<>();
 
     @Inject
     public FurnitureVM(Api api, Context context) {
@@ -59,6 +63,15 @@ public class FurnitureVM extends BaseVM {
     public LiveData<String> onFailGetFurnitureLiveData() {
         return onFailGetFurnitureMutableLiveData;
     }
+
+    public LiveData<FurnitureModel> onSuccessGetWishlistLiveData() {
+        return onSuccessGetWishlistMutableLiveData;
+    }
+
+    public LiveData<String> onFailGetWishlistLiveData() {
+        return onFailGetWishlistMutableLiveData;
+    }
+
 
     public void getSet(int page, int size) {
 
@@ -93,6 +106,18 @@ public class FurnitureVM extends BaseVM {
                     furnitureModelMutableLiveData.postValue(response);
                 }, error -> {
                     onFailGetFurnitureMutableLiveData.postValue(error.getMessage());
+                }));
+    }
+
+    public void getWishlist(String token) {
+
+        addToSubscribe(api.getWishlist("Bearer " + token)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> {
+                    onSuccessGetWishlistMutableLiveData.postValue(response);
+                }, error -> {
+                    onFailGetWishlistMutableLiveData.postValue(error.getMessage());
                 }));
     }
 }

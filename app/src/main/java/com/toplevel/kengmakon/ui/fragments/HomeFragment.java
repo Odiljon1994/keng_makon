@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,12 +23,14 @@ import com.toplevel.kengmakon.databinding.FragmentHomeBinding;
 import com.toplevel.kengmakon.di.ViewModelFactory;
 import com.toplevel.kengmakon.models.CategoriesModel;
 import com.toplevel.kengmakon.models.FurnitureModel;
+import com.toplevel.kengmakon.models.LikeModel;
 import com.toplevel.kengmakon.models.SetModel;
 import com.toplevel.kengmakon.ui.CategoryDetailActivity;
 import com.toplevel.kengmakon.ui.SetDetailActivity;
 import com.toplevel.kengmakon.ui.adapters.CategoriesAdapter;
 import com.toplevel.kengmakon.ui.adapters.FurnitureAdapter;
 import com.toplevel.kengmakon.ui.adapters.SetAdapter;
+import com.toplevel.kengmakon.ui.viewmodels.FurnitureDetailsVM;
 import com.toplevel.kengmakon.ui.viewmodels.FurnitureVM;
 import com.toplevel.kengmakon.utils.PreferencesUtil;
 
@@ -43,8 +46,9 @@ public class HomeFragment extends Fragment {
     private SetAdapter adapter;
     private CategoriesAdapter categoriesAdapter;
     private FurnitureAdapter furnitureAdapter;
-
+    private FurnitureDetailsVM furnitureDetailsVM;
     FurnitureVM furnitureVM;
+    private String TOKEN = "";
 
     @Nullable
     @Override
@@ -59,11 +63,18 @@ public class HomeFragment extends Fragment {
         furnitureVM.onFailGetCategoriesLiveData().observe(getActivity(), this::onFailGetCategories);
         furnitureVM.furnitureModelLiveData().observe(getActivity(), this::onSuccessGetFurniture);
         furnitureVM.onFailGetFurnitureLiveData().observe(getActivity(), this::onFailGetFurnitureModel);
+        furnitureDetailsVM = ViewModelProviders.of(this, viewModelFactory).get(FurnitureDetailsVM.class);
+        furnitureDetailsVM.likeModelLiveData().observe(getActivity(), this::onSuccessLike);
+        furnitureDetailsVM.onFailSetLikeLiveData().observe(getActivity(), this::onFailLike);
+
+        TOKEN = preferencesUtil.getTOKEN();
 
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         adapter = new SetAdapter(getContext(), item -> {
             Intent intent = new Intent(getActivity(), SetDetailActivity.class);
             intent.putExtra("id", item.getId());
+            intent.putExtra("name", item.getName());
+            intent.putExtra("count", item.getItem_count());
             startActivity(intent);
         });
         binding.recyclerView.setAdapter(adapter);
@@ -87,15 +98,22 @@ public class HomeFragment extends Fragment {
             }
 
             @Override
-            public void onClickLikeBtn(FurnitureModel.FurnitureDataItem model) {
-
+            public void onClickLikeBtn(FurnitureModel.FurnitureDataItem model, boolean isLiked) {
+                if (preferencesUtil.getIsIsSignedIn()) {
+                    furnitureDetailsVM.setLikeDislike(preferencesUtil.getTOKEN(), model.getId());
+                } else {
+                    Toast.makeText(getContext(), "Not registered yet", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         binding.furnitureRecycler.setAdapter(furnitureAdapter);
 
+        if (preferencesUtil.getTOKEN().equals("")) {
+
+        }
         furnitureVM.getSet(1, 15);
         furnitureVM.getCategories(1, 10);
-        furnitureVM.getFurniture("", 1, 20);
+        furnitureVM.getFurniture(preferencesUtil.getTOKEN(), 1, 20);
 
 
         return view;
@@ -126,6 +144,13 @@ public class HomeFragment extends Fragment {
         }
     }
     public void onFailGetFurnitureModel(String error) {
+
+    }
+
+    public void onSuccessLike(LikeModel likeModel) {
+
+    }
+    public void onFailLike(String error) {
 
     }
 }

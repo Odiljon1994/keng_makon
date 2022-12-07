@@ -17,6 +17,7 @@ import com.toplevel.kengmakon.R;
 import com.toplevel.kengmakon.databinding.ActivityCategoryDetailBinding;
 import com.toplevel.kengmakon.di.ViewModelFactory;
 import com.toplevel.kengmakon.models.CategoryDetailModel;
+import com.toplevel.kengmakon.models.LikeModel;
 import com.toplevel.kengmakon.ui.adapters.CategoryDetailAdapter;
 import com.toplevel.kengmakon.ui.adapters.SetDetailAdapter;
 import com.toplevel.kengmakon.ui.viewmodels.FurnitureDetailsVM;
@@ -43,6 +44,8 @@ public class CategoryDetailActivity extends AppCompatActivity {
         furnitureDetailsVM = ViewModelProviders.of(this, viewModelFactory).get(FurnitureDetailsVM.class);
         furnitureDetailsVM.successCategoryDetailLiveData().observe(this, this::onSuccessGetCategoryDetail);
         furnitureDetailsVM.onFailGetCategoryDetailLiveData().observe(this, this::onFailGetCategoryDetail);
+        furnitureDetailsVM.likeModelLiveData().observe(this, this::onSuccessLike);
+        furnitureDetailsVM.onFailSetLikeLiveData().observe(this, this::onFailLike);
 
         binding.backBtn.setOnClickListener(view -> finish());
 
@@ -56,13 +59,17 @@ public class CategoryDetailActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onClickLikeBtn(CategoryDetailModel.CategoryDetailDataItem model) {
-
+            public void onClickLikeBtn(CategoryDetailModel.CategoryDetailDataItem model, boolean isLiked) {
+                if (preferencesUtil.getIsIsSignedIn()) {
+                    furnitureDetailsVM.setLikeDislike(preferencesUtil.getTOKEN(), model.getFurniture_id());
+                } else {
+                    Toast.makeText(CategoryDetailActivity.this, "Not registered yet", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         binding.furnitureRecycler.setAdapter(adapter);
         id = getIntent().getIntExtra("id", 1);
-        furnitureDetailsVM.getCategoryDetail("", 1, 20, id);
+        furnitureDetailsVM.getCategoryDetail(preferencesUtil.getTOKEN(), 1, 20, id);
     }
 
     public void onSuccessGetCategoryDetail(CategoryDetailModel model) {
@@ -71,6 +78,13 @@ public class CategoryDetailActivity extends AppCompatActivity {
         }
     }
     public void onFailGetCategoryDetail(String error) {
+
+    }
+
+    public void onSuccessLike(LikeModel likeModel) {
+
+    }
+    public void onFailLike(String error) {
 
     }
 }
