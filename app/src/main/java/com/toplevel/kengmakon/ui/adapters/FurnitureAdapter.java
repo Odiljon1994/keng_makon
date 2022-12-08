@@ -26,11 +26,13 @@ public class FurnitureAdapter extends RecyclerView.Adapter<FurnitureAdapter.View
     private Context context;
     private List<FurnitureModel.FurnitureDataItem> items;
     private ClickListener clickListener;
+    private boolean isSigned;
 
-    public FurnitureAdapter(Context context, ClickListener clickListener) {
+    public FurnitureAdapter(Context context, boolean isSigned, ClickListener clickListener) {
         this.context = context;
         this.items = new ArrayList<>();
         this.clickListener = clickListener;
+        this.isSigned = isSigned;
     }
 
     @NonNull
@@ -77,19 +79,21 @@ public class FurnitureAdapter extends RecyclerView.Adapter<FurnitureAdapter.View
             binding.getRoot().setOnClickListener(v -> clickListener.onClick(model));
             binding.likeImage.setOnClickListener(view -> {
 
+                if (isSigned) {
+                    final Bitmap bitmap = ((BitmapDrawable)binding.likeImage.getDrawable()).getBitmap();
+                    final Drawable likeDrawable = context.getResources().getDrawable(R.drawable.red_heart_icon);
+                    final Bitmap likeBitmap = ((BitmapDrawable) likeDrawable).getBitmap();
 
-                final Bitmap bitmap = ((BitmapDrawable)binding.likeImage.getDrawable()).getBitmap();
-                final Drawable likeDrawable = context.getResources().getDrawable(R.drawable.red_heart_icon);
-                final Bitmap likeBitmap = ((BitmapDrawable) likeDrawable).getBitmap();
-
-                if (bitmap.sameAs(likeBitmap)) {
-                    binding.likeImage.setImageDrawable(context.getDrawable(R.drawable.gray_heart_icon));
-                    clickListener.onClickLikeBtn(model, false);
+                    if (bitmap.sameAs(likeBitmap)) {
+                        binding.likeImage.setImageDrawable(context.getDrawable(R.drawable.gray_heart_icon));
+                        clickListener.onClickLikeBtn(model, false);
+                    } else {
+                        binding.likeImage.setImageDrawable(context.getDrawable(R.drawable.red_heart_icon));
+                        clickListener.onClickLikeBtn(model, true);
+                    }
                 } else {
-                    binding.likeImage.setImageDrawable(context.getDrawable(R.drawable.red_heart_icon));
-                    clickListener.onClickLikeBtn(model, true);
+                    clickListener.onClickLikeBtn(model, false);
                 }
-
             });
         }
     }

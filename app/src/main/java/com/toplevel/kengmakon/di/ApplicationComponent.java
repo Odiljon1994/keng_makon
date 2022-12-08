@@ -11,6 +11,7 @@ import com.toplevel.kengmakon.ui.MainActivity;
 import com.toplevel.kengmakon.ui.SetDetailActivity;
 import com.toplevel.kengmakon.ui.SplashActivity;
 import com.toplevel.kengmakon.ui.fragments.HomeFragment;
+import com.toplevel.kengmakon.ui.fragments.SettingsFragment;
 import com.toplevel.kengmakon.ui.fragments.WishlistFragment;
 
 import javax.inject.Singleton;
@@ -38,6 +39,7 @@ public interface ApplicationComponent {
     void inject(HomeFragment fragment);
     void inject(WishlistFragment fragment);
     void inject(BaseActivity activity);
+    void inject(SettingsFragment fragment);
 
 
     @Component.Builder

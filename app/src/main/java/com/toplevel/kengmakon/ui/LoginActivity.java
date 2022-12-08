@@ -57,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
         binding.signUp.setOnClickListener(view -> {
             startActivity(new Intent(LoginActivity.this, CreateAccountActivity.class));
         });
-        String videoPath = "android.resource://" + getPackageName() + "/" + R.raw.animation_login;
+        String videoPath = "android.resource://" + getPackageName() + "/" + R.raw.video_llop;
         Uri uri = Uri.parse(videoPath);
         binding.videoView.setVideoURI(uri);
         binding.videoView.start();
@@ -80,10 +80,17 @@ public class LoginActivity extends AppCompatActivity {
 
         getAppUniqueToken();
 
-        binding.videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//        binding.videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+//            @Override
+//            public void onCompletion(MediaPlayer mediaPlayer) {
+//                binding.videoView.start();
+//            }
+//        });
+
+        binding.videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
-            public void onCompletion(MediaPlayer mediaPlayer) {
-                binding.videoView.start();
+            public void onPrepared(MediaPlayer mediaPlayer) {
+                mediaPlayer.setLooping(true);
             }
         });
     }
@@ -114,7 +121,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        String videoPath = "android.resource://" + getPackageName() + "/" + R.raw.animation_login;
+        String videoPath = "android.resource://" + getPackageName() + "/" + R.raw.video_llop;
         Uri uri = Uri.parse(videoPath);
         binding.videoView.setVideoURI(uri);
         binding.videoView.start();

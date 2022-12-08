@@ -12,8 +12,11 @@
         android:title="" />
 
     <item
-        android:id="@+id/placeholder"
-        android:title="" />
+        android:id="@+id/cashback"
+        android:title=""
+        android:icon="@drawable/bot_nav_cashback_selector"/>
+
+
 
     <item
         android:id="@+id/chat"

@@ -19,6 +19,7 @@ import com.toplevel.kengmakon.databinding.ActivityMainBinding;
 import com.toplevel.kengmakon.di.ViewModelFactory;
 import com.toplevel.kengmakon.models.BaseResponse;
 import com.toplevel.kengmakon.ui.fragments.HomeFragment;
+import com.toplevel.kengmakon.ui.fragments.SettingsFragment;
 import com.toplevel.kengmakon.ui.fragments.WishlistFragment;
 import com.toplevel.kengmakon.ui.viewmodels.AuthVM;
 import com.toplevel.kengmakon.utils.PreferencesUtil;
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     PreferencesUtil preferencesUtil;
     private HomeFragment homeFragment;
     private WishlistFragment wishlistFragment;
+    private SettingsFragment settingsFragment;
     private String appUniqueToken = "";
     private AuthVM authVM;
     @Inject
@@ -49,9 +51,12 @@ public class MainActivity extends AppCompatActivity {
         Utils.setAppLocale(this, preferencesUtil.getLANGUAGE());
         homeFragment = new HomeFragment();
         wishlistFragment = new WishlistFragment();
+        settingsFragment = new SettingsFragment();
         getSupportFragmentManager().beginTransaction().add(R.id.frameContainer, homeFragment).commit();
         getSupportFragmentManager().beginTransaction().add(R.id.frameContainer, wishlistFragment).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.frameContainer, settingsFragment).commit();
 
+        binding.bottomNavigationView.setItemIconTintList(null);
         if (!preferencesUtil.getIsPushTokenDone()) {
             getAppUniqueToken();
         }
@@ -69,24 +74,30 @@ public class MainActivity extends AppCompatActivity {
 
                     break;
                 case R.id.profile:
-
+                    changeState(4);
                     break;
             }
             return true;
         });
-        binding.cashbackBtn.setOnClickListener(view -> {
-            Toast.makeText(this, "Cashback", Toast.LENGTH_SHORT).show();
-        });
+//        binding.cashbackBtn.setOnClickListener(view -> {
+//            Toast.makeText(this, "Cashback", Toast.LENGTH_SHORT).show();
+//        });
     }
 
     public void changeState(int position) {
         if (position == 1) {
             getSupportFragmentManager().beginTransaction().hide(wishlistFragment).commit();
+            getSupportFragmentManager().beginTransaction().hide(settingsFragment).commit();
             getSupportFragmentManager().beginTransaction().show(homeFragment).commit();
 
         } else if (position == 2) {
             getSupportFragmentManager().beginTransaction().hide(homeFragment).commit();
+            getSupportFragmentManager().beginTransaction().hide(settingsFragment).commit();
             getSupportFragmentManager().beginTransaction().show(wishlistFragment).commit();
+        } else if (position == 4) {
+            getSupportFragmentManager().beginTransaction().hide(homeFragment).commit();
+            getSupportFragmentManager().beginTransaction().hide(wishlistFragment).commit();
+            getSupportFragmentManager().beginTransaction().show(settingsFragment).commit();
         }
     }
 

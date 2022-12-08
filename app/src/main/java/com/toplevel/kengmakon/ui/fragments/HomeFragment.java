@@ -91,7 +91,7 @@ public class HomeFragment extends Fragment {
         binding.categoryRecycler.setAdapter(categoriesAdapter);
 
         binding.furnitureRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-        furnitureAdapter = new FurnitureAdapter(getContext(), new FurnitureAdapter.ClickListener() {
+        furnitureAdapter = new FurnitureAdapter(getContext(), preferencesUtil.getIsIsSignedIn(), new FurnitureAdapter.ClickListener() {
             @Override
             public void onClick(FurnitureModel.FurnitureDataItem model) {
 

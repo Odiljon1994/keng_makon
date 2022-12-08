@@ -51,7 +51,7 @@ public class WishlistFragment extends Fragment {
         furnitureDetailsVM.onFailSetLikeLiveData().observe(getActivity(), this::onFailLike);
 
         binding.recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
-        furnitureAdapter = new FurnitureAdapter(getContext(), new FurnitureAdapter.ClickListener() {
+        furnitureAdapter = new FurnitureAdapter(getContext(), preferencesUtil.getIsIsSignedIn(), new FurnitureAdapter.ClickListener() {
             @Override
             public void onClick(FurnitureModel.FurnitureDataItem model) {
 
