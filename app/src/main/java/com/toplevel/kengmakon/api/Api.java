@@ -6,6 +6,7 @@ import com.toplevel.kengmakon.models.CategoryDetailModel;
 import com.toplevel.kengmakon.models.FurnitureModel;
 import com.toplevel.kengmakon.models.LikeModel;
 import com.toplevel.kengmakon.models.LoginModel;
+import com.toplevel.kengmakon.models.PushTokenReqModel;
 import com.toplevel.kengmakon.models.SetDetailModel;
 import com.toplevel.kengmakon.models.SetModel;
 import com.toplevel.kengmakon.models.SignUpModel;
@@ -57,4 +58,7 @@ public interface Api {
 
     @GET("/api/user/wishlist")
     Single<FurnitureModel> getWishlist(@Header("Authorization") String token);
+
+    @POST("api/user/registerToken")
+    Single<BaseResponse> pushToken(@Header("Authorization") String token, @Body PushTokenReqModel pushTokenReqModel);
 }

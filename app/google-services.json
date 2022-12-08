@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "370348723511",
+    "project_id": "keng-makon-push-notif",
+    "storage_bucket": "keng-makon-push-notif.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:370348723511:android:6068a3a38fb53e48229eb2",
+        "android_client_info": {
+          "package_name": "com.toplevel.kengmakon"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "370348723511-c7nquimu2jues6hda77q67aq8jt62qb1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD-cxQSmYYdTTsulsFN0qJX6Oiy-Fa-AEM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "370348723511-c7nquimu2jues6hda77q67aq8jt62qb1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

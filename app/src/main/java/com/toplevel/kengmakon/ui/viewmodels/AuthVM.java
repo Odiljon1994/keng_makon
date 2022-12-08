@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.toplevel.kengmakon.api.Api;
 import com.toplevel.kengmakon.models.BaseResponse;
 import com.toplevel.kengmakon.models.LoginModel;
+import com.toplevel.kengmakon.models.PushTokenReqModel;
 import com.toplevel.kengmakon.models.SignUpModel;
 import com.toplevel.kengmakon.models.UserInfoModel;
 
@@ -30,6 +31,8 @@ public class AuthVM extends BaseVM {
     private MutableLiveData<UserInfoModel> userInfoModelMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<String> onFailUserInfoMutableLiveData = new MutableLiveData<>();
 
+    private MutableLiveData<BaseResponse> pushTokenMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<String> onFailPushTokenMutableLiveData = new MutableLiveData<>();
 
 
     @Inject
@@ -60,6 +63,14 @@ public class AuthVM extends BaseVM {
 
     public LiveData<String> onFailUserInfoLiveData() {
         return onFailUserInfoMutableLiveData;
+    }
+
+    public LiveData<BaseResponse> onSuccessPushTokenLiveData() {
+        return pushTokenMutableLiveData;
+    }
+
+    public LiveData<String> onFailPushTokenLiveData() {
+        return onFailPushTokenMutableLiveData;
     }
 
     public void signUp(String name, String phoneNumber, String emailAddress, String password) {
@@ -95,6 +106,19 @@ public class AuthVM extends BaseVM {
                     userInfoModelMutableLiveData.postValue(response);
                 }, error -> {
                     onFailUserInfoMutableLiveData.postValue(error.getMessage());
+                }));
+    }
+
+    public void pushToken(String token, String appToken) {
+
+        PushTokenReqModel pushTokenReqModel = new PushTokenReqModel(appToken);
+        addToSubscribe(api.pushToken("Bearer " + token, pushTokenReqModel)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> {
+                    pushTokenMutableLiveData.postValue(response);
+                }, error -> {
+                    onFailPushTokenMutableLiveData.postValue(error.getMessage());
                 }));
     }
 }

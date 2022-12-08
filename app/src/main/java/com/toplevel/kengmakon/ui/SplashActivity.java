@@ -7,17 +7,23 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.MediaController;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.toplevel.kengmakon.MyApp;
 import com.toplevel.kengmakon.R;
 import com.toplevel.kengmakon.databinding.ActivitySplashBinding;
 import com.toplevel.kengmakon.di.ViewModelFactory;
+import com.toplevel.kengmakon.models.BaseResponse;
 import com.toplevel.kengmakon.models.LoginModel;
 import com.toplevel.kengmakon.ui.viewmodels.AuthVM;
 import com.toplevel.kengmakon.utils.PreferencesUtil;
@@ -44,6 +50,7 @@ public class SplashActivity extends BaseActivity {
         authVM = ViewModelProviders.of(this, viewModelFactory).get(AuthVM.class);
         authVM.loginModelLiveData().observe(this, this::onLoginSuccess);
         authVM.onFailLoginLiveData().observe(this, this::onFailLogin);
+
 
         System.out.println("EMAIL: " + preferencesUtil.getEmail());
         if (!TextUtils.isEmpty(preferencesUtil.getEmail())
@@ -101,4 +108,5 @@ public class SplashActivity extends BaseActivity {
     public void onFailLogin(String error) {
 
     }
+
 }

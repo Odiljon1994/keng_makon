@@ -17,6 +17,7 @@ public class PreferencesUtil {
     private static final String PASSWORD = "PASSWORD";
     private static final String PHONE_NUMBER = "PHONE_NUMBER";
     private static final String IS_SIGNED_IN = "IS_SIGNED_IN";
+    private static final String IS_PUSH_TOKEN_DONE = "IS_PUSH_TOKEN_DONE";
 
 
 
@@ -92,6 +93,13 @@ public class PreferencesUtil {
     }
     public boolean getIsIsSignedIn() {
         return sharedPreferences.getBoolean(IS_SIGNED_IN, false);
+    }
+
+    public void saveIsPushTokenDone(boolean isPushTokenDone) {
+        sharedPreferences.edit().putBoolean(IS_PUSH_TOKEN_DONE, isPushTokenDone).apply();
+    }
+    public boolean getIsPushTokenDone() {
+        return sharedPreferences.getBoolean(IS_PUSH_TOKEN_DONE, false);
     }
 
 }

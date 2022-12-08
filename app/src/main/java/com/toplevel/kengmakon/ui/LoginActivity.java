@@ -6,16 +6,22 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.toplevel.kengmakon.MyApp;
 import com.toplevel.kengmakon.R;
 import com.toplevel.kengmakon.databinding.ActivityLoginBinding;
 import com.toplevel.kengmakon.di.ViewModelFactory;
+import com.toplevel.kengmakon.models.BaseResponse;
 import com.toplevel.kengmakon.models.LoginModel;
 import com.toplevel.kengmakon.models.UserInfoModel;
 import com.toplevel.kengmakon.ui.viewmodels.AuthVM;
@@ -31,6 +37,7 @@ public class LoginActivity extends AppCompatActivity {
     @Inject
     ViewModelFactory viewModelFactory;
     private ProgressDialog progressDialog;
+    private String appUniqueToken = "";
 
     AuthVM authVM;
 
@@ -44,6 +51,8 @@ public class LoginActivity extends AppCompatActivity {
         authVM.onFailLoginLiveData().observe(this, this::onFailLogin);
         authVM.userInfoSuccessLiveData().observe(this, this::onSuccessUserInfo);
         authVM.onFailUserInfoLiveData().observe(this, this::onFailUserInfo);
+        authVM.onSuccessPushTokenLiveData().observe(this, this::onSuccessPushToken);
+        authVM.onFailPushTokenLiveData().observe(this, this::onFailPushToken);
 
         binding.signUp.setOnClickListener(view -> {
             startActivity(new Intent(LoginActivity.this, CreateAccountActivity.class));
@@ -69,6 +78,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        getAppUniqueToken();
 
         binding.videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
             @Override
@@ -76,6 +86,29 @@ public class LoginActivity extends AppCompatActivity {
                 binding.videoView.start();
             }
         });
+    }
+
+    public void getAppUniqueToken() {
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w("TAG", "Fetching FCM registration token failed", task.getException());
+                            return;
+                        }
+
+                        // Get new FCM registration token
+                        String token = task.getResult();
+                        System.out.println("** ** Token: " + token);
+
+                        appUniqueToken = token;
+                        // Log and toast
+//                        String msg = getString("Token", token);
+//                        Log.d("TAG", msg);
+
+                    }
+                });
     }
 
     @Override
@@ -94,6 +127,7 @@ public class LoginActivity extends AppCompatActivity {
             progressDialog.dismiss();
             preferencesUtil.saveTOKEN(model.getData().getToken());
             preferencesUtil.saveIsSignedIn(true);
+
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(intent);
@@ -129,5 +163,12 @@ public class LoginActivity extends AppCompatActivity {
     public void onFailUserInfo(String error) {
         progressDialog.dismiss();
         binding.error.setText(error);
+    }
+
+    public void onSuccessPushToken(BaseResponse model) {
+
+    }
+    public void onFailPushToken(String error) {
+
     }
 }
