@@ -31,7 +31,7 @@ import com.toplevel.kengmakon.utils.Utils;
 
 import javax.inject.Inject;
 
-public class SplashActivity extends BaseActivity {
+public class SplashActivity extends AppCompatActivity {
 
     ActivitySplashBinding binding;
 
@@ -50,6 +50,16 @@ public class SplashActivity extends BaseActivity {
         authVM = ViewModelProviders.of(this, viewModelFactory).get(AuthVM.class);
         authVM.loginModelLiveData().observe(this, this::onLoginSuccess);
         authVM.onFailLoginLiveData().observe(this, this::onFailLogin);
+
+        System.out.println("*********************");
+        System.out.println("Name: " + preferencesUtil.getName());
+        System.out.println("Pwd: " + preferencesUtil.getPassword());
+        System.out.println("Email: " + preferencesUtil.getEmail());
+        System.out.println("Lang: " + preferencesUtil.getLANGUAGE());
+        System.out.println("Phone: " + preferencesUtil.getPhoneNumber());
+        System.out.println("Is signed: " + preferencesUtil.getIsIsSignedIn());
+        System.out.println("Is started: " + preferencesUtil.getIsGetStartedDone());
+        System.out.println("*********************");
 
 
         System.out.println("EMAIL: " + preferencesUtil.getEmail());

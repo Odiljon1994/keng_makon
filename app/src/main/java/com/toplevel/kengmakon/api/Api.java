@@ -3,6 +3,7 @@ package com.toplevel.kengmakon.api;
 import com.toplevel.kengmakon.models.BaseResponse;
 import com.toplevel.kengmakon.models.CategoriesModel;
 import com.toplevel.kengmakon.models.CategoryDetailModel;
+import com.toplevel.kengmakon.models.FeedbackModel;
 import com.toplevel.kengmakon.models.FurnitureModel;
 import com.toplevel.kengmakon.models.LikeModel;
 import com.toplevel.kengmakon.models.LoginModel;
@@ -61,4 +62,7 @@ public interface Api {
 
     @POST("api/user/registerToken")
     Single<BaseResponse> pushToken(@Header("Authorization") String token, @Body PushTokenReqModel pushTokenReqModel);
+
+    @POST("api/feedback/submit")
+    Single<BaseResponse> postFeedback(@Header("Authorization") String token, @Body FeedbackModel feedbackModel);
 }

@@ -47,6 +47,7 @@ public class GetStartedActivity extends AppCompatActivity {
         binding.dots.setViewPager(binding.viewPager);
 
         binding.signIn.setOnClickListener(view -> {
+            preferencesUtil.saveGetStarted(true);
             startActivity(new Intent(GetStartedActivity.this, LoginActivity.class));
         });
 

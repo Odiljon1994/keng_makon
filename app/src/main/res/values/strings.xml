@@ -33,4 +33,6 @@
     <string name="wishlist">Wishlist</string>
     <string name="empty_wishlist">Your wishlist is empty</string>
     <string name="looks_like_not_added_wishlist">Looks like you haven’t added anything to your wishlist yet</string>
+    <string name="feedback">Feedback</string>
+    <string name="send_feedback">Leave feedback</string>
 </resources>

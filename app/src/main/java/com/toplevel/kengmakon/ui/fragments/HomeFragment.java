@@ -1,6 +1,9 @@
 package com.toplevel.kengmakon.ui.fragments;
 
+import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,10 +29,12 @@ import com.toplevel.kengmakon.models.FurnitureModel;
 import com.toplevel.kengmakon.models.LikeModel;
 import com.toplevel.kengmakon.models.SetModel;
 import com.toplevel.kengmakon.ui.CategoryDetailActivity;
+import com.toplevel.kengmakon.ui.LoginActivity;
 import com.toplevel.kengmakon.ui.SetDetailActivity;
 import com.toplevel.kengmakon.ui.adapters.CategoriesAdapter;
 import com.toplevel.kengmakon.ui.adapters.FurnitureAdapter;
 import com.toplevel.kengmakon.ui.adapters.SetAdapter;
+import com.toplevel.kengmakon.ui.dialogs.BaseDialog;
 import com.toplevel.kengmakon.ui.viewmodels.FurnitureDetailsVM;
 import com.toplevel.kengmakon.ui.viewmodels.FurnitureVM;
 import com.toplevel.kengmakon.utils.PreferencesUtil;
@@ -102,7 +107,7 @@ public class HomeFragment extends Fragment {
                 if (preferencesUtil.getIsIsSignedIn()) {
                     furnitureDetailsVM.setLikeDislike(preferencesUtil.getTOKEN(), model.getId());
                 } else {
-                    Toast.makeText(getContext(), "Not registered yet", Toast.LENGTH_SHORT).show();
+                    showDialog();
                 }
             }
         });
@@ -114,7 +119,6 @@ public class HomeFragment extends Fragment {
         furnitureVM.getSet(1, 15);
         furnitureVM.getCategories(1, 10);
         furnitureVM.getFurniture(preferencesUtil.getTOKEN(), 1, 20);
-
 
         return view;
     }
@@ -134,6 +138,7 @@ public class HomeFragment extends Fragment {
             categoriesAdapter.setItems(model.getData().getItems());
         }
     }
+
     public void onFailGetCategories(String error) {
 
     }
@@ -143,6 +148,7 @@ public class HomeFragment extends Fragment {
             furnitureAdapter.setItems(model.getData().getItems());
         }
     }
+
     public void onFailGetFurnitureModel(String error) {
 
     }
@@ -150,7 +156,34 @@ public class HomeFragment extends Fragment {
     public void onSuccessLike(LikeModel likeModel) {
 
     }
+
     public void onFailLike(String error) {
 
+    }
+
+    public void showDialog() {
+        BaseDialog baseDialog = new BaseDialog(getActivity());
+        baseDialog.setTitle("Siz ro'yxatdan o'tmadingiz", "Ro'yxatdan o'tishni hohlaysizmi?");
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getContext());
+        alertBuilder.setView(baseDialog);
+        AlertDialog dialog = alertBuilder.create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
+        BaseDialog.ClickListener clickListener = new BaseDialog.ClickListener() {
+            @Override
+            public void onClickOk() {
+                BaseDialog.ClickListener.super.onClickOk();
+                dialog.dismiss();
+                startActivity(new Intent(getActivity(), LoginActivity.class));
+
+            }
+
+            @Override
+            public void onClickNo() {
+                BaseDialog.ClickListener.super.onClickNo();
+                dialog.dismiss();
+            }
+        };
+        baseDialog.setClickListener(clickListener);
     }
 }

@@ -14,38 +14,37 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.toplevel.kengmakon.R;
-import com.toplevel.kengmakon.databinding.ItemSetBinding;
-import com.toplevel.kengmakon.databinding.ItemSetDetailBinding;
-import com.toplevel.kengmakon.models.CategoryDetailModel;
-import com.toplevel.kengmakon.models.SetDetailModel;
-import com.toplevel.kengmakon.models.SetModel;
+import com.toplevel.kengmakon.databinding.ItemFurnitureBinding;
+import com.toplevel.kengmakon.databinding.ItemWishlistBinding;
+import com.toplevel.kengmakon.models.FurnitureModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SetDetailAdapter extends RecyclerView.Adapter<SetDetailAdapter.ViewHolder>{
+public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHolder>{
     private Context context;
-    private List<SetDetailModel.SetDetailData> items;
+    private List<FurnitureModel.FurnitureDataItem> items;
     private ClickListener clickListener;
     private boolean isSigned;
 
-    public SetDetailAdapter(Context context, boolean isSigned, ClickListener clickListener) {
+    public WishlistAdapter(Context context, boolean isSigned, ClickListener clickListener) {
         this.context = context;
         this.items = new ArrayList<>();
         this.clickListener = clickListener;
+        this.isSigned = isSigned;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        ItemSetDetailBinding binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.item_set_detail, parent, false);
-        return new SetDetailAdapter.ViewHolder(binding);
+        ItemWishlistBinding binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.item_wishlist, parent, false);
+        return new WishlistAdapter.ViewHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        SetDetailModel.SetDetailData item = items.get(position);
-        holder.bind(item, position);
+        FurnitureModel.FurnitureDataItem item = items.get(position);
+        holder.bind(item);
     }
 
     @Override
@@ -55,31 +54,28 @@ public class SetDetailAdapter extends RecyclerView.Adapter<SetDetailAdapter.View
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        ItemSetDetailBinding binding;
+        ItemWishlistBinding binding;
 
-        public ViewHolder(@NonNull ItemSetDetailBinding itemView) {
+        public ViewHolder(@NonNull ItemWishlistBinding itemView) {
             super(itemView.getRoot());
             this.binding = itemView;
         }
 
-        void bind(SetDetailModel.SetDetailData model, int position) {
+        void bind(FurnitureModel.FurnitureDataItem model) {
 
-
-            if (!TextUtils.isEmpty(model.getFurniture().getImage_url_preview())) {
-                Glide.with(context).load(model.getFurniture().getImage_url_preview()).centerCrop().into(binding.itemImage);
+            if (!TextUtils.isEmpty(model.getImage_url_preview())) {
+                Glide.with(context).load(model.getImage_url_preview()).centerCrop().into(binding.itemImage);
             }
-
-            if (model.getFurniture().isIs_liked()) {
+            if (model.isIs_liked()) {
                 binding.likeImage.setImageDrawable(context.getDrawable(R.drawable.red_heart_icon));
-            } else {
-                binding.likeImage.setImageDrawable(context.getDrawable(R.drawable.gray_heart_icon));
             }
-            if (!TextUtils.isEmpty(model.getFurniture().getName())) {
-                binding.name.setText(model.getFurniture().getName());
+            if (!TextUtils.isEmpty(model.getName())) {
+                binding.name.setText(model.getName());
             }
             if (!TextUtils.isEmpty(model.getCategory().getName())) {
                 binding.type.setText(model.getCategory().getName());
             }
+            binding.getRoot().setOnClickListener(v -> clickListener.onClick(model));
             binding.likeImage.setOnClickListener(view -> {
 
                 if (isSigned) {
@@ -97,22 +93,17 @@ public class SetDetailAdapter extends RecyclerView.Adapter<SetDetailAdapter.View
                 } else {
                     clickListener.onClickLikeBtn(model, false);
                 }
-
-
             });
-            binding.id.setText(String.valueOf(position + 1));
-            binding.getRoot().setOnClickListener(v -> clickListener.onClick(model));
-
         }
     }
 
-    public void setItems(List<SetDetailModel.SetDetailData> items) {
+    public void setItems(List<FurnitureModel.FurnitureDataItem> items) {
         this.items = items;
         notifyDataSetChanged();
     }
 
     public interface ClickListener {
-        void onClick(SetDetailModel.SetDetailData model);
-        void onClickLikeBtn(SetDetailModel.SetDetailData model, boolean isLiked);
+        void onClick(FurnitureModel.FurnitureDataItem model);
+        void onClickLikeBtn(FurnitureModel.FurnitureDataItem model, boolean isLiked);
     }
 }

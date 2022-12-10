@@ -34,4 +34,6 @@
     <string name="wishlist">Избранное</string>
     <string name="empty_wishlist">Ваш список желаний пуст</string>
     <string name="looks_like_not_added_wishlist">Похоже, вы еще ничего не добавили в свой список желаний</string>
+    <string name="feedback">Обратная связь</string>
+    <string name="send_feedback">Отправить</string>
 </resources>

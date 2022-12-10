@@ -1,5 +1,9 @@
 package com.toplevel.kengmakon.ui;
 
+import android.app.AlertDialog;
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.Toast;
@@ -19,6 +23,7 @@ import com.toplevel.kengmakon.models.LikeModel;
 import com.toplevel.kengmakon.models.SetDetailModel;
 import com.toplevel.kengmakon.ui.adapters.SetAdapter;
 import com.toplevel.kengmakon.ui.adapters.SetDetailAdapter;
+import com.toplevel.kengmakon.ui.dialogs.BaseDialog;
 import com.toplevel.kengmakon.ui.viewmodels.FurnitureDetailsVM;
 import com.toplevel.kengmakon.ui.viewmodels.FurnitureVM;
 import com.toplevel.kengmakon.utils.PreferencesUtil;
@@ -54,7 +59,7 @@ public class SetDetailActivity extends AppCompatActivity {
         }
         binding.backBtn.setOnClickListener(view -> finish());
         binding.furnitureRecycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        adapter = new SetDetailAdapter(this, new SetDetailAdapter.ClickListener() {
+        adapter = new SetDetailAdapter(this, preferencesUtil.getIsIsSignedIn(), new SetDetailAdapter.ClickListener() {
             @Override
             public void onClick(SetDetailModel.SetDetailData model) {
                 if (!TextUtils.isEmpty(model.getFurniture().getImage_url_preview())){
@@ -69,7 +74,7 @@ public class SetDetailActivity extends AppCompatActivity {
                 if (preferencesUtil.getIsIsSignedIn()) {
                     furnitureDetailsVM.setLikeDislike(preferencesUtil.getTOKEN(), model.getFurniture().getId());
                 } else {
-                    Toast.makeText(SetDetailActivity.this, "Not registered yet", Toast.LENGTH_SHORT).show();
+                    showDialog();
                 }
 
             }
@@ -102,5 +107,31 @@ public class SetDetailActivity extends AppCompatActivity {
     }
     public void onFailLike(String error) {
 
+    }
+
+    public void showDialog() {
+        BaseDialog baseDialog = new BaseDialog(this);
+        baseDialog.setTitle("Siz ro'yxatdan o'tmadingiz", "Ro'yxatdan o'tishni hohlaysizmi?");
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
+        alertBuilder.setView(baseDialog);
+        AlertDialog dialog = alertBuilder.create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
+        BaseDialog.ClickListener clickListener = new BaseDialog.ClickListener() {
+            @Override
+            public void onClickOk() {
+                BaseDialog.ClickListener.super.onClickOk();
+                dialog.dismiss();
+                startActivity(new Intent(SetDetailActivity.this, LoginActivity.class));
+
+            }
+
+            @Override
+            public void onClickNo() {
+                BaseDialog.ClickListener.super.onClickNo();
+                dialog.dismiss();
+            }
+        };
+        baseDialog.setClickListener(clickListener);
     }
 }

@@ -78,44 +78,12 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        getAppUniqueToken();
-
-//        binding.videoView.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-//            @Override
-//            public void onCompletion(MediaPlayer mediaPlayer) {
-//                binding.videoView.start();
-//            }
-//        });
-
         binding.videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
             @Override
             public void onPrepared(MediaPlayer mediaPlayer) {
                 mediaPlayer.setLooping(true);
             }
         });
-    }
-
-    public void getAppUniqueToken() {
-        FirebaseMessaging.getInstance().getToken()
-                .addOnCompleteListener(new OnCompleteListener<String>() {
-                    @Override
-                    public void onComplete(@NonNull Task<String> task) {
-                        if (!task.isSuccessful()) {
-                            Log.w("TAG", "Fetching FCM registration token failed", task.getException());
-                            return;
-                        }
-
-                        // Get new FCM registration token
-                        String token = task.getResult();
-                        System.out.println("** ** Token: " + token);
-
-                        appUniqueToken = token;
-                        // Log and toast
-//                        String msg = getString("Token", token);
-//                        Log.d("TAG", msg);
-
-                    }
-                });
     }
 
     @Override
@@ -134,6 +102,9 @@ public class LoginActivity extends AppCompatActivity {
             progressDialog.dismiss();
             preferencesUtil.saveTOKEN(model.getData().getToken());
             preferencesUtil.saveIsSignedIn(true);
+            preferencesUtil.saveEmail(binding.email.getText().toString());
+            preferencesUtil.savePassword(binding.password.getText().toString());
+
 
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);

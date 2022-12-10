@@ -5,6 +5,7 @@ import com.toplevel.kengmakon.ui.BaseActivity;
 import com.toplevel.kengmakon.ui.CategoryDetailActivity;
 import com.toplevel.kengmakon.ui.ChooseLanguageActivity;
 import com.toplevel.kengmakon.ui.CreateAccountActivity;
+import com.toplevel.kengmakon.ui.FeedbackActivity;
 import com.toplevel.kengmakon.ui.GetStartedActivity;
 import com.toplevel.kengmakon.ui.LoginActivity;
 import com.toplevel.kengmakon.ui.MainActivity;
@@ -40,6 +41,7 @@ public interface ApplicationComponent {
     void inject(WishlistFragment fragment);
     void inject(BaseActivity activity);
     void inject(SettingsFragment fragment);
+    void inject(FeedbackActivity activity);
 
 
     @Component.Builder

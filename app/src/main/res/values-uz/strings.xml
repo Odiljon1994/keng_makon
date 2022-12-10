@@ -34,4 +34,6 @@
     <string name="wishlist">Sevimliklar</string>
     <string name="empty_wishlist">Hozirda ro’yhatingiz bo’sh</string>
     <string name="looks_like_not_added_wishlist">Siz hali istaklar roʻyxatiga hech narsa qoʻshmaganga oʻxshaysiz</string>
+    <string name="feedback">Fikr-mulohaza</string>
+    <string name="send_feedback">Yuborish</string>
 </resources>

@@ -21,6 +21,7 @@ import com.toplevel.kengmakon.di.ViewModelFactory;
 import com.toplevel.kengmakon.models.FurnitureModel;
 import com.toplevel.kengmakon.models.LikeModel;
 import com.toplevel.kengmakon.ui.adapters.FurnitureAdapter;
+import com.toplevel.kengmakon.ui.adapters.WishlistAdapter;
 import com.toplevel.kengmakon.ui.viewmodels.FurnitureDetailsVM;
 import com.toplevel.kengmakon.ui.viewmodels.FurnitureVM;
 import com.toplevel.kengmakon.utils.PreferencesUtil;
@@ -35,7 +36,7 @@ public class WishlistFragment extends Fragment {
     ViewModelFactory viewModelFactory;
     @Inject
     PreferencesUtil preferencesUtil;
-    private FurnitureAdapter furnitureAdapter;
+    private WishlistAdapter wishlistAdapter;
     private FurnitureDetailsVM furnitureDetailsVM;
     @Nullable
     @Override
@@ -51,7 +52,7 @@ public class WishlistFragment extends Fragment {
         furnitureDetailsVM.onFailSetLikeLiveData().observe(getActivity(), this::onFailLike);
 
         binding.recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
-        furnitureAdapter = new FurnitureAdapter(getContext(), preferencesUtil.getIsIsSignedIn(), new FurnitureAdapter.ClickListener() {
+        wishlistAdapter = new WishlistAdapter(getContext(), preferencesUtil.getIsIsSignedIn(), new WishlistAdapter.ClickListener() {
             @Override
             public void onClick(FurnitureModel.FurnitureDataItem model) {
 
@@ -66,7 +67,7 @@ public class WishlistFragment extends Fragment {
                 }
             }
         });
-        binding.recyclerView.setAdapter(furnitureAdapter);
+        binding.recyclerView.setAdapter(wishlistAdapter);
 
         furnitureVM.getWishlist(preferencesUtil.getTOKEN());
         return view;
@@ -76,7 +77,7 @@ public class WishlistFragment extends Fragment {
         if (model.getCode() == 200 && model.getData().getItems().size() > 0) {
             binding.recyclerView.setVisibility(View.VISIBLE);
             binding.emptyLayout.setVisibility(View.INVISIBLE);
-            furnitureAdapter.setItems(model.getData().getItems());
+            wishlistAdapter.setItems(model.getData().getItems());
         } else {
             binding.recyclerView.setVisibility(View.INVISIBLE);
             binding.emptyLayout.setVisibility(View.VISIBLE);
