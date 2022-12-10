@@ -36,4 +36,22 @@
     <string name="looks_like_not_added_wishlist">Похоже, вы еще ничего не добавили в свой список желаний</string>
     <string name="feedback">Обратная связь</string>
     <string name="send_feedback">Отправить</string>
+    <string name="mobile_app">#Мобильность</string>
+    <string name="delivery">#Доставка</string>
+    <string name="personal">#Персонал</string>
+    <string name="service">#Сервис</string>
+    <string name="call_center">#Колл-центр</string>
+    <string name="other">#Другой</string>
+    <string name="subject">Тема</string>
+    <string name="body">Текст</string>
+    <string name="enter_subject">Введите тему.</string>
+    <string name="enter_body">Напишите содержание текста</string>
+    <string name="my_orders">Мои заказы</string>
+    <string name="branches">Магазины</string>
+    <string name="settings">Настройки</string>
+    <string name="support">Помощь</string>
+    <string name="about">О нас</string>
+    <string name="language">Язык</string>
+    <string name="logout">Выйти</string>
+    <string name="edit_account">Личные данные</string>
 </resources>

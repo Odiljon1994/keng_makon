@@ -23,6 +23,7 @@ import com.toplevel.kengmakon.ui.dialogs.BaseDialog;
 import com.toplevel.kengmakon.ui.viewmodels.AuthVM;
 import com.toplevel.kengmakon.ui.viewmodels.UserVM;
 import com.toplevel.kengmakon.utils.PreferencesUtil;
+import com.toplevel.kengmakon.utils.Utils;
 
 import javax.inject.Inject;
 
@@ -49,6 +50,9 @@ public class FeedbackActivity extends AppCompatActivity {
         authVM.onFailLoginLiveData().observe(this, this::onFailLogin);
         binding.backBtn.setOnClickListener(view -> finish());
 
+
+        Utils.setAppLocale(this, preferencesUtil.getLANGUAGE());
+        tagClickListener();
         authVM.login(preferencesUtil.getEmail(), preferencesUtil.getPassword());
 
         binding.sendMessageBtn.setOnClickListener(view -> {
@@ -100,6 +104,123 @@ public class FeedbackActivity extends AppCompatActivity {
         }
 
 
+    }
+
+    public void tagClickListener() {
+        binding.firstTag.setOnClickListener(view -> {
+            binding.firstTag.setBackground(getDrawable(R.drawable.txt_view_bgr));
+            binding.secondTag.setBackground(getDrawable(R.drawable.txt_gray_bgr));
+            binding.thirdTag.setBackground(getDrawable(R.drawable.txt_gray_bgr));
+            binding.fourthTag.setBackground(getDrawable(R.drawable.txt_gray_bgr));
+            binding.fifthTag.setBackground(getDrawable(R.drawable.txt_gray_bgr));
+            binding.sixthTag.setBackground(getDrawable(R.drawable.txt_gray_bgr));
+
+            binding.firstTag.setTextColor(Color.WHITE);
+            binding.secondTag.setTextColor(Color.parseColor("#323232"));
+            binding.thirdTag.setTextColor(Color.parseColor("#323232"));
+            binding.fourthTag.setTextColor(Color.parseColor("#323232"));
+            binding.fifthTag.setTextColor(Color.parseColor("#323232"));
+            binding.sixthTag.setTextColor(Color.parseColor("#323232"));
+
+            binding.title.setText(getString(R.string.mobile_app));
+        });
+
+        binding.secondTag.setOnClickListener(view -> {
+            binding.firstTag.setBackground(getDrawable(R.drawable.txt_gray_bgr));
+            binding.secondTag.setBackground(getDrawable(R.drawable.txt_view_bgr));
+            binding.thirdTag.setBackground(getDrawable(R.drawable.txt_gray_bgr));
+            binding.fourthTag.setBackground(getDrawable(R.drawable.txt_gray_bgr));
+            binding.fifthTag.setBackground(getDrawable(R.drawable.txt_gray_bgr));
+            binding.sixthTag.setBackground(getDrawable(R.drawable.txt_gray_bgr));
+
+            binding.firstTag.setTextColor(Color.parseColor("#323232"));
+            binding.secondTag.setTextColor(Color.WHITE);
+            binding.thirdTag.setTextColor(Color.parseColor("#323232"));
+            binding.fourthTag.setTextColor(Color.parseColor("#323232"));
+            binding.fifthTag.setTextColor(Color.parseColor("#323232"));
+            binding.sixthTag.setTextColor(Color.parseColor("#323232"));
+
+            binding.title.setText(getString(R.string.delivery));
+
+        });
+
+        binding.thirdTag.setOnClickListener(view -> {
+            binding.firstTag.setBackground(getDrawable(R.drawable.txt_gray_bgr));
+            binding.secondTag.setBackground(getDrawable(R.drawable.txt_gray_bgr));
+            binding.thirdTag.setBackground(getDrawable(R.drawable.txt_view_bgr));
+            binding.fourthTag.setBackground(getDrawable(R.drawable.txt_gray_bgr));
+            binding.fifthTag.setBackground(getDrawable(R.drawable.txt_gray_bgr));
+            binding.sixthTag.setBackground(getDrawable(R.drawable.txt_gray_bgr));
+
+            binding.firstTag.setTextColor(Color.parseColor("#323232"));
+            binding.secondTag.setTextColor(Color.parseColor("#323232"));
+            binding.thirdTag.setTextColor(Color.WHITE);
+            binding.fourthTag.setTextColor(Color.parseColor("#323232"));
+            binding.fifthTag.setTextColor(Color.parseColor("#323232"));
+            binding.sixthTag.setTextColor(Color.parseColor("#323232"));
+
+
+            binding.title.setText(getString(R.string.personal));
+        });
+
+        binding.fourthTag.setOnClickListener(view -> {
+            binding.firstTag.setBackground(getDrawable(R.drawable.txt_gray_bgr));
+            binding.secondTag.setBackground(getDrawable(R.drawable.txt_gray_bgr));
+            binding.thirdTag.setBackground(getDrawable(R.drawable.txt_gray_bgr));
+            binding.fourthTag.setBackground(getDrawable(R.drawable.txt_view_bgr));
+            binding.fifthTag.setBackground(getDrawable(R.drawable.txt_gray_bgr));
+            binding.sixthTag.setBackground(getDrawable(R.drawable.txt_gray_bgr));
+
+            binding.firstTag.setTextColor(Color.parseColor("#323232"));
+            binding.secondTag.setTextColor(Color.parseColor("#323232"));
+            binding.thirdTag.setTextColor(Color.parseColor("#323232"));
+            binding.fourthTag.setTextColor(Color.WHITE);
+            binding.fifthTag.setTextColor(Color.parseColor("#323232"));
+            binding.sixthTag.setTextColor(Color.parseColor("#323232"));
+
+            binding.title.setText(getString(R.string.service));
+
+        });
+
+        binding.fifthTag.setOnClickListener(view -> {
+            binding.firstTag.setBackground(getDrawable(R.drawable.txt_gray_bgr));
+            binding.secondTag.setBackground(getDrawable(R.drawable.txt_gray_bgr));
+            binding.thirdTag.setBackground(getDrawable(R.drawable.txt_gray_bgr));
+            binding.fourthTag.setBackground(getDrawable(R.drawable.txt_gray_bgr));
+            binding.fifthTag.setBackground(getDrawable(R.drawable.txt_view_bgr));
+            binding.sixthTag.setBackground(getDrawable(R.drawable.txt_gray_bgr));
+
+            binding.firstTag.setTextColor(Color.parseColor("#323232"));
+            binding.secondTag.setTextColor(Color.parseColor("#323232"));
+            binding.thirdTag.setTextColor(Color.parseColor("#323232"));
+            binding.fourthTag.setTextColor(Color.parseColor("#323232"));
+            binding.fifthTag.setTextColor(Color.WHITE);
+            binding.sixthTag.setTextColor(Color.parseColor("#323232"));
+
+            binding.title.setText(getString(R.string.call_center));
+
+
+        });
+
+        binding.sixthTag.setOnClickListener(view -> {
+            binding.firstTag.setBackground(getDrawable(R.drawable.txt_gray_bgr));
+            binding.secondTag.setBackground(getDrawable(R.drawable.txt_gray_bgr));
+            binding.thirdTag.setBackground(getDrawable(R.drawable.txt_gray_bgr));
+            binding.fourthTag.setBackground(getDrawable(R.drawable.txt_gray_bgr));
+            binding.fifthTag.setBackground(getDrawable(R.drawable.txt_gray_bgr));
+            binding.sixthTag.setBackground(getDrawable(R.drawable.txt_view_bgr));
+
+            binding.firstTag.setTextColor(Color.parseColor("#323232"));
+            binding.secondTag.setTextColor(Color.parseColor("#323232"));
+            binding.thirdTag.setTextColor(Color.parseColor("#323232"));
+            binding.fourthTag.setTextColor(Color.parseColor("#323232"));
+            binding.fifthTag.setTextColor(Color.parseColor("#323232"));
+            binding.sixthTag.setTextColor(Color.WHITE);
+
+            binding.title.setText(getString(R.string.other));
+
+
+        });
     }
 
     public void onFailFeedback(String error) {

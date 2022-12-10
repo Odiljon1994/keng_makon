@@ -36,4 +36,22 @@
     <string name="looks_like_not_added_wishlist">Siz hali istaklar roʻyxatiga hech narsa qoʻshmaganga oʻxshaysiz</string>
     <string name="feedback">Fikr-mulohaza</string>
     <string name="send_feedback">Yuborish</string>
+    <string name="mobile_app">#Qulaylik</string>
+    <string name="delivery">#Yetkazish</string>
+    <string name="personal">#Xodimlar</string>
+    <string name="service">#Servis</string>
+    <string name="call_center">#Bog’lanish</string>
+    <string name="other">#Boshqa</string>
+    <string name="subject">Mavzu</string>
+    <string name="body">Matn</string>
+    <string name="enter_subject">Mavzuni kiriting</string>
+    <string name="enter_body">Matnni kiriting</string>
+    <string name="my_orders">Mening xaridlarim</string>
+    <string name="branches">Showroomlar</string>
+    <string name="settings">Sozlamalar</string>
+    <string name="support">Yordamlar</string>
+    <string name="about">Biz haqimizda</string>
+    <string name="language">Til</string>
+    <string name="logout">Dasturdan chiqish</string>
+    <string name="edit_account">Shaxsiy sozlamalar</string>
 </resources>

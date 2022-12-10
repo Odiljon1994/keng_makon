@@ -37,13 +37,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="My account"
+            android:text="@string/edit_account"
             android:layout_gravity="center"
             android:padding="5dp"
             android:textColor="#385B96"
             android:layout_marginTop="2dp"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/support"
+            android:layout_marginTop="12dp"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            android:textColor="#191A26"
+            android:layout_marginStart="20dp"
+            />
 
         <LinearLayout
             android:id="@+id/myOrders"
@@ -63,7 +74,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="My orders"
+                android:text="@string/my_orders"
                 android:textSize="14dp"
                 android:textColor="#191A26"
                 android:layout_marginStart="8dp"
@@ -94,7 +105,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Branches"
+                android:text="@string/branches"
                 android:textColor="#191A26"
                 android:textSize="14dp"
                 android:layout_marginStart="8dp"
@@ -117,93 +128,13 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Settings"
+            android:text="@string/settings"
             android:layout_marginTop="12dp"
             android:textSize="18dp"
             android:textStyle="bold"
             android:textColor="#191A26"
             android:layout_marginStart="20dp"
             />
-
-        <LinearLayout
-            android:id="@+id/feedback"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:gravity="center"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginStart="16dp"
-                android:padding="4dp"
-                android:src="@drawable/feedback_icon"/>
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="Feedback"
-                android:textSize="14dp"
-                android:textColor="#191A26"
-                android:layout_marginStart="8dp"
-                android:layout_weight="1"/>
-
-            <ImageView
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:src="@drawable/arrow_right"
-                android:layout_marginEnd="20dp"/>
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="12dp"
-            android:layout_marginStart="20dp"
-            android:background="#EFEFEF"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Support"
-            android:layout_marginTop="12dp"
-            android:textSize="18dp"
-            android:textStyle="bold"
-            android:textColor="#191A26"
-            android:layout_marginStart="20dp"
-            />
-
-        <LinearLayout
-            android:id="@+id/about"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:gravity="center"
-            android:layout_marginTop="10dp"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="32dp"
-                android:layout_height="32dp"
-                android:layout_marginStart="16dp"
-                android:padding="4dp"
-                android:src="@drawable/about_icon"/>
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="About"
-                android:textSize="14dp"
-                android:textColor="#191A26"
-                android:layout_marginStart="8dp"
-                android:layout_weight="1"/>
-
-            <ImageView
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:src="@drawable/arrow_right"
-                android:layout_marginEnd="20dp"/>
-        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/language"
@@ -223,13 +154,14 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Language"
+                android:text="@string/language"
                 android:textSize="14dp"
                 android:textColor="#191A26"
                 android:layout_marginStart="8dp"
                 android:layout_weight="1"/>
 
             <TextView
+                android:id="@+id/languageTxt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="EN"
@@ -239,6 +171,79 @@
                 android:layout_marginStart="8dp"
                 />
         </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/feedback"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="16dp"
+                android:padding="4dp"
+                android:src="@drawable/feedback_icon"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/feedback"
+                android:textSize="14dp"
+                android:textColor="#191A26"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"/>
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/arrow_right"
+                android:layout_marginEnd="20dp"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginStart="20dp"
+            android:background="#EFEFEF"/>
+
+
+
+        <LinearLayout
+            android:id="@+id/about"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:gravity="center"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginStart="16dp"
+                android:padding="4dp"
+                android:src="@drawable/about_icon"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@string/about"
+                android:textSize="14dp"
+                android:textColor="#191A26"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"/>
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/arrow_right"
+                android:layout_marginEnd="20dp"/>
+        </LinearLayout>
+
+
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
@@ -246,10 +251,11 @@
             android:layout_marginStart="20dp"
             android:background="#EFEFEF"/>
         <TextView
+            android:id="@+id/logout"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:gravity="center|start"
-            android:text="Logout"
+            android:text="@string/logout"
             android:layout_marginTop="5dp"
             android:textSize="18dp"
             android:textStyle="bold"

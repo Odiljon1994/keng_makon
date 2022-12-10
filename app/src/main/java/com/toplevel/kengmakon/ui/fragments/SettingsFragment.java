@@ -26,6 +26,7 @@ import com.toplevel.kengmakon.ui.MainActivity;
 import com.toplevel.kengmakon.ui.dialogs.BaseDialog;
 import com.toplevel.kengmakon.ui.viewmodels.AuthVM;
 import com.toplevel.kengmakon.utils.PreferencesUtil;
+import com.toplevel.kengmakon.utils.Utils;
 
 import javax.inject.Inject;
 
@@ -48,6 +49,11 @@ public class SettingsFragment extends Fragment {
         authVM.userInfoSuccessLiveData().observe(getActivity(), this::onSuccessUserInfo);
         authVM.onFailUserInfoLiveData().observe(getActivity(), this::onFailUserInfo);
 
+        if (!preferencesUtil.getIsIsSignedIn()) {
+            binding.logout.setVisibility(View.INVISIBLE);
+        }
+
+        binding.languageTxt.setText(preferencesUtil.getLANGUAGE());
         if (preferencesUtil.getIsIsSignedIn() && preferencesUtil.getName().equals("")) {
             authVM.getUserInfo(preferencesUtil.getTOKEN());
         } else {
@@ -56,6 +62,7 @@ public class SettingsFragment extends Fragment {
 
         binding.feedback.setOnClickListener(view1 -> {
             if (preferencesUtil.getIsIsSignedIn()) {
+                Utils.setAppLocale(getContext(), preferencesUtil.getLANGUAGE());
                 startActivity(new Intent(getActivity(), FeedbackActivity.class));
             } else {
                 showDialog();
