@@ -20,6 +20,7 @@ import com.toplevel.kengmakon.R;
 import com.toplevel.kengmakon.databinding.FragmentSettingsBinding;
 import com.toplevel.kengmakon.di.ViewModelFactory;
 import com.toplevel.kengmakon.models.UserInfoModel;
+import com.toplevel.kengmakon.ui.AboutActivity;
 import com.toplevel.kengmakon.ui.FeedbackActivity;
 import com.toplevel.kengmakon.ui.LoginActivity;
 import com.toplevel.kengmakon.ui.MainActivity;
@@ -52,6 +53,8 @@ public class SettingsFragment extends Fragment {
         if (!preferencesUtil.getIsIsSignedIn()) {
             binding.logout.setVisibility(View.INVISIBLE);
         }
+
+        binding.about.setOnClickListener(view1 -> startActivity(new Intent(getActivity(), AboutActivity.class)));
 
         binding.languageTxt.setText(preferencesUtil.getLANGUAGE());
         if (preferencesUtil.getIsIsSignedIn() && preferencesUtil.getName().equals("")) {

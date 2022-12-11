@@ -27,7 +27,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"
             android:text="@string/create_account"
-            android:textColor="@color/black"
+            android:textColor="#191A26"
             android:textSize="26dp"
             android:textStyle="bold" />
 

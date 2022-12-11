@@ -108,7 +108,7 @@
             android:textSize="18dp"
             android:text="@string/included_items"
             android:textStyle="bold"
-            android:textColor="@color/black"
+            android:textColor="#191A26"
             android:layout_marginTop="20dp"/>
 
         <androidx.recyclerview.widget.RecyclerView
