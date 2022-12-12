@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -99,17 +100,32 @@ public class LoginActivity extends AppCompatActivity {
     public void onLoginSuccess(LoginModel.LoginResModel model) {
 
         if (model.getCode() == 200) {
-            progressDialog.dismiss();
+
             preferencesUtil.saveTOKEN(model.getData().getToken());
             preferencesUtil.saveIsSignedIn(true);
             preferencesUtil.saveEmail(binding.email.getText().toString());
             preferencesUtil.savePassword(binding.password.getText().toString());
 
+            new CountDownTimer(1000, 1000) {
+                @Override
+                public void onTick(long l) {
 
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-            startActivity(intent);
-            finish();
+                }
+
+                @Override
+                public void onFinish() {
+                    progressDialog.dismiss();
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    finish();
+                }
+            }.start();
+
+//            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+//            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+//            startActivity(intent);
+//            finish();
             //authVM.getUserInfo(model.getData().getToken());
 
         } else if (model.getCode() == 1000) {

@@ -73,7 +73,7 @@
                     android:layout_height="45dp"
                     android:layout_marginEnd="5dp"
                     android:backgroundTint="#4E5876"
-                    android:text="Keyinroq"
+                    android:text="@string/later"
                     android:textColor="#02113C"
                     android:layout_weight="1"
                     android:background="@drawable/gray_small_btn" />

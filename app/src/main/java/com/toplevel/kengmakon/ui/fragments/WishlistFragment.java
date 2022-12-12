@@ -94,4 +94,12 @@ public class WishlistFragment extends Fragment {
     public void onFailLike(String error) {
 
     }
+
+    @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            furnitureVM.getWishlist(preferencesUtil.getTOKEN());
+        }
+    }
 }

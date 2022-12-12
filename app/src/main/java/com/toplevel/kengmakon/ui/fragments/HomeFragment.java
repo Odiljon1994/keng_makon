@@ -8,10 +8,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.widget.NestedScrollView;
 import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
@@ -39,6 +41,9 @@ import com.toplevel.kengmakon.ui.viewmodels.FurnitureDetailsVM;
 import com.toplevel.kengmakon.ui.viewmodels.FurnitureVM;
 import com.toplevel.kengmakon.utils.PreferencesUtil;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.inject.Inject;
 
 public class HomeFragment extends Fragment {
@@ -54,6 +59,9 @@ public class HomeFragment extends Fragment {
     private FurnitureDetailsVM furnitureDetailsVM;
     FurnitureVM furnitureVM;
     private String TOKEN = "";
+    private int page = 1;
+    private int size = 15;
+    private List<SetModel.SetDataItem> setDataItems = new ArrayList<>();
 
     @Nullable
     @Override
@@ -113,19 +121,48 @@ public class HomeFragment extends Fragment {
         });
         binding.furnitureRecycler.setAdapter(furnitureAdapter);
 
-        if (preferencesUtil.getTOKEN().equals("")) {
 
-        }
-        furnitureVM.getSet(1, 15);
+        furnitureVM.getSet(page, size);
         furnitureVM.getCategories(1, 10);
         furnitureVM.getFurniture(preferencesUtil.getTOKEN(), 1, 20);
+
+//        binding.scrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
+//            @Override
+//            public void onScrollChanged() {
+//                View view = (View)binding.scrollView.getChildAt(binding.scrollView.getChildCount() - 1);
+//
+//                int diff = (view.getBottom() - (binding.scrollView.getHeight() + binding.scrollView
+//                        .getScrollY()));
+//
+//                if (diff == 0) {
+//                    page++;
+//                    furnitureVM.getSet(page, size);
+//                }
+//
+//            }
+//        });
+
+        binding.scrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(@NonNull NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                if (scrollY == v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight()) {
+                    page++;
+                    furnitureVM.getSet(page, size);
+                }
+            }
+        });
 
         return view;
     }
 
     public void onSuccessGetSet(SetModel model) {
         if (model.getCode() == 200 && model.getData().getItems().size() > 0) {
-            adapter.setItems(model.getData().getItems());
+
+            for (int i = 0; i < model.getData().getItems().size(); i++) {
+                setDataItems.add(model.getData().getItems().get(i));
+            }
+            adapter.setItems(setDataItems);
+            //adapter.setItems(model.getData().getItems());
         }
     }
 

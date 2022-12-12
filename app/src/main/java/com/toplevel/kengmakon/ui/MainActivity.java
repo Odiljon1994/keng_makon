@@ -22,6 +22,7 @@ import com.toplevel.kengmakon.ui.fragments.HomeFragment;
 import com.toplevel.kengmakon.ui.fragments.SettingsFragment;
 import com.toplevel.kengmakon.ui.fragments.WishlistFragment;
 import com.toplevel.kengmakon.ui.viewmodels.AuthVM;
+import com.toplevel.kengmakon.utils.LanguageChangeListener;
 import com.toplevel.kengmakon.utils.PreferencesUtil;
 import com.toplevel.kengmakon.utils.Utils;
 
@@ -39,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
     private AuthVM authVM;
     @Inject
     ViewModelFactory viewModelFactory;
+    private LanguageChangeListener languageChangeListener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,6 +82,20 @@ public class MainActivity extends AppCompatActivity {
             }
             return true;
         });
+
+
+        languageChangeListener = () -> {
+            Utils.setAppLocale(MainActivity.this, preferencesUtil.getLANGUAGE());
+            homeFragment = new HomeFragment();
+            wishlistFragment = new WishlistFragment();
+            settingsFragment = new SettingsFragment();
+            getSupportFragmentManager().beginTransaction().add(R.id.frameContainer, homeFragment).commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.frameContainer, wishlistFragment).commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.frameContainer, settingsFragment).commit();
+            settingsFragment.setLanguageChangeListener(languageChangeListener);
+            changeState(4);
+        };
+        settingsFragment.setLanguageChangeListener(languageChangeListener);
 //        binding.cashbackBtn.setOnClickListener(view -> {
 //            Toast.makeText(this, "Cashback", Toast.LENGTH_SHORT).show();
 //        });
@@ -107,9 +124,11 @@ public class MainActivity extends AppCompatActivity {
             preferencesUtil.saveIsPushTokenDone(true);
         }
     }
+
     public void onFailPushToken(String error) {
 
     }
+
     public void getAppUniqueToken() {
         FirebaseMessaging.getInstance().getToken()
                 .addOnCompleteListener(new OnCompleteListener<String>() {

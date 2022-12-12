@@ -54,4 +54,5 @@
     <string name="language">Язык</string>
     <string name="logout">Выйти</string>
     <string name="edit_account">Личные данные</string>
+    <string name="later">Потом</string>
 </resources>

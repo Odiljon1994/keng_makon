@@ -53,4 +53,5 @@
     <string name="language">Language</string>
     <string name="logout">Logout</string>
     <string name="edit_account">Edit account</string>
+    <string name="later">Later</string>
 </resources>

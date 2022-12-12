@@ -33,6 +33,7 @@ public class SetDetailAdapter extends RecyclerView.Adapter<SetDetailAdapter.View
         this.context = context;
         this.items = new ArrayList<>();
         this.clickListener = clickListener;
+        this.isSigned = isSigned;
     }
 
     @NonNull
