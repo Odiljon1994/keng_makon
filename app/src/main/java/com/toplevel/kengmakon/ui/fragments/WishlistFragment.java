@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.toplevel.kengmakon.MyApp;
 import com.toplevel.kengmakon.R;
@@ -69,12 +70,22 @@ public class WishlistFragment extends Fragment {
         });
         binding.recyclerView.setAdapter(wishlistAdapter);
 
+        binding.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                furnitureVM.getWishlist(preferencesUtil.getTOKEN());
+            }
+        });
+
+        binding.swipeRefreshLayout.setRefreshing(true);
         furnitureVM.getWishlist(preferencesUtil.getTOKEN());
         return view;
     }
 
     public void onSuccessGetWishlist(FurnitureModel model) {
+        binding.swipeRefreshLayout.setRefreshing(false);
         if (model.getCode() == 200 && model.getData().getItems().size() > 0) {
+
             binding.recyclerView.setVisibility(View.VISIBLE);
             binding.emptyLayout.setVisibility(View.INVISIBLE);
             wishlistAdapter.setItems(model.getData().getItems());
@@ -84,6 +95,7 @@ public class WishlistFragment extends Fragment {
         }
     }
     public void onFailGetWishlistModel(String error) {
+        binding.swipeRefreshLayout.setRefreshing(false);
         binding.recyclerView.setVisibility(View.INVISIBLE);
         binding.emptyLayout.setVisibility(View.VISIBLE);
     }
@@ -99,6 +111,7 @@ public class WishlistFragment extends Fragment {
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden) {
+            binding.swipeRefreshLayout.setRefreshing(true);
             furnitureVM.getWishlist(preferencesUtil.getTOKEN());
         }
     }

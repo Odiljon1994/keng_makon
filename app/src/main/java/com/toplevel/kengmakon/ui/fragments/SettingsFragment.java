@@ -242,6 +242,7 @@ public class SettingsFragment extends Fragment {
 
         if (model.getCode() == 200) {
             preferencesUtil.saveName(model.getData().getName());
+            preferencesUtil.saveUserId(model.getData().getId());
             preferencesUtil.savePhoneNumber(model.getData().getPhone());
             binding.name.setText(model.getData().getName());
         }

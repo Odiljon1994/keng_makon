@@ -18,6 +18,7 @@ import com.toplevel.kengmakon.R;
 import com.toplevel.kengmakon.databinding.ActivityMainBinding;
 import com.toplevel.kengmakon.di.ViewModelFactory;
 import com.toplevel.kengmakon.models.BaseResponse;
+import com.toplevel.kengmakon.ui.fragments.CashbackFragment;
 import com.toplevel.kengmakon.ui.fragments.HomeFragment;
 import com.toplevel.kengmakon.ui.fragments.SettingsFragment;
 import com.toplevel.kengmakon.ui.fragments.WishlistFragment;
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private HomeFragment homeFragment;
     private WishlistFragment wishlistFragment;
     private SettingsFragment settingsFragment;
+    private CashbackFragment cashbackFragment;
     private String appUniqueToken = "";
     private AuthVM authVM;
     @Inject
@@ -55,9 +57,11 @@ public class MainActivity extends AppCompatActivity {
         homeFragment = new HomeFragment();
         wishlistFragment = new WishlistFragment();
         settingsFragment = new SettingsFragment();
+        cashbackFragment = new CashbackFragment();
         getSupportFragmentManager().beginTransaction().add(R.id.frameContainer, homeFragment).commit();
         getSupportFragmentManager().beginTransaction().add(R.id.frameContainer, wishlistFragment).commit();
         getSupportFragmentManager().beginTransaction().add(R.id.frameContainer, settingsFragment).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.frameContainer, cashbackFragment).commit();
 
         binding.bottomNavigationView.setItemIconTintList(null);
         if (!preferencesUtil.getIsPushTokenDone()) {
@@ -72,6 +76,9 @@ public class MainActivity extends AppCompatActivity {
                     break;
                 case R.id.wishlist:
                     changeState(2);
+                    break;
+                case R.id.cashback:
+                    changeState(3);
                     break;
                 case R.id.chat:
 
@@ -105,15 +112,24 @@ public class MainActivity extends AppCompatActivity {
         if (position == 1) {
             getSupportFragmentManager().beginTransaction().hide(wishlistFragment).commit();
             getSupportFragmentManager().beginTransaction().hide(settingsFragment).commit();
+            getSupportFragmentManager().beginTransaction().hide(cashbackFragment).commit();
             getSupportFragmentManager().beginTransaction().show(homeFragment).commit();
 
         } else if (position == 2) {
             getSupportFragmentManager().beginTransaction().hide(homeFragment).commit();
             getSupportFragmentManager().beginTransaction().hide(settingsFragment).commit();
+            getSupportFragmentManager().beginTransaction().hide(cashbackFragment).commit();
             getSupportFragmentManager().beginTransaction().show(wishlistFragment).commit();
-        } else if (position == 4) {
+        } else if (position == 3) {
             getSupportFragmentManager().beginTransaction().hide(homeFragment).commit();
             getSupportFragmentManager().beginTransaction().hide(wishlistFragment).commit();
+            getSupportFragmentManager().beginTransaction().show(cashbackFragment).commit();
+            getSupportFragmentManager().beginTransaction().hide(settingsFragment).commit();
+        }
+        else if (position == 4) {
+            getSupportFragmentManager().beginTransaction().hide(homeFragment).commit();
+            getSupportFragmentManager().beginTransaction().hide(wishlistFragment).commit();
+            getSupportFragmentManager().beginTransaction().hide(cashbackFragment).commit();
             getSupportFragmentManager().beginTransaction().show(settingsFragment).commit();
         }
     }

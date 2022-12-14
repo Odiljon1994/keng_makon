@@ -18,7 +18,7 @@ public class PreferencesUtil {
     private static final String PHONE_NUMBER = "PHONE_NUMBER";
     private static final String IS_SIGNED_IN = "IS_SIGNED_IN";
     private static final String IS_PUSH_TOKEN_DONE = "IS_PUSH_TOKEN_DONE";
-
+    private static final String USER_ID = "USER_ID";
 
 
     public PreferencesUtil(Context context, SharedPreferences sharedPreferences) {
@@ -101,5 +101,11 @@ public class PreferencesUtil {
     public boolean getIsPushTokenDone() {
         return sharedPreferences.getBoolean(IS_PUSH_TOKEN_DONE, false);
     }
+    public int getUserId() {
+        return sharedPreferences.getInt(USER_ID, -1);
+    }
 
+    public void saveUserId(int userId) {
+        sharedPreferences.edit().putInt(USER_ID, userId).apply();
+    }
 }

@@ -1,6 +1,7 @@
 package com.toplevel.kengmakon.api;
 
 import com.toplevel.kengmakon.models.BaseResponse;
+import com.toplevel.kengmakon.models.CashbackModel;
 import com.toplevel.kengmakon.models.CategoriesModel;
 import com.toplevel.kengmakon.models.CategoryDetailModel;
 import com.toplevel.kengmakon.models.FeedbackModel;
@@ -65,4 +66,7 @@ public interface Api {
 
     @POST("api/feedback/submit")
     Single<BaseResponse> postFeedback(@Header("Authorization") String token, @Body FeedbackModel feedbackModel);
+
+    @GET("/api/user/cashback")
+    Single<CashbackModel> getCashback(@Query("user_id") int user_id);
 }

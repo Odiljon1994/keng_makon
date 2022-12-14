@@ -55,4 +55,8 @@
     <string name="logout">Dasturdan chiqish</string>
     <string name="edit_account">Shaxsiy sozlamalar</string>
     <string name="later">Keyinroq</string>
+    <string name="cashback_best_solution">Mebel xarid qilish uchun ajoyib usul</string>
+    <string name="keng_makon_cashback">Keng Makon Keshbek</string>
+    <string name="cashback_history">Barcha keshbeklar</string>
+    <string name="cashback_description">KengMakon mebel fabrikasi xaridorlariga keshbek servisini taklif etadi. Har qanday xarid uchun keshbeklarni qo’lga kiriting va keshbek xizmati bilan xaridlarni tejang.</string>
 </resources>

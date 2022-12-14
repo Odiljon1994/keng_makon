@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.toplevel.kengmakon.api.Api;
 import com.toplevel.kengmakon.models.BaseResponse;
+import com.toplevel.kengmakon.models.CashbackModel;
 import com.toplevel.kengmakon.models.FeedbackModel;
 import com.toplevel.kengmakon.models.SetModel;
 
@@ -22,6 +23,9 @@ public class UserVM extends BaseVM {
     private MutableLiveData<BaseResponse> onSuccessPostFeedbackMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<String> onFailPostFeedbackMutableLiveData = new MutableLiveData<>();
 
+    private MutableLiveData<CashbackModel> cashbackModelMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<String> onFailCashbackMutableLiveData = new MutableLiveData<>();
+
     @Inject
     public UserVM(Api api, Context context) {
         this.api = api;
@@ -36,6 +40,11 @@ public class UserVM extends BaseVM {
         return onFailPostFeedbackMutableLiveData;
     }
 
+    public LiveData<CashbackModel> onSuccessCashbackLiveData() {
+        return cashbackModelMutableLiveData;
+    }
+    public LiveData<String> onFailCashbackLiveData() {return onFailCashbackMutableLiveData;}
+
     public void postFeedback(String token, String subject, String message) {
 
         FeedbackModel feedbackModel = new FeedbackModel(1, subject, message, 1);
@@ -47,6 +56,18 @@ public class UserVM extends BaseVM {
                     onSuccessPostFeedbackMutableLiveData.postValue(response);
                 }, error -> {
                     onFailPostFeedbackMutableLiveData.postValue(error.getMessage());
+                }));
+    }
+
+    public void getCashback(int user_id) {
+
+        addToSubscribe(api.getCashback(user_id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> {
+                    cashbackModelMutableLiveData.postValue(response);
+                }, error -> {
+                    onFailCashbackMutableLiveData.postValue(error.getMessage());
                 }));
     }
 }

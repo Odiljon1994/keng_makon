@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+    </data>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_marginStart="20dp"
+            android:src="@drawable/cashback_item_image"
+            />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:weightSum="2"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/furnitureName"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:textColor="#1A202C"
+                android:textStyle="bold"
+                android:layout_marginStart="10dp"
+                android:textSize="16dp"
+                android:gravity="center|start"
+                android:layout_weight="1"
+                android:text=""/>
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:gravity="center|start"
+                android:layout_marginStart="10dp"
+                android:layout_weight="1"
+                android:textColor="#87878D"
+                android:textSize="15dp"
+                android:text="06 Jan"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/sum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
+            android:layout_marginStart="5dp"
+            android:textSize="18dp"
+            android:textColor="#0058A2"
+            android:textStyle="bold"
+            android:text="0sum+"/>
+    </LinearLayout>
+</layout>

@@ -105,6 +105,8 @@ public class LoginActivity extends AppCompatActivity {
             preferencesUtil.saveIsSignedIn(true);
             preferencesUtil.saveEmail(binding.email.getText().toString());
             preferencesUtil.savePassword(binding.password.getText().toString());
+            preferencesUtil.saveUserId(model.getData().getUser().getId());
+            preferencesUtil.saveName(model.getData().getUser().getName());
 
             new CountDownTimer(1000, 1000) {
                 @Override

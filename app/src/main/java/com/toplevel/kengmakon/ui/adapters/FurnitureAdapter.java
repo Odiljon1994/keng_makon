@@ -69,6 +69,8 @@ public class FurnitureAdapter extends RecyclerView.Adapter<FurnitureAdapter.View
             }
             if (model.isIs_liked()) {
                 binding.likeImage.setImageDrawable(context.getDrawable(R.drawable.red_heart_icon));
+            }else {
+                binding.likeImage.setImageDrawable(context.getDrawable(R.drawable.gray_heart_icon));
             }
             if (!TextUtils.isEmpty(model.getName())) {
                 binding.name.setText(model.getName());
