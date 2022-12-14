@@ -35,6 +35,7 @@ public class CashbackFragment extends Fragment {
     ViewModelFactory viewModelFactory;
     @Inject
     PreferencesUtil preferencesUtil;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -70,10 +71,12 @@ public class CashbackFragment extends Fragment {
 
         binding.swipeRefreshLayout.setRefreshing(false);
         if (model.getCode() == 200 && model.getData().getData().getItems().size() > 0) {
+            binding.cashbackHistory.setVisibility(View.VISIBLE);
             binding.totalCashback.setText(String.valueOf(model.getData().getData().getCashback().getTotal()));
             adapter.setItems(model.getData().getData().getItems());
         }
     }
+
     public void onFailCashback(String model) {
         binding.swipeRefreshLayout.setRefreshing(false);
     }

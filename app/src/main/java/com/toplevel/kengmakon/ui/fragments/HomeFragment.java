@@ -123,7 +123,7 @@ public class HomeFragment extends Fragment {
 
 
         furnitureVM.getSet(page, size);
-        furnitureVM.getCategories(1, 10);
+        furnitureVM.getCategories(1, 20);
         furnitureVM.getFurniture(preferencesUtil.getTOKEN(), 1, 20);
 
 //        binding.scrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
@@ -145,7 +145,7 @@ public class HomeFragment extends Fragment {
         binding.scrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
             public void onScrollChange(@NonNull NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                if (scrollY == v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight()) {
+                if (scrollX == v.getChildAt(0).getMeasuredWidth() - v.getMeasuredWidth()) {
                     page++;
                     furnitureVM.getSet(page, size);
                 }

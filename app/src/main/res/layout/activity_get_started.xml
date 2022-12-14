@@ -28,14 +28,15 @@
 
         <ImageView
             android:layout_width="160dp"
-            android:layout_height="88dp"
+            android:layout_height="85dp"
             android:src="@drawable/keng_makon_logo"
             android:layout_gravity="center"/>
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
-            android:layout_height="385dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:layout_marginTop="10dp"
             android:scrollIndicators="bottom">
 
@@ -47,15 +48,13 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_gravity="center"
+            android:layout_marginBottom="20dp"
             app:dotsStrokeColor="@color/grayColor"
             app:selectedDotColor="@color/colorPrimary"
             app:dotsSize="10dp"
             app:dotsSpacing="5dp"/>
 
-        <View
-            android:layout_width="1dp"
-            android:layout_height="0dp"
-            android:layout_weight="1"/>
+
 
         <Button
             android:id="@+id/nextBtn"

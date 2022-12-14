@@ -8,8 +8,10 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.widget.NestedScrollView;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -28,6 +30,9 @@ import com.toplevel.kengmakon.ui.dialogs.BaseDialog;
 import com.toplevel.kengmakon.ui.viewmodels.FurnitureDetailsVM;
 import com.toplevel.kengmakon.utils.PreferencesUtil;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.inject.Inject;
 
 public class CategoryDetailActivity extends AppCompatActivity {
@@ -40,7 +45,11 @@ public class CategoryDetailActivity extends AppCompatActivity {
     PreferencesUtil preferencesUtil;
     private CategoryDetailAdapter adapter;
     int id;
+    private int page = 1;
+    private int size = 20;
     String name = "";
+
+    List<CategoryDetailModel.CategoryDetailDataItem> items = new ArrayList<>();
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +64,7 @@ public class CategoryDetailActivity extends AppCompatActivity {
         binding.backBtn.setOnClickListener(view -> finish());
 
         name = getIntent().getStringExtra("name");
-        binding.title.setText(name);
+        binding.categoryName.setText(name);
         binding.furnitureRecycler.setLayoutManager(new GridLayoutManager(this, 2));
         adapter = new CategoryDetailAdapter(this, preferencesUtil.getIsIsSignedIn(), new CategoryDetailAdapter.ClickListener() {
             @Override
@@ -74,12 +83,28 @@ public class CategoryDetailActivity extends AppCompatActivity {
         });
         binding.furnitureRecycler.setAdapter(adapter);
         id = getIntent().getIntExtra("id", 1);
-        furnitureDetailsVM.getCategoryDetail(preferencesUtil.getTOKEN(), 1, 20, id);
+        furnitureDetailsVM.getCategoryDetail(preferencesUtil.getTOKEN(), page, size, id);
+
+        binding.scrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(@NonNull NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+                if (scrollY == v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight()) {
+                    page++;
+                    furnitureDetailsVM.getCategoryDetail(preferencesUtil.getTOKEN(), page, size, id);
+                }
+            }
+        });
     }
 
     public void onSuccessGetCategoryDetail(CategoryDetailModel model) {
         if (model.getCode() == 200 && model.getData().getItems().size() > 0) {
-            adapter.setItems(model.getData().getItems());
+            int totalItems = size * model.getData().getTotalPages();
+            binding.totalItem.setText(String.valueOf(totalItems) + " " + getString(R.string.products));
+
+            for (int i = 0; i < model.getData().getItems().size(); i++) {
+                items.add(model.getData().getItems().get(i));
+            }
+            adapter.setItems(items);
         }
     }
     public void onFailGetCategoryDetail(String error) {
