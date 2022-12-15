@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.toplevel.kengmakon.R;
 import com.toplevel.kengmakon.databinding.ItemCashbackBinding;
 import com.toplevel.kengmakon.models.CashbackModel;
+
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,7 +54,10 @@ public class CashbackAdapter extends RecyclerView.Adapter<CashbackAdapter.ViewHo
         void bind(CashbackModel.CashbackDataItems model) {
             String[] datePairs = model.getDate().split("T");
            // String sum = String.format("%03d", model.getAmount());
-            binding.sum.setText(model.getAmount() + "sum+");
+
+            DecimalFormat df = new DecimalFormat("#,###,###");
+            df.setMaximumFractionDigits(6);
+            binding.sum.setText(df.format(model.getAmount()) + "sum+");
             binding.date.setText(datePairs[0]);
         }
     }

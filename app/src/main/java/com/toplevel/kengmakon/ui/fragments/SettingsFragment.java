@@ -29,6 +29,7 @@ import com.toplevel.kengmakon.ui.ChooseLanguageActivity;
 import com.toplevel.kengmakon.ui.FeedbackActivity;
 import com.toplevel.kengmakon.ui.LoginActivity;
 import com.toplevel.kengmakon.ui.MainActivity;
+import com.toplevel.kengmakon.ui.OrdersActivity;
 import com.toplevel.kengmakon.ui.dialogs.BaseDialog;
 import com.toplevel.kengmakon.ui.viewmodels.AuthVM;
 import com.toplevel.kengmakon.utils.LanguageChangeListener;
@@ -156,6 +157,7 @@ public class SettingsFragment extends Fragment {
         });
 
         binding.about.setOnClickListener(view1 -> startActivity(new Intent(getActivity(), AboutActivity.class)));
+        binding.myOrders.setOnClickListener(view1 -> startActivity(new Intent(getActivity(), OrdersActivity.class)));
 
         binding.languageTxt.setText(preferencesUtil.getLANGUAGE());
         if (preferencesUtil.getIsIsSignedIn() && preferencesUtil.getName().equals("")) {

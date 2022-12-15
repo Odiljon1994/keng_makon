@@ -59,5 +59,7 @@
     <string name="keng_makon_cashback">Keng Makon Кэшбэк</string>
     <string name="cashback_history">История кэшбэка</string>
     <string name="cashback_description">Мебельная фабрика KengMakon, мебель с кешбэком 1%. Кешбэк за любую покупку. Экономьте на покупках вместе с кэшбэк сервисом.</string>
-
+    <string name="completed">Платеж завершен</string>
+    <string name="not_completed">Платеж не завершен</string>
+    <string name="total_price">Общая сумма</string>
 </resources>

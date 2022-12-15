@@ -25,26 +25,55 @@
                 android:layout_weight="1"
                 android:textSize="14dp"
                 android:textColor="#323232"
-                android:text="Custom set furniture"
+                android:text=""
                 android:id="@+id/name"/>
             <TextView
-                android:layout_width="105dp"
+                android:id="@+id/isPaymentCompleted"
+                android:layout_width="wrap_content"
                 android:layout_height="30dp"
-                android:text="Completed"
+                android:text="@string/not_completed"
+                android:textSize="9dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:paddingTop="3dp"
+                android:paddingBottom="3dp"
                 android:textColor="#19AC4B"
                 android:gravity="center"
                 android:background="@drawable/payment_completed_bgr"/>
 
         </LinearLayout>
-        <TextView
-            android:layout_width="wrap_content"
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textColor="#808D9E"
             android:layout_marginStart="20dp"
-            android:textSize="13dp"
-            android:text="13 January 2022"
-            android:id="@+id/date"/>
+            android:layout_marginEnd="20dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#808D9E"
+                android:textSize="13dp"
+                android:text=""
+                android:id="@+id/docNo"/>
+            <ImageView
+                android:layout_width="3dp"
+                android:layout_height="3dp"
+                android:layout_marginStart="6dp"
+                android:layout_gravity="center"
+                android:src="@drawable/dot"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#808D9E"
+                android:layout_marginStart="6dp"
+                android:textSize="13dp"
+                android:text=""
+                android:id="@+id/date"/>
+        </LinearLayout>
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -64,6 +93,7 @@
                 android:id="@+id/secondImage"
                 android:layout_width="46dp"
                 android:layout_marginEnd="3dp"
+                android:visibility="gone"
                 android:src="@drawable/lock_icon"
                 android:layout_height="46dp"/>
             <TextView
@@ -72,6 +102,7 @@
                 android:background="@drawable/more_txt_view_bgr"
                 android:text="+3"
                 android:textColor="#191A26"
+                android:visibility="gone"
                 android:textStyle="bold"
                 android:textSize="16dp"
                 android:gravity="center"
@@ -110,6 +141,12 @@
 
             </LinearLayout>
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="20dp"
+            android:background="#EFEFEF"/>
 
     </LinearLayout>
 </layout>

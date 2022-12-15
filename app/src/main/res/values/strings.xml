@@ -58,4 +58,7 @@
     <string name="keng_makon_cashback">Keng Makon Cashback</string>
     <string name="cashback_history">Cashback history</string>
     <string name="cashback_description">You can make your bedroom luxurious with just the right furniture. The Prince bedroom set looks amazing and goes well with a variety of designs.</string>
+    <string name="completed">Payment completed</string>
+    <string name="not_completed">Payment not completed</string>
+    <string name="total_price">Total price</string>
 </resources>

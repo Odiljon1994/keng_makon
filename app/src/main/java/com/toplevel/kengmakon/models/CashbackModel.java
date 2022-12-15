@@ -112,30 +112,51 @@ public class CashbackModel {
 
     public class CashbackDataTotal {
         @SerializedName("total")
-        private int total;
+        private double total;
         @SerializedName("remain")
-        private int remain;
+        private double remain;
 
-        public int getTotal() {
+        public double getTotal() {
             return total;
         }
 
-        public void setTotal(int total) {
+        public void setTotal(double total) {
             this.total = total;
         }
 
-        public int getRemain() {
+        public double getRemain() {
             return remain;
         }
 
-        public void setRemain(int remain) {
+        public void setRemain(double remain) {
             this.remain = remain;
         }
 
-        public CashbackDataTotal(int total, int remain) {
+        public CashbackDataTotal(double total, double remain) {
             this.total = total;
             this.remain = remain;
         }
+
+        //        public int getTotal() {
+//            return total;
+//        }
+//
+//        public void setTotal(int total) {
+//            this.total = total;
+//        }
+//
+//        public int getRemain() {
+//            return remain;
+//        }
+//
+//        public void setRemain(int remain) {
+//            this.remain = remain;
+//        }
+//
+//        public CashbackDataTotal(int total, int remain) {
+//            this.total = total;
+//            this.remain = remain;
+//        }
     }
 
     public class CashbackDataItems {

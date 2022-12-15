@@ -8,6 +8,7 @@ import com.toplevel.kengmakon.models.FeedbackModel;
 import com.toplevel.kengmakon.models.FurnitureModel;
 import com.toplevel.kengmakon.models.LikeModel;
 import com.toplevel.kengmakon.models.LoginModel;
+import com.toplevel.kengmakon.models.OrdersModel;
 import com.toplevel.kengmakon.models.PushTokenReqModel;
 import com.toplevel.kengmakon.models.SetDetailModel;
 import com.toplevel.kengmakon.models.SetModel;
@@ -69,4 +70,7 @@ public interface Api {
 
     @GET("/api/user/cashback")
     Single<CashbackModel> getCashback(@Query("user_id") int user_id);
+
+    @GET("/api/order/list")
+    Single<OrdersModel> getOrders(@Header("Authorization") String token);
 }

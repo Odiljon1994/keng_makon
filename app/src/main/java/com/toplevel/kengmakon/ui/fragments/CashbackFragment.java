@@ -24,6 +24,8 @@ import com.toplevel.kengmakon.ui.viewmodels.FurnitureVM;
 import com.toplevel.kengmakon.ui.viewmodels.UserVM;
 import com.toplevel.kengmakon.utils.PreferencesUtil;
 
+import java.text.DecimalFormat;
+
 import javax.inject.Inject;
 
 public class CashbackFragment extends Fragment {
@@ -72,7 +74,10 @@ public class CashbackFragment extends Fragment {
         binding.swipeRefreshLayout.setRefreshing(false);
         if (model.getCode() == 200 && model.getData().getData().getItems().size() > 0) {
             binding.cashbackHistory.setVisibility(View.VISIBLE);
-            binding.totalCashback.setText(String.valueOf(model.getData().getData().getCashback().getTotal()));
+            DecimalFormat df = new DecimalFormat("#,###,###");
+            df.setMaximumFractionDigits(6);
+            binding.totalCashback.setText(df.format(model.getData().getData().getCashback().getTotal()) + "sum");
+           // binding.totalCashback.setText(String.valueOf(model.getData().getData().getCashback().getTotal()));
             adapter.setItems(model.getData().getData().getItems());
         }
     }
