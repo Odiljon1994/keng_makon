@@ -62,4 +62,6 @@
     <string name="completed">Toʻlov tugallangan</string>
     <string name="not_completed">Toʻlov tugallanganmagan</string>
     <string name="total_price">Umumiy summa</string>
+    <string name="your_order_list_empty">Buyurtmalaringiz roʻyxati boʻsh</string>
+    <string name="your_wishlist_is_empty">Hozirda ro’yhatingiz bo’sh</string>
 </resources>

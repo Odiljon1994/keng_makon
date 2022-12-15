@@ -2,12 +2,14 @@ package com.toplevel.kengmakon.ui;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.toplevel.kengmakon.MyApp;
 import com.toplevel.kengmakon.R;
@@ -40,8 +42,20 @@ public class OrdersActivity extends AppCompatActivity {
         ordersVM.ordersModelLiveData().observe(this, this::onSuccessGetOrders);
         ordersVM.onFailGetOrdersLiveData().observe(this, this::onFailGetOrders);
 
-        progressDialog = ProgressDialog.show(this, "", "Loading...", true);
-        ordersVM.getOrders(preferencesUtil.getTOKEN());
+
+        binding.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                ordersVM.getOrders(preferencesUtil.getTOKEN());
+            }
+        });
+
+        if (preferencesUtil.getIsIsSignedIn()) {
+            progressDialog = ProgressDialog.show(this, "", "Loading...", true);
+            ordersVM.getOrders(preferencesUtil.getTOKEN());
+        }
+
+
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         adapter = new MyOrdersAdapter(this, model -> {
 
@@ -53,11 +67,18 @@ public class OrdersActivity extends AppCompatActivity {
 
     public void onSuccessGetOrders(OrdersModel model) {
         progressDialog.dismiss();
+        binding.swipeRefreshLayout.setRefreshing(false);
         if (model.getCode() == 200 && model.getData().getItems().size() > 0) {
+            binding.swipeRefreshLayout.setVisibility(View.VISIBLE);
+            binding.emptyLayout.setVisibility(View.GONE);
             adapter.setItems(model.getData().getItems());
+        } else {
+            binding.swipeRefreshLayout.setVisibility(View.GONE);
+            binding.emptyLayout.setVisibility(View.VISIBLE);
         }
     }
     public void onFailGetOrders(String error) {
+        binding.swipeRefreshLayout.setRefreshing(false);
         progressDialog.dismiss();
     }
 }

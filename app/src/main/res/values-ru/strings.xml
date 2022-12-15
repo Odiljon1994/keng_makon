@@ -62,4 +62,6 @@
     <string name="completed">Платеж завершен</string>
     <string name="not_completed">Платеж не завершен</string>
     <string name="total_price">Общая сумма</string>
+    <string name="your_order_list_empty">Ваш список заказов пуст</string>
+    <string name="your_wishlist_is_empty">Ваш список желаний пуст</string>
 </resources>
