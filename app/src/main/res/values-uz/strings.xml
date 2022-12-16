@@ -60,8 +60,9 @@
     <string name="cashback_history">Barcha keshbeklar</string>
     <string name="cashback_description">KengMakon mebel fabrikasi xaridorlariga keshbek servisini taklif etadi. Har qanday xarid uchun keshbeklarni qo’lga kiriting va keshbek xizmati bilan xaridlarni tejang.</string>
     <string name="completed">Toʻlov tugallangan</string>
-    <string name="not_completed">Toʻlov tugallanganmagan</string>
+    <string name="not_completed">Toʻlov tugallanmagan</string>
     <string name="total_price">Umumiy summa</string>
     <string name="your_order_list_empty">Buyurtmalaringiz roʻyxati boʻsh</string>
     <string name="your_wishlist_is_empty">Hozirda ro’yhatingiz bo’sh</string>
+    <string name="order_details">To’liq ma’lumot</string>
 </resources>

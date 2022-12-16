@@ -1,6 +1,7 @@
 package com.toplevel.kengmakon.ui;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -58,7 +59,9 @@ public class OrdersActivity extends AppCompatActivity {
 
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         adapter = new MyOrdersAdapter(this, model -> {
-
+            Intent intent = new Intent(OrdersActivity.this, OrderDetailActivity.class);
+            intent.putExtra("order_id", model.getOrder().getId());
+            startActivity(intent);
         });
         binding.recyclerView.setAdapter(adapter);
 

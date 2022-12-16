@@ -9,6 +9,7 @@ import com.toplevel.kengmakon.ui.FeedbackActivity;
 import com.toplevel.kengmakon.ui.GetStartedActivity;
 import com.toplevel.kengmakon.ui.LoginActivity;
 import com.toplevel.kengmakon.ui.MainActivity;
+import com.toplevel.kengmakon.ui.OrderDetailActivity;
 import com.toplevel.kengmakon.ui.OrdersActivity;
 import com.toplevel.kengmakon.ui.SetDetailActivity;
 import com.toplevel.kengmakon.ui.SplashActivity;
@@ -46,6 +47,7 @@ public interface ApplicationComponent {
     void inject(FeedbackActivity activity);
     void inject(CashbackFragment fragment);
     void inject(OrdersActivity activity);
+    void inject(OrderDetailActivity activity);
 
     @Component.Builder
     interface Builder {

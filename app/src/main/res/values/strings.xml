@@ -63,4 +63,5 @@
     <string name="total_price">Total price</string>
     <string name="your_order_list_empty">Your order list is empty</string>
     <string name="your_wishlist_is_empty">Your wishlist is empty</string>
+    <string name="order_details">Order details</string>
 </resources>

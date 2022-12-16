@@ -8,6 +8,7 @@ import com.toplevel.kengmakon.models.FeedbackModel;
 import com.toplevel.kengmakon.models.FurnitureModel;
 import com.toplevel.kengmakon.models.LikeModel;
 import com.toplevel.kengmakon.models.LoginModel;
+import com.toplevel.kengmakon.models.OrderDetailModel;
 import com.toplevel.kengmakon.models.OrdersModel;
 import com.toplevel.kengmakon.models.PushTokenReqModel;
 import com.toplevel.kengmakon.models.SetDetailModel;
@@ -73,4 +74,7 @@ public interface Api {
 
     @GET("/api/order/list")
     Single<OrdersModel> getOrders(@Header("Authorization") String token);
+
+    @GET("/api/order/detail")
+    Single<OrderDetailModel> getOrderDetail(@Header("Authorization") String token, @Query("order_id") int order_id);
 }
