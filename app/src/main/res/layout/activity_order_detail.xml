@@ -58,7 +58,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="#ID-123-123-1233"
+                        android:text=""
                         android:textColor="#323232"
                         android:textSize="14dp" />
 
@@ -66,14 +66,12 @@
                         android:id="@+id/isPaymentCompleted"
                         android:layout_width="wrap_content"
                         android:layout_height="30dp"
-                        android:background="@drawable/payment_completed_bgr"
                         android:gravity="center"
                         android:paddingStart="10dp"
                         android:paddingTop="3dp"
                         android:paddingEnd="10dp"
                         android:paddingBottom="3dp"
-                        android:text="@string/not_completed"
-                        android:textColor="#19AC4B"
+                        android:text=""
                         android:textSize="9dp" />
 
                 </LinearLayout>
@@ -89,7 +87,7 @@
                         android:id="@+id/date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="13 January 2022"
+                        android:text=""
                         android:textColor="#808D9E"
                         android:textSize="13dp" />
 
@@ -105,7 +103,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="6dp"
-                        android:text="1:20 pm"
+                        android:text=""
                         android:textColor="#808D9E"
                         android:textSize="13dp" />
                 </LinearLayout>
@@ -138,23 +136,25 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/sellerName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginEnd="20dp"
-                    android:text="Jamshid Niyozov"
+                    android:text=""
                     android:textColor="#191A26"
                     android:textSize="14dp"
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/branch"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginEnd="20dp"
-                    android:text="Manager of Shayxontoxur branch"
+                    android:text=""
                     android:textColor="#808D9E"
                     android:textSize="14dp" />
 
@@ -220,11 +220,12 @@
                         android:textSize="14dp" />
 
                     <TextView
+                        android:id="@+id/totalItems"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
                         android:layout_marginEnd="20dp"
-                        android:text="20x"
+                        android:text=""
                         android:textColor="#808D9E"
                         android:textSize="14dp" />
 
@@ -252,7 +253,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
                         android:layout_marginEnd="20dp"
-                        android:text="1.000.000sum"
+                        android:text=""
                         android:textColor="#19AC4B"
                         android:textSize="14dp" />
 
@@ -270,7 +271,7 @@
                         android:layout_marginStart="20dp"
                         android:layout_marginEnd="20dp"
                         android:layout_weight="1"
-                        android:text="Already paid"
+                        android:text="Need to pay"
                         android:textColor="#808D9E"
                         android:textSize="14dp" />
 
@@ -280,7 +281,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
                         android:layout_marginEnd="20dp"
-                        android:text="1.000.000sum"
+                        android:text=""
                         android:textColor="#CC0000"
                         android:textSize="14dp" />
 
@@ -312,12 +313,12 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/total"
+                        android:id="@+id/totalSum"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
                         android:layout_marginEnd="20dp"
-                        android:text="1.000.000sum"
+                        android:text=""
                         android:textColor="#191A26"
                         android:textSize="14dp" />
 
@@ -346,7 +347,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="20dp"
                         android:layout_marginEnd="20dp"
-                        android:text="1.000.000sum"
+                        android:text=""
                         android:textColor="#808D9E"
                         android:textSize="14dp" />
 

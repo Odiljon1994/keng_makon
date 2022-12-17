@@ -20,6 +20,7 @@ import com.toplevel.kengmakon.models.OrdersModel;
 import com.toplevel.kengmakon.models.SetModel;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.ViewHolder>{
@@ -27,9 +28,9 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
     private Context context;
     private List<OrderDetailModel.DetailDataFurnitures> items;
 
-    public OrderDetailAdapter(Context context, List<OrderDetailModel.DetailDataFurnitures> items) {
+    public OrderDetailAdapter(Context context) {
         this.context = context;
-        this.items = items;
+        this.items = new ArrayList<>();
     }
 
     @NonNull
@@ -64,6 +65,14 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
             DecimalFormat df = new DecimalFormat("#,###,###");
             df.setMaximumFractionDigits(6);
 
+            Glide.with(context).load(model.getFurniture().getImage_url_preview()).centerCrop().into(binding.image);
+            if (!TextUtils.isEmpty(model.getCategory().getName())) {
+                binding.categoryName.setText(model.getCategory().getName());
+            }
+            binding.orderCount.setText("x" + model.getInfo().getAmount());
+            binding.price.setText(df.format(model.getInfo().getSelling_cost()) + "sum");
+            double totalPrice = model.getInfo().getSelling_cost() * model.getInfo().getAmount();
+            binding.totalPrice.setText(df.format(totalPrice) + "sum");
 
         }
     }

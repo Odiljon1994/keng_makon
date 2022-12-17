@@ -110,7 +110,7 @@ public class OrderDetailModel {
         @SerializedName("total_cost")
         private double total_cost;
         @SerializedName("items")
-        private DetailPaymentItems items;
+        private List<DetailPaymentItems> items;
 
         public double getTotal_payment() {
             return total_payment;
@@ -128,15 +128,15 @@ public class OrderDetailModel {
             this.total_cost = total_cost;
         }
 
-        public DetailPaymentItems getItems() {
+        public List<DetailPaymentItems> getItems() {
             return items;
         }
 
-        public void setItems(DetailPaymentItems items) {
+        public void setItems(List<DetailPaymentItems> items) {
             this.items = items;
         }
 
-        public DetailDataPayment(double total_payment, double total_cost, DetailPaymentItems items) {
+        public DetailDataPayment(double total_payment, double total_cost, List<DetailPaymentItems> items) {
             this.total_payment = total_payment;
             this.total_cost = total_cost;
             this.items = items;
