@@ -1,6 +1,7 @@
 package com.toplevel.kengmakon.api;
 
 import com.toplevel.kengmakon.models.BaseResponse;
+import com.toplevel.kengmakon.models.BranchesModel;
 import com.toplevel.kengmakon.models.CashbackModel;
 import com.toplevel.kengmakon.models.CategoriesModel;
 import com.toplevel.kengmakon.models.CategoryDetailModel;
@@ -77,4 +78,7 @@ public interface Api {
 
     @GET("/api/order/detail")
     Single<OrderDetailModel> getOrderDetail(@Header("Authorization") String token, @Query("order_id") int order_id);
+
+    @GET("/api/info/branches")
+    Single<BranchesModel> getBranches(@Query("lang") String lang);
 }

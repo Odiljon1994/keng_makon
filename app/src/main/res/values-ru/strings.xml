@@ -65,4 +65,7 @@
     <string name="your_order_list_empty">Ваш список заказов пуст</string>
     <string name="your_wishlist_is_empty">Ваш список желаний пуст</string>
     <string name="order_details">Подробная информация</string>
+    <string name="free_parking">Бесплатная парковка</string>
+    <string name="show_on_map">Показать на карте</string>
+    <string name="copy_address">Скопировать адрес</string>
 </resources>

@@ -109,7 +109,8 @@ public class OrderDetailActivity extends AppCompatActivity {
                 binding.isPaymentCompleted.setTextColor(Color.parseColor("#19AC4B"));
             }
 
-            double cashback = model.getData().getPayment().getTotal_cost() / 100;
+            //double cashback = model.getData().getPayment().getTotal_cost() / 100;
+            double cashback = model.getData().getPayment().getCashback();
 
             binding.cashback.setText(df.format(cashback) + "sum");
 

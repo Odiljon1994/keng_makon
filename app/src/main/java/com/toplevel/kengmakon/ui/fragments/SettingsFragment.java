@@ -25,6 +25,7 @@ import com.toplevel.kengmakon.databinding.FragmentSettingsBinding;
 import com.toplevel.kengmakon.di.ViewModelFactory;
 import com.toplevel.kengmakon.models.UserInfoModel;
 import com.toplevel.kengmakon.ui.AboutActivity;
+import com.toplevel.kengmakon.ui.BranchesActivity;
 import com.toplevel.kengmakon.ui.ChooseLanguageActivity;
 import com.toplevel.kengmakon.ui.FeedbackActivity;
 import com.toplevel.kengmakon.ui.LoginActivity;
@@ -61,6 +62,7 @@ public class SettingsFragment extends Fragment {
 
         if (!preferencesUtil.getIsIsSignedIn()) {
             binding.logout.setVisibility(View.INVISIBLE);
+            binding.editAccount.setVisibility(View.GONE);
         }
 
 
@@ -156,8 +158,18 @@ public class SettingsFragment extends Fragment {
             showLogOutDialog();
         });
 
+        binding.branches.setOnClickListener(view1 -> startActivity(new Intent(getActivity(), BranchesActivity.class)));
+
         binding.about.setOnClickListener(view1 -> startActivity(new Intent(getActivity(), AboutActivity.class)));
-        binding.myOrders.setOnClickListener(view1 -> startActivity(new Intent(getActivity(), OrdersActivity.class)));
+        binding.myOrders.setOnClickListener(view1 -> {
+            if (preferencesUtil.getIsIsSignedIn()) {
+                Utils.setAppLocale(getContext(), preferencesUtil.getLANGUAGE());
+                startActivity(new Intent(getActivity(), OrdersActivity.class));
+            } else {
+                showDialog();
+            }
+
+        });
 
         binding.languageTxt.setText(preferencesUtil.getLANGUAGE());
         if (preferencesUtil.getIsIsSignedIn() && preferencesUtil.getName().equals("")) {

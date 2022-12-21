@@ -25,6 +25,7 @@ import com.toplevel.kengmakon.ui.viewmodels.UserVM;
 import com.toplevel.kengmakon.utils.PreferencesUtil;
 
 import java.text.DecimalFormat;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -52,7 +53,7 @@ public class CashbackFragment extends Fragment {
         userVM.getCashback(preferencesUtil.getUserId());
 
         if (!TextUtils.isEmpty(preferencesUtil.getName())) {
-            binding.userName.setText(preferencesUtil.getName());
+            binding.userName.setText(preferencesUtil.getName().toUpperCase(Locale.ROOT));
         }
 
         binding.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {

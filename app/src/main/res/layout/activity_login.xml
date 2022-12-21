@@ -89,6 +89,7 @@
                             android:drawablePadding="10dp"
                             android:hint="@string/password"
                             android:textColor="@color/black"
+                            android:maxLines="1"
                             android:inputType="textPassword"
                             android:textSize="15dp">
 

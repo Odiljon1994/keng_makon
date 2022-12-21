@@ -2,6 +2,7 @@ package com.toplevel.kengmakon.di;
 
 import com.toplevel.kengmakon.MyApp;
 import com.toplevel.kengmakon.ui.BaseActivity;
+import com.toplevel.kengmakon.ui.BranchesActivity;
 import com.toplevel.kengmakon.ui.CategoryDetailActivity;
 import com.toplevel.kengmakon.ui.ChooseLanguageActivity;
 import com.toplevel.kengmakon.ui.CreateAccountActivity;
@@ -48,6 +49,7 @@ public interface ApplicationComponent {
     void inject(CashbackFragment fragment);
     void inject(OrdersActivity activity);
     void inject(OrderDetailActivity activity);
+    void inject(BranchesActivity activity);
 
     @Component.Builder
     interface Builder {

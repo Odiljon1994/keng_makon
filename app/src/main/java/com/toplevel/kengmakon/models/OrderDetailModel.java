@@ -111,6 +111,8 @@ public class OrderDetailModel {
         private double total_cost;
         @SerializedName("items")
         private List<DetailPaymentItems> items;
+        @SerializedName("cashback")
+        private double cashback;
 
         public double getTotal_payment() {
             return total_payment;
@@ -136,10 +138,19 @@ public class OrderDetailModel {
             this.items = items;
         }
 
-        public DetailDataPayment(double total_payment, double total_cost, List<DetailPaymentItems> items) {
+        public double getCashback() {
+            return cashback;
+        }
+
+        public void setCashback(double cashback) {
+            this.cashback = cashback;
+        }
+
+        public DetailDataPayment(double total_payment, double total_cost, List<DetailPaymentItems> items, double cashback) {
             this.total_payment = total_payment;
             this.total_cost = total_cost;
             this.items = items;
+            this.cashback = cashback;
         }
     }
     public class DetailPaymentItems {

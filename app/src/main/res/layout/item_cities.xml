@@ -10,7 +10,9 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
+        android:layout_marginStart="15dp"
         android:paddingTop="8dp"
+        android:visibility="gone"
         android:paddingBottom="8dp"
         android:background="@drawable/txt_view_bgr">
 
@@ -18,7 +20,7 @@
             android:id="@+id/cityName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Toshkent"
+            android:text=""
             android:layout_marginStart="15dp"
             android:textColor="@color/white"
             android:textSize="16dp"

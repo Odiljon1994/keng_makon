@@ -10,6 +10,8 @@
         <entry key="app/src/main/res/drawable/bottom_navigation_wishlist_selector.xml" value="0.1825" />
         <entry key="app/src/main/res/drawable/transparent_background.xml" value="0.1825" />
         <entry key="app/src/main/res/layout/activity_about.xml" value="0.24003623188405798" />
+        <entry key="app/src/main/res/layout/activity_branch_detail.xml" value="0.18101092896174864" />
+        <entry key="app/src/main/res/layout/activity_branch_location.xml" value="0.18101092896174864" />
         <entry key="app/src/main/res/layout/activity_branches.xml" value="0.18101092896174864" />
         <entry key="app/src/main/res/layout/activity_category_detail.xml" value="0.2" />
         <entry key="app/src/main/res/layout/activity_choose_language.xml" value="0.33" />
@@ -40,6 +42,8 @@
         <entry key="app/src/main/res/layout/item_set.xml" value="0.2776268115942029" />
         <entry key="app/src/main/res/layout/item_set_detail.xml" value="0.33" />
         <entry key="app/src/main/res/layout/item_wishlist.xml" value="0.24003623188405798" />
+        <entry key="app/src/main/res/layout/viewpager_branch_detail.xml" value="0.18101092896174864" />
+        <entry key="app/src/main/res/layout/viewpager_branches_image.xml" value="0.18101092896174864" />
         <entry key="app/src/main/res/layout/viewpager_get_started.xml" value="0.2776268115942029" />
         <entry key="app/src/main/res/menu/bottom_navigation_menu.xml" value="0.20520833333333333" />
       </map>

@@ -1,0 +1,108 @@
+package com.toplevel.kengmakon.ui;
+
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.os.Bundle;
+import android.os.Parcelable;
+import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.CompositePageTransformer;
+import androidx.viewpager2.widget.MarginPageTransformer;
+import androidx.viewpager2.widget.ViewPager2;
+
+import com.toplevel.kengmakon.MyApp;
+import com.toplevel.kengmakon.R;
+import com.toplevel.kengmakon.databinding.ActivityBranchesBinding;
+import com.toplevel.kengmakon.di.ViewModelFactory;
+import com.toplevel.kengmakon.models.BranchesModel;
+import com.toplevel.kengmakon.ui.adapters.BranchesCitiesAdapter;
+import com.toplevel.kengmakon.ui.adapters.BranchesImageAdapter;
+import com.toplevel.kengmakon.ui.viewmodels.AuthVM;
+import com.toplevel.kengmakon.ui.viewmodels.InfoVM;
+import com.toplevel.kengmakon.utils.PreferencesUtil;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
+
+public class BranchesActivity extends AppCompatActivity {
+
+    private ActivityBranchesBinding binding;
+    @Inject
+    PreferencesUtil preferencesUtil;
+    @Inject
+    ViewModelFactory viewModelFactory;
+    private ProgressDialog progressDialog;
+    InfoVM infoVM;
+
+    private BranchesCitiesAdapter adapter;
+    private BranchesImageAdapter imageAdapter;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        ((MyApp) getApplication()).getAppComponent().inject(this);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_branches);
+        infoVM = ViewModelProviders.of(this, viewModelFactory).get(InfoVM.class);
+        infoVM.branchesModelLiveData().observe(this, this::onSuccessGetBranches);
+        infoVM.onFailGetBranchesLiveData().observe(this, this::onFailGetBranches);
+
+        binding.backBtn.setOnClickListener(view -> finish());
+
+        imageAdapter = new BranchesImageAdapter(this, binding.viewPager, item -> {
+            Intent intent = new Intent(BranchesActivity.this, BranchDetailActivity.class);
+            intent.putStringArrayListExtra("images", (ArrayList<String>) item.getStore().getImages());
+            intent.putExtra("address", item.getStore().getAddress());
+            intent.putExtra("working_hours", item.getStore().getOpen_hours());
+            intent.putExtra("phone_number", item.getStore().getPhone());
+            intent.putExtra("is_parking_exist", item.getStore().getHas_parking());
+            intent.putExtra("langtitude_longtitude", item.getStore().getLat_long());
+            startActivity(intent);
+        });
+        binding.viewPager.setAdapter(imageAdapter);
+        binding.viewPager.setOffscreenPageLimit(3);
+        binding.viewPager.setClipChildren(false);
+        binding.viewPager.setClipToPadding(false);
+        binding.viewPager.getChildAt(0).setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
+
+        binding.recyclerViewCities.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        adapter = new BranchesCitiesAdapter(this, item -> {
+
+        });
+        binding.recyclerViewCities.setAdapter(adapter);
+
+        CompositePageTransformer transformer = new CompositePageTransformer();
+        transformer.addTransformer(new MarginPageTransformer(40));
+        transformer.addTransformer((page, position) -> {
+            float r = 1 - Math.abs(position);
+            page.setScaleY(0.85f + r * 0.14f);
+        });
+        binding.viewPager.setPageTransformer(transformer);
+
+        progressDialog = ProgressDialog.show(this, "", "Loading...", true);
+        infoVM.getBranches(preferencesUtil.getLANGUAGE());
+        binding.indicator.setViewPager(binding.viewPager);
+        imageAdapter.registerAdapterDataObserver(binding.indicator.getAdapterDataObserver());
+
+    }
+
+    public void onSuccessGetBranches(BranchesModel model) {
+        progressDialog.dismiss();
+        if (model.getCode() == 200) {
+            imageAdapter.setItems(model.getData());
+            adapter.setItems(model.getData());
+        }
+    }
+    public void onFailGetBranches(String error) {
+        progressDialog.dismiss();
+    }
+}

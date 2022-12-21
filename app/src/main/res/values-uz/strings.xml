@@ -65,4 +65,7 @@
     <string name="your_order_list_empty">Buyurtmalaringiz roʻyxati boʻsh</string>
     <string name="your_wishlist_is_empty">Hozirda ro’yhatingiz bo’sh</string>
     <string name="order_details">To’liq ma’lumot</string>
+    <string name="free_parking">Bepul avtoturargoh</string>
+    <string name="show_on_map">Xaritada koʻrsatish</string>
+    <string name="copy_address">Manzilni nusxalash</string>
 </resources>

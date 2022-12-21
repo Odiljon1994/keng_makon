@@ -5,7 +5,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.app.AlertDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -18,6 +21,7 @@ import com.toplevel.kengmakon.R;
 import com.toplevel.kengmakon.databinding.ActivityMainBinding;
 import com.toplevel.kengmakon.di.ViewModelFactory;
 import com.toplevel.kengmakon.models.BaseResponse;
+import com.toplevel.kengmakon.ui.dialogs.BaseDialog;
 import com.toplevel.kengmakon.ui.fragments.CashbackFragment;
 import com.toplevel.kengmakon.ui.fragments.HomeFragment;
 import com.toplevel.kengmakon.ui.fragments.SettingsFragment;
@@ -40,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     private CashbackFragment cashbackFragment;
     private String appUniqueToken = "";
     private AuthVM authVM;
+    private int state = 1;
     @Inject
     ViewModelFactory viewModelFactory;
     private LanguageChangeListener languageChangeListener;
@@ -73,18 +78,27 @@ public class MainActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.home:
                     changeState(1);
+                    state = 1;
                     break;
                 case R.id.wishlist:
                     changeState(2);
+                    state = 2;
                     break;
                 case R.id.cashback:
-                    changeState(3);
+                    if (preferencesUtil.getIsIsSignedIn()) {
+                        changeState(3);
+                        state = 3;
+                    } else {
+                        showDialog();
+                    }
+
                     break;
                 case R.id.chat:
 
                     break;
                 case R.id.profile:
                     changeState(4);
+                    state = 4;
                     break;
             }
             return true;
@@ -125,8 +139,7 @@ public class MainActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction().hide(wishlistFragment).commit();
             getSupportFragmentManager().beginTransaction().show(cashbackFragment).commit();
             getSupportFragmentManager().beginTransaction().hide(settingsFragment).commit();
-        }
-        else if (position == 4) {
+        } else if (position == 4) {
             getSupportFragmentManager().beginTransaction().hide(homeFragment).commit();
             getSupportFragmentManager().beginTransaction().hide(wishlistFragment).commit();
             getSupportFragmentManager().beginTransaction().hide(cashbackFragment).commit();
@@ -143,6 +156,41 @@ public class MainActivity extends AppCompatActivity {
 
     public void onFailPushToken(String error) {
 
+    }
+
+    public void showDialog() {
+        BaseDialog baseDialog = new BaseDialog(this);
+        baseDialog.setTitle("Siz ro'yxatdan o'tmadingiz", "Ro'yxatdan o'tishni hohlaysizmi?");
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
+        alertBuilder.setView(baseDialog);
+        AlertDialog dialog = alertBuilder.create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
+        BaseDialog.ClickListener clickListener = new BaseDialog.ClickListener() {
+            @Override
+            public void onClickOk() {
+                BaseDialog.ClickListener.super.onClickOk();
+                dialog.dismiss();
+                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+
+            }
+
+            @Override
+            public void onClickNo() {
+                BaseDialog.ClickListener.super.onClickNo();
+                dialog.dismiss();
+                if (state == 1) {
+                    binding.bottomNavigationView.setSelectedItemId(R.id.home);
+                } else if (state == 2) {
+                    binding.bottomNavigationView.setSelectedItemId(R.id.wishlist);
+                } else if (state == 3) {
+                    binding.bottomNavigationView.setSelectedItemId(R.id.chat);
+                } else if (state == 4) {
+                    binding.bottomNavigationView.setSelectedItemId(R.id.profile);
+                }
+            }
+        };
+        baseDialog.setClickListener(clickListener);
     }
 
     public void getAppUniqueToken() {
