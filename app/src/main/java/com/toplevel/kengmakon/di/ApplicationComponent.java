@@ -14,6 +14,7 @@ import com.toplevel.kengmakon.ui.OrderDetailActivity;
 import com.toplevel.kengmakon.ui.OrdersActivity;
 import com.toplevel.kengmakon.ui.SetDetailActivity;
 import com.toplevel.kengmakon.ui.SplashActivity;
+import com.toplevel.kengmakon.ui.fragments.ActionsFragment;
 import com.toplevel.kengmakon.ui.fragments.CashbackFragment;
 import com.toplevel.kengmakon.ui.fragments.HomeFragment;
 import com.toplevel.kengmakon.ui.fragments.SettingsFragment;
@@ -47,6 +48,7 @@ public interface ApplicationComponent {
     void inject(SettingsFragment fragment);
     void inject(FeedbackActivity activity);
     void inject(CashbackFragment fragment);
+    void inject(ActionsFragment fragment);
     void inject(OrdersActivity activity);
     void inject(OrderDetailActivity activity);
     void inject(BranchesActivity activity);

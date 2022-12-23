@@ -59,6 +59,7 @@ public class CashbackAdapter extends RecyclerView.Adapter<CashbackAdapter.ViewHo
             df.setMaximumFractionDigits(6);
             binding.sum.setText(df.format(model.getAmount()) + "sum+");
             binding.date.setText(datePairs[0]);
+            binding.furnitureName.setText(String.valueOf(model.getOrder_id()));
         }
     }
 

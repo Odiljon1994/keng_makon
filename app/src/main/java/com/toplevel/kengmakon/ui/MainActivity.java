@@ -22,6 +22,7 @@ import com.toplevel.kengmakon.databinding.ActivityMainBinding;
 import com.toplevel.kengmakon.di.ViewModelFactory;
 import com.toplevel.kengmakon.models.BaseResponse;
 import com.toplevel.kengmakon.ui.dialogs.BaseDialog;
+import com.toplevel.kengmakon.ui.fragments.ActionsFragment;
 import com.toplevel.kengmakon.ui.fragments.CashbackFragment;
 import com.toplevel.kengmakon.ui.fragments.HomeFragment;
 import com.toplevel.kengmakon.ui.fragments.SettingsFragment;
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private WishlistFragment wishlistFragment;
     private SettingsFragment settingsFragment;
     private CashbackFragment cashbackFragment;
+    private ActionsFragment actionsFragment;
     private String appUniqueToken = "";
     private AuthVM authVM;
     private int state = 1;
@@ -61,12 +63,18 @@ public class MainActivity extends AppCompatActivity {
         Utils.setAppLocale(this, preferencesUtil.getLANGUAGE());
         homeFragment = new HomeFragment();
         wishlistFragment = new WishlistFragment();
-        settingsFragment = new SettingsFragment();
         cashbackFragment = new CashbackFragment();
+        settingsFragment = new SettingsFragment();
+        actionsFragment = new ActionsFragment();
+
+        subscribeTopics();
+
         getSupportFragmentManager().beginTransaction().add(R.id.frameContainer, homeFragment).commit();
         getSupportFragmentManager().beginTransaction().add(R.id.frameContainer, wishlistFragment).commit();
-        getSupportFragmentManager().beginTransaction().add(R.id.frameContainer, settingsFragment).commit();
         getSupportFragmentManager().beginTransaction().add(R.id.frameContainer, cashbackFragment).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.frameContainer, settingsFragment).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.frameContainer, actionsFragment).commit();
+
 
         binding.bottomNavigationView.setItemIconTintList(null);
         if (!preferencesUtil.getIsPushTokenDone()) {
@@ -94,27 +102,38 @@ public class MainActivity extends AppCompatActivity {
 
                     break;
                 case R.id.chat:
-
+                    changeState(4);
+                    state = 5;
                     break;
                 case R.id.profile:
-                    changeState(4);
-                    state = 4;
+                    changeState(5);
+                    state = 5;
                     break;
             }
             return true;
         });
 
-
         languageChangeListener = () -> {
             Utils.setAppLocale(MainActivity.this, preferencesUtil.getLANGUAGE());
+            getSupportFragmentManager().beginTransaction().remove(homeFragment).commit();
+            getSupportFragmentManager().beginTransaction().remove(wishlistFragment).commit();
+            getSupportFragmentManager().beginTransaction().remove(cashbackFragment).commit();
+            getSupportFragmentManager().beginTransaction().remove(settingsFragment).commit();
+            getSupportFragmentManager().beginTransaction().remove(actionsFragment).commit();
             homeFragment = new HomeFragment();
             wishlistFragment = new WishlistFragment();
+            cashbackFragment = new CashbackFragment();
             settingsFragment = new SettingsFragment();
+
             getSupportFragmentManager().beginTransaction().add(R.id.frameContainer, homeFragment).commit();
             getSupportFragmentManager().beginTransaction().add(R.id.frameContainer, wishlistFragment).commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.frameContainer, cashbackFragment).commit();
             getSupportFragmentManager().beginTransaction().add(R.id.frameContainer, settingsFragment).commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.frameContainer, actionsFragment).commit();
+
+
             settingsFragment.setLanguageChangeListener(languageChangeListener);
-            changeState(4);
+            changeState(5);
         };
         settingsFragment.setLanguageChangeListener(languageChangeListener);
 //        binding.cashbackBtn.setOnClickListener(view -> {
@@ -127,22 +146,32 @@ public class MainActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction().hide(wishlistFragment).commit();
             getSupportFragmentManager().beginTransaction().hide(settingsFragment).commit();
             getSupportFragmentManager().beginTransaction().hide(cashbackFragment).commit();
+            getSupportFragmentManager().beginTransaction().hide(actionsFragment).commit();
             getSupportFragmentManager().beginTransaction().show(homeFragment).commit();
 
         } else if (position == 2) {
             getSupportFragmentManager().beginTransaction().hide(homeFragment).commit();
             getSupportFragmentManager().beginTransaction().hide(settingsFragment).commit();
             getSupportFragmentManager().beginTransaction().hide(cashbackFragment).commit();
+            getSupportFragmentManager().beginTransaction().hide(actionsFragment).commit();
             getSupportFragmentManager().beginTransaction().show(wishlistFragment).commit();
         } else if (position == 3) {
             getSupportFragmentManager().beginTransaction().hide(homeFragment).commit();
             getSupportFragmentManager().beginTransaction().hide(wishlistFragment).commit();
             getSupportFragmentManager().beginTransaction().show(cashbackFragment).commit();
+            getSupportFragmentManager().beginTransaction().hide(actionsFragment).commit();
             getSupportFragmentManager().beginTransaction().hide(settingsFragment).commit();
         } else if (position == 4) {
             getSupportFragmentManager().beginTransaction().hide(homeFragment).commit();
             getSupportFragmentManager().beginTransaction().hide(wishlistFragment).commit();
             getSupportFragmentManager().beginTransaction().hide(cashbackFragment).commit();
+            getSupportFragmentManager().beginTransaction().show(actionsFragment).commit();
+            getSupportFragmentManager().beginTransaction().hide(settingsFragment).commit();
+        } else if (position == 5) {
+            getSupportFragmentManager().beginTransaction().hide(homeFragment).commit();
+            getSupportFragmentManager().beginTransaction().hide(wishlistFragment).commit();
+            getSupportFragmentManager().beginTransaction().hide(cashbackFragment).commit();
+            getSupportFragmentManager().beginTransaction().hide(actionsFragment).commit();
             getSupportFragmentManager().beginTransaction().show(settingsFragment).commit();
         }
     }
@@ -216,5 +245,21 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                 });
+    }
+
+    private void subscribeTopics() {
+        // [START subscribe_topics]
+        FirebaseMessaging.getInstance().subscribeToTopic("news")
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        String msg = "Subscribed";
+                        if (!task.isSuccessful()) {
+                            msg = "Subscribe failed";
+                        }
+                        Log.d("TAG", msg);
+                    }
+                });
+        // [END subscribe_topics]
     }
 }

@@ -1,5 +1,6 @@
 package com.toplevel.kengmakon.api;
 
+import com.toplevel.kengmakon.models.ActionsModel;
 import com.toplevel.kengmakon.models.BaseResponse;
 import com.toplevel.kengmakon.models.BranchesModel;
 import com.toplevel.kengmakon.models.CashbackModel;
@@ -81,4 +82,9 @@ public interface Api {
 
     @GET("/api/info/branches")
     Single<BranchesModel> getBranches(@Query("lang") String lang);
+
+    @GET("/api/action/list")
+    Single<ActionsModel> getActions(@Query("page") int page,
+                                    @Query("size") int size,
+                                    @Query("lang") String lang);
 }

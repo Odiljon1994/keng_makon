@@ -36,14 +36,15 @@ public class BranchLocationActivity extends FragmentActivity implements OnMapRea
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.geo_gray_icon);
+        BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.map_marker);
 
         String latLng = getIntent().getStringExtra("langtitude_longtitude");
         String[] locationPairs = latLng.split(",");
 
 
         LatLng storeLocation = new LatLng(Double.parseDouble(locationPairs[0]), Double.parseDouble(locationPairs[1]));
-        mMap.addMarker(new MarkerOptions().position(storeLocation)).setTitle("Keng Makon");
+        mMap.addMarker(new MarkerOptions().position(storeLocation).title("Keng Makon")).setIcon(icon);
+
         mMap.moveCamera(CameraUpdateFactory.newLatLng(storeLocation));
 
         mMap.setMinZoomPreference(17);

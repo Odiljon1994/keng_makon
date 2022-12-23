@@ -220,7 +220,7 @@ public class SettingsFragment extends Fragment {
         BaseDialog baseDialog = new BaseDialog(getActivity());
         baseDialog.setTitle("Chindan ham dasturdan chiqmoqchimisiz?", "");
         baseDialog.changeBtnText("Yo'q", "Ha");
-        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getContext());
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getActivity());
         alertBuilder.setView(baseDialog);
         AlertDialog dialog = alertBuilder.create();
         dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
@@ -236,6 +236,7 @@ public class SettingsFragment extends Fragment {
                 preferencesUtil.saveEmail("");
                 preferencesUtil.savePhoneNumber("");
                 preferencesUtil.saveTOKEN("");
+                preferencesUtil.saveIsPushTokenDone(false);
                 Intent intent = new Intent(getActivity(), LoginActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
