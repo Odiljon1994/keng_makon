@@ -68,4 +68,7 @@
     <string name="free_parking">Bepul avtoturargoh</string>
     <string name="show_on_map">Xaritada koʻrsatish</string>
     <string name="copy_address">Manzilni nusxalash</string>
+    <string name="actions">Harakatlar</string>
+    <string name="events">Eventlar</string>
+    <string name="news">Yangiliklar</string>
 </resources>

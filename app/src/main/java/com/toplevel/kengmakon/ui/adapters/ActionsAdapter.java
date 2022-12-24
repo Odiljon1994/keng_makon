@@ -63,7 +63,9 @@ public class ActionsAdapter extends RecyclerView.Adapter<ActionsAdapter.ViewHold
         }
 
         void bind(ActionsModel.ActionsItems model) {
-
+            if (!TextUtils.isEmpty(model.getFile_name())) {
+                Glide.with(context).load(model.getFile_name()).centerCrop().into(binding.image);
+            }
             if (!TextUtils.isEmpty(model.getTitle())) {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                     binding.title.setText(Html.fromHtml(model.getTitle(), Html.FROM_HTML_MODE_COMPACT));

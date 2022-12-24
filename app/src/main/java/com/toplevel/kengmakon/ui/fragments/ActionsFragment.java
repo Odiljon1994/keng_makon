@@ -1,6 +1,8 @@
 package com.toplevel.kengmakon.ui.fragments;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,7 +43,11 @@ public class ActionsFragment extends Fragment {
     private ActionsAdapter adapter;
     int page = 1;
     int size = 100;
-    private List<ActionsModel.ActionsItems> items;
+
+    private List<ActionsModel.ActionsItems> newsItems;
+    private List<ActionsModel.ActionsItems> eventItems;
+
+    private boolean isNewsSelected = true;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -51,7 +57,40 @@ public class ActionsFragment extends Fragment {
         actionsVM = ViewModelProviders.of(this, viewModelFactory).get(ActionsVM.class);
         actionsVM.actionsModelLiveData().observe(getActivity(), this::onSuccessGetActions);
         actionsVM.onFailGetActions().observe(getActivity(), this::onFailGetActions);
-        items = new ArrayList<>();
+
+
+
+        binding.eventsLayout.setOnClickListener(view1 -> {
+            binding.newTxtView.setTypeface(Typeface.DEFAULT);
+            binding.eventsTxtView.setTypeface(Typeface.DEFAULT_BOLD);
+            binding.eventsBottomView.setBackgroundColor(Color.parseColor("#385B96"));
+            binding.newsBottomView.setBackgroundColor(Color.parseColor("#ffffff"));
+
+            if (eventItems.size() == 0) {
+                binding.mainLayout.setVisibility(View.INVISIBLE);
+                binding.emptyLayout.setVisibility(View.VISIBLE);
+            } else {
+                binding.mainLayout.setVisibility(View.VISIBLE);
+                binding.emptyLayout.setVisibility(View.INVISIBLE);
+                adapter.setItems(eventItems);
+            }
+        });
+
+        binding.newsLayout.setOnClickListener(view1 -> {
+            binding.newTxtView.setTypeface(Typeface.DEFAULT_BOLD);
+            binding.eventsTxtView.setTypeface(Typeface.DEFAULT);
+            binding.eventsBottomView.setBackgroundColor(Color.parseColor("#ffffff"));
+            binding.newsBottomView.setBackgroundColor(Color.parseColor("#385B96"));
+
+            if (newsItems.size() == 0) {
+                binding.mainLayout.setVisibility(View.INVISIBLE);
+                binding.emptyLayout.setVisibility(View.VISIBLE);
+            } else {
+                binding.mainLayout.setVisibility(View.VISIBLE);
+                binding.emptyLayout.setVisibility(View.INVISIBLE);
+                adapter.setItems(newsItems);
+            }
+        });
 
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         adapter = new ActionsAdapter(getContext(), item -> {
@@ -76,15 +115,30 @@ public class ActionsFragment extends Fragment {
     }
 
     public void onSuccessGetActions(ActionsModel model) {
+        newsItems = new ArrayList<>();
+        eventItems = new ArrayList<>();
         binding.swipeRefreshLayout.setRefreshing(false);
         if (model.getCode() == 200 && model.getData().getItems().size() > 0) {
-            //items.addAll(model.getData().getItems());
-            //adapter.setItems(items);
+            binding.emptyLayout.setVisibility(View.INVISIBLE);
+            binding.mainLayout.setVisibility(View.VISIBLE);
+            for (int i = 0; i < model.getData().getItems().size(); i++) {
+                if (model.getData().getItems().get(i).getCategory().equals("NEWS")) {
+                    newsItems.add(model.getData().getItems().get(i));
+                } else {
+                    eventItems.add(model.getData().getItems().get(i));
+                }
+            }
+            //adapter.setItems(newsItems);
             adapter.setItems(model.getData().getItems());
+        } else {
+            binding.emptyLayout.setVisibility(View.VISIBLE);
+            binding.mainLayout.setVisibility(View.INVISIBLE);
         }
     }
     public void onFailGetActions(String error) {
         binding.swipeRefreshLayout.setRefreshing(false);
         System.out.println(error);
+        binding.emptyLayout.setVisibility(View.VISIBLE);
+        binding.mainLayout.setVisibility(View.INVISIBLE);
     }
 }

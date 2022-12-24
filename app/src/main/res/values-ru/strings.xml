@@ -68,4 +68,7 @@
     <string name="free_parking">Бесплатная парковка</string>
     <string name="show_on_map">Показать на карте</string>
     <string name="copy_address">Скопировать адрес</string>
+    <string name="actions">Действия</string>
+    <string name="events">События</string>
+    <string name="news">Новости</string>
 </resources>

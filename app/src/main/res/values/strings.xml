@@ -67,4 +67,7 @@
     <string name="free_parking">Free parking</string>
     <string name="show_on_map">Show on map</string>
     <string name="copy_address">Copy address</string>
+    <string name="actions">Actions</string>
+    <string name="events">Events</string>
+    <string name="news">News</string>
 </resources>
