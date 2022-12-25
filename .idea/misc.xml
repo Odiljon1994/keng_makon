@@ -45,6 +45,7 @@
         <entry key="app/src/main/res/layout/item_set.xml" value="0.2776268115942029" />
         <entry key="app/src/main/res/layout/item_set_detail.xml" value="0.33" />
         <entry key="app/src/main/res/layout/item_wishlist.xml" value="0.24003623188405798" />
+        <entry key="app/src/main/res/layout/item_wishlist_categories.xml" value="0.19296448087431695" />
         <entry key="app/src/main/res/layout/viewpager_branch_detail.xml" value="0.18101092896174864" />
         <entry key="app/src/main/res/layout/viewpager_branches_image.xml" value="0.18101092896174864" />
         <entry key="app/src/main/res/layout/viewpager_get_started.xml" value="0.2776268115942029" />

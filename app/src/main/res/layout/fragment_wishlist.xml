@@ -54,6 +54,15 @@
             android:layout_height="0.7dp"
             android:layout_marginTop="10dp" />
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/categoriesRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            tools:listitem="@layout/item_wishlist_categories">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">

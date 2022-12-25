@@ -58,8 +58,6 @@ public class ActionsFragment extends Fragment {
         actionsVM.actionsModelLiveData().observe(getActivity(), this::onSuccessGetActions);
         actionsVM.onFailGetActions().observe(getActivity(), this::onFailGetActions);
 
-
-
         binding.eventsLayout.setOnClickListener(view1 -> {
             binding.newTxtView.setTypeface(Typeface.DEFAULT);
             binding.eventsTxtView.setTypeface(Typeface.DEFAULT_BOLD);

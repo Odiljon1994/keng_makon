@@ -2,52 +2,48 @@ package com.toplevel.kengmakon.ui.adapters;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.toplevel.kengmakon.R;
-import com.toplevel.kengmakon.databinding.ItemCitiesBinding;
-import com.toplevel.kengmakon.models.BranchesModel;
+import com.toplevel.kengmakon.databinding.ItemSetBinding;
+import com.toplevel.kengmakon.databinding.ItemWishlistBinding;
+import com.toplevel.kengmakon.databinding.ItemWishlistCategoriesBinding;
+import com.toplevel.kengmakon.models.CashbackModel;
+import com.toplevel.kengmakon.models.FurnitureModel;
+import com.toplevel.kengmakon.models.SetModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class BranchesCitiesAdapter extends RecyclerView.Adapter<BranchesCitiesAdapter.ViewHolder> {
-
+public class WishlistCategoriesAdapter extends RecyclerView.Adapter<WishlistCategoriesAdapter.ViewHolder>{
     private Context context;
-    private List<String> items;
     private ClickListener clickListener;
+    private List<String> items;
     private int positions = 0;
 
-    public BranchesCitiesAdapter(Context context, ClickListener clickListener) {
+    public WishlistCategoriesAdapter(Context context, ClickListener clickListener) {
         this.context = context;
-        this.items = new ArrayList<>();
         this.clickListener = clickListener;
+        this.items = new ArrayList<>();
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        ItemCitiesBinding binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.item_cities, parent, false);
-        return new BranchesCitiesAdapter.ViewHolder(binding);
+        ItemWishlistCategoriesBinding binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.item_wishlist_categories, parent, false);
+        return new WishlistCategoriesAdapter.ViewHolder(binding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-
-        String data = items.get(position);
-        if (this.positions == position) {
-            holder.bind(data, position, true);
-        } else {
-            holder.bind(data, position, false);
-        }
-
-
+        holder.bind(items.get(position), position);
     }
 
     @Override
@@ -57,37 +53,39 @@ public class BranchesCitiesAdapter extends RecyclerView.Adapter<BranchesCitiesAd
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        ItemCitiesBinding binding;
+        ItemWishlistCategoriesBinding binding;
 
-        public ViewHolder(@NonNull ItemCitiesBinding itemView) {
+        public ViewHolder(@NonNull ItemWishlistCategoriesBinding itemView) {
             super(itemView.getRoot());
             this.binding = itemView;
         }
 
-        void bind(String model, int position, boolean isSelectedItem) {
+        void bind(String model, int position) {
 
-
-            if (isSelectedItem) {
+            if (position == positions) {
                 binding.getRoot().setBackground(context.getDrawable(R.drawable.txt_view_bgr));
-                binding.image.setImageDrawable(context.getDrawable(R.drawable.geo_marker_white));
-                binding.cityName.setTextColor(Color.parseColor("#ffffff"));
+                binding.categoryName.setTextColor(Color.parseColor("#ffffff"));
             } else {
                 binding.getRoot().setBackground(context.getDrawable(R.drawable.txt_gray_bgr));
-                binding.image.setImageDrawable(context.getDrawable(R.drawable.geo_gray_icon));
-                binding.cityName.setTextColor(Color.parseColor("#323232"));
+                binding.categoryName.setTextColor(Color.parseColor("#323232"));
             }
-            binding.cityName.setText(model);
+
+            if (!TextUtils.isEmpty(model)) {
+                binding.categoryName.setText(model);
+            }
+
             binding.getRoot().setOnClickListener(v -> clickListener.onClick(model, position));
+
         }
     }
 
     public void setItems(List<String> items, int position) {
         this.items = items;
-        notifyDataSetChanged();
         this.positions = position;
+        notifyDataSetChanged();
     }
 
     public interface ClickListener {
-        void onClick(String data, int position);
+        void onClick(String model, int position);
     }
 }

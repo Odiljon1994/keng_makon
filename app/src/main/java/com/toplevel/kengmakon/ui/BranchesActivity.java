@@ -43,6 +43,8 @@ public class BranchesActivity extends AppCompatActivity {
     ViewModelFactory viewModelFactory;
     private ProgressDialog progressDialog;
     InfoVM infoVM;
+    private List<String> cities;
+    private List<BranchesModel.BranchesData> imageItems;
 
     private BranchesCitiesAdapter adapter;
     private BranchesImageAdapter imageAdapter;
@@ -56,6 +58,8 @@ public class BranchesActivity extends AppCompatActivity {
         infoVM.branchesModelLiveData().observe(this, this::onSuccessGetBranches);
         infoVM.onFailGetBranchesLiveData().observe(this, this::onFailGetBranches);
 
+        cities = new ArrayList<>();
+        imageItems = new ArrayList<>();
         binding.backBtn.setOnClickListener(view -> finish());
 
         imageAdapter = new BranchesImageAdapter(this, binding.viewPager, item -> {
@@ -75,7 +79,21 @@ public class BranchesActivity extends AppCompatActivity {
         binding.viewPager.getChildAt(0).setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
 
         binding.recyclerViewCities.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        adapter = new BranchesCitiesAdapter(this, item -> {
+        adapter = new BranchesCitiesAdapter(this, (item, position) -> {
+            if (position == 0) {
+                adapter.setItems(cities, position);
+                imageAdapter.setItems(imageItems);
+            } else {
+                adapter.setItems(cities, position);
+                List<BranchesModel.BranchesData> list = new ArrayList<>();
+                for (int i = 0; i< imageItems.size(); i++) {
+                    if (imageItems.get(i).getRegion().getName().equals(item)) {
+                        list.add(imageItems.get(i));
+                    }
+                }
+                imageAdapter.setItems(list);
+            }
+
 
         });
         binding.recyclerViewCities.setAdapter(adapter);
@@ -97,9 +115,46 @@ public class BranchesActivity extends AppCompatActivity {
 
     public void onSuccessGetBranches(BranchesModel model) {
         progressDialog.dismiss();
+        cities = new ArrayList<>();
+        imageItems = new ArrayList<>();
+
         if (model.getCode() == 200) {
+
+            String city = model.getData().get(0).getRegion().getName();
+            List<BranchesModel.BranchesData> firstItem = new ArrayList<>();
+            for (int i = 0; i< model.getData().size(); i++) {
+                if (city.equals(model.getData().get(i).getRegion().getName())) {
+                    firstItem.add(model.getData().get(i));
+                }
+            }
             imageAdapter.setItems(model.getData());
-            adapter.setItems(model.getData());
+           // imageAdapter.setItems(firstItem);
+            if (model.getData().size() > 0) {
+
+                imageItems = model.getData();
+                cities.add(getString(R.string.all));
+                cities.add(model.getData().get(0).getRegion().getName());
+
+                for (int i = 1; i < model.getData().size(); i++) {
+
+                    if (i > 0) {
+                        boolean isEqual = false;
+                        for (int j = 0; j < i; j++) {
+                            if (model.getData().get(j).getRegion().getName().equals(model.getData().get(i).getRegion().getName())) {
+                                isEqual = true;
+                            }
+                        }
+                        if (!isEqual) {
+                            cities.add(model.getData().get(i).getRegion().getName());
+                        }
+                    }
+
+                }
+            }
+
+
+
+            adapter.setItems(cities, 0);
         }
     }
     public void onFailGetBranches(String error) {
