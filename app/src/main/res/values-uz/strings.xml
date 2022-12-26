@@ -72,4 +72,5 @@
     <string name="events">Eventlar</string>
     <string name="news">Yangiliklar</string>
     <string name="all">Barchasi</string>
+    <string name="description">Tavsif</string>
 </resources>

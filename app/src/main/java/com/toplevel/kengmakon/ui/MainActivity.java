@@ -124,6 +124,7 @@ public class MainActivity extends AppCompatActivity {
             wishlistFragment = new WishlistFragment();
             cashbackFragment = new CashbackFragment();
             settingsFragment = new SettingsFragment();
+            actionsFragment = new ActionsFragment();
 
             getSupportFragmentManager().beginTransaction().add(R.id.frameContainer, homeFragment).commit();
             getSupportFragmentManager().beginTransaction().add(R.id.frameContainer, wishlistFragment).commit();

@@ -9,6 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
+import com.bumptech.glide.Glide;
 import com.toplevel.kengmakon.R;
 import com.toplevel.kengmakon.databinding.ActivityActionDetailBinding;
 
@@ -25,6 +26,11 @@ public class ActionsDetailActivity extends AppCompatActivity {
         String title = getIntent().getStringExtra("title");
         String description = getIntent().getStringExtra("description");
         String date = getIntent().getStringExtra("date");
+        String file_name = getIntent().getStringExtra("file_name");
+
+        if (!TextUtils.isEmpty(file_name)) {
+            Glide.with(this).load("http://144.202.7.226:8080" + file_name).centerCrop().into(binding.image);
+        }
 
         if (!TextUtils.isEmpty(title)) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {

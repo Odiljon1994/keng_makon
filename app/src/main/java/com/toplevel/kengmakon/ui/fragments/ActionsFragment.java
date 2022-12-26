@@ -65,11 +65,11 @@ public class ActionsFragment extends Fragment {
             binding.newsBottomView.setBackgroundColor(Color.parseColor("#ffffff"));
 
             if (eventItems.size() == 0) {
-                binding.mainLayout.setVisibility(View.INVISIBLE);
+                binding.recyclerView.setVisibility(View.GONE);
                 binding.emptyLayout.setVisibility(View.VISIBLE);
             } else {
-                binding.mainLayout.setVisibility(View.VISIBLE);
-                binding.emptyLayout.setVisibility(View.INVISIBLE);
+                binding.recyclerView.setVisibility(View.VISIBLE);
+                binding.emptyLayout.setVisibility(View.GONE);
                 adapter.setItems(eventItems);
             }
         });
@@ -81,11 +81,11 @@ public class ActionsFragment extends Fragment {
             binding.newsBottomView.setBackgroundColor(Color.parseColor("#385B96"));
 
             if (newsItems.size() == 0) {
-                binding.mainLayout.setVisibility(View.INVISIBLE);
+                binding.recyclerView.setVisibility(View.GONE);
                 binding.emptyLayout.setVisibility(View.VISIBLE);
             } else {
-                binding.mainLayout.setVisibility(View.VISIBLE);
-                binding.emptyLayout.setVisibility(View.INVISIBLE);
+                binding.recyclerView.setVisibility(View.VISIBLE);
+                binding.emptyLayout.setVisibility(View.GONE);
                 adapter.setItems(newsItems);
             }
         });
@@ -96,6 +96,7 @@ public class ActionsFragment extends Fragment {
             intent.putExtra("title", item.getTitle());
             intent.putExtra("date", item.getCreated_at());
             intent.putExtra("description", item.getDescription());
+            intent.putExtra("file_name", item.getFile_name());
             startActivity(intent);
         });
         binding.recyclerView.setAdapter(adapter);
@@ -117,8 +118,8 @@ public class ActionsFragment extends Fragment {
         eventItems = new ArrayList<>();
         binding.swipeRefreshLayout.setRefreshing(false);
         if (model.getCode() == 200 && model.getData().getItems().size() > 0) {
-            binding.emptyLayout.setVisibility(View.INVISIBLE);
-            binding.mainLayout.setVisibility(View.VISIBLE);
+            binding.emptyLayout.setVisibility(View.GONE);
+            binding.recyclerView.setVisibility(View.VISIBLE);
             for (int i = 0; i < model.getData().getItems().size(); i++) {
                 if (model.getData().getItems().get(i).getCategory().equals("NEWS")) {
                     newsItems.add(model.getData().getItems().get(i));
@@ -130,13 +131,13 @@ public class ActionsFragment extends Fragment {
             adapter.setItems(model.getData().getItems());
         } else {
             binding.emptyLayout.setVisibility(View.VISIBLE);
-            binding.mainLayout.setVisibility(View.INVISIBLE);
+            binding.recyclerView.setVisibility(View.GONE);
         }
     }
     public void onFailGetActions(String error) {
         binding.swipeRefreshLayout.setRefreshing(false);
         System.out.println(error);
         binding.emptyLayout.setVisibility(View.VISIBLE);
-        binding.mainLayout.setVisibility(View.INVISIBLE);
+        binding.recyclerView.setVisibility(View.GONE);
     }
 }
