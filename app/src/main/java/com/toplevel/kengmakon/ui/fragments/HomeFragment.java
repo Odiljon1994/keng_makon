@@ -31,6 +31,7 @@ import com.toplevel.kengmakon.models.FurnitureModel;
 import com.toplevel.kengmakon.models.LikeModel;
 import com.toplevel.kengmakon.models.SetModel;
 import com.toplevel.kengmakon.ui.CategoryDetailActivity;
+import com.toplevel.kengmakon.ui.FurnitureDetailActivity;
 import com.toplevel.kengmakon.ui.LoginActivity;
 import com.toplevel.kengmakon.ui.SetDetailActivity;
 import com.toplevel.kengmakon.ui.adapters.CategoriesAdapter;
@@ -107,6 +108,9 @@ public class HomeFragment extends Fragment {
         furnitureAdapter = new FurnitureAdapter(getContext(), preferencesUtil.getIsIsSignedIn(), new FurnitureAdapter.ClickListener() {
             @Override
             public void onClick(FurnitureModel.FurnitureDataItem model) {
+                Intent intent = new Intent(getActivity(), FurnitureDetailActivity.class);
+                intent.putExtra("id", model.getId());
+                startActivity(intent);
 
             }
 

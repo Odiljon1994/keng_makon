@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.toplevel.kengmakon.api.Api;
 import com.toplevel.kengmakon.models.CategoryDetailModel;
+import com.toplevel.kengmakon.models.FurnitureModel;
 import com.toplevel.kengmakon.models.LikeModel;
 import com.toplevel.kengmakon.models.SetDetailModel;
 import com.toplevel.kengmakon.models.SetModel;
@@ -26,6 +27,9 @@ public class FurnitureDetailsVM extends BaseVM {
 
     private MutableLiveData<LikeModel> likeModelMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<String> onFailSetLikeMutableLiveData = new MutableLiveData<>();
+
+    private MutableLiveData<FurnitureModel.FurnitureDataItem> furnitureDetailMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<String> onFailFurnitureDetailMutableLiveData = new MutableLiveData<>();
 
     private Api api;
     private Context context;
@@ -60,6 +64,14 @@ public class FurnitureDetailsVM extends BaseVM {
         return onFailSetLikeMutableLiveData;
     }
 
+    public LiveData<FurnitureModel.FurnitureDataItem> onSuccessFurnitureDetailLiveData() {
+        return furnitureDetailMutableLiveData;
+    }
+
+    public LiveData<String> onFailFurnitureDetailLiveData() {
+        return onFailFurnitureDetailMutableLiveData;
+    }
+
     public void getSet(String token, int id) {
 
         addToSubscribe(api.getSetDetailList("Bearer " + token, id)
@@ -69,6 +81,18 @@ public class FurnitureDetailsVM extends BaseVM {
                     setDetailModelMutableLiveData.postValue(response);
                 }, error -> {
                     onFailGetSetDetailMutableLiveData.postValue(error.getMessage());
+                }));
+    }
+
+    public void getFurnitureDetail(String token, int id) {
+
+        addToSubscribe(api.getFurnitureDetail("Bearer " + token, id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> {
+                    furnitureDetailMutableLiveData.postValue(response);
+                }, error -> {
+                    onFailFurnitureDetailMutableLiveData.postValue(error.getMessage());
                 }));
     }
 

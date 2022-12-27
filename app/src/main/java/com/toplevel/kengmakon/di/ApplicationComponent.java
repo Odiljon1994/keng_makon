@@ -7,6 +7,7 @@ import com.toplevel.kengmakon.ui.CategoryDetailActivity;
 import com.toplevel.kengmakon.ui.ChooseLanguageActivity;
 import com.toplevel.kengmakon.ui.CreateAccountActivity;
 import com.toplevel.kengmakon.ui.FeedbackActivity;
+import com.toplevel.kengmakon.ui.FurnitureDetailActivity;
 import com.toplevel.kengmakon.ui.GetStartedActivity;
 import com.toplevel.kengmakon.ui.LoginActivity;
 import com.toplevel.kengmakon.ui.MainActivity;
@@ -52,6 +53,7 @@ public interface ApplicationComponent {
     void inject(OrdersActivity activity);
     void inject(OrderDetailActivity activity);
     void inject(BranchesActivity activity);
+    void inject(FurnitureDetailActivity activity);
 
     @Component.Builder
     interface Builder {

@@ -85,6 +85,8 @@ public class FurnitureModel {
     public class FurnitureDataItem {
         @SerializedName("id")
         private int id;
+        @SerializedName("tip_id")
+        private int tip_id;
         @SerializedName("name")
         private String name;
         @SerializedName("size")
@@ -106,6 +108,14 @@ public class FurnitureModel {
 
         public void setId(int id) {
             this.id = id;
+        }
+
+        public int getTip_id() {
+            return tip_id;
+        }
+
+        public void setTip_id(int tip_id) {
+            this.tip_id = tip_id;
         }
 
         public String getName() {
@@ -164,8 +174,9 @@ public class FurnitureModel {
             this.is_liked = is_liked;
         }
 
-        public FurnitureDataItem(int id, String name, String size, String description, String image_url, String image_url_preview, FurnitureDataItemCategory category, boolean is_liked) {
+        public FurnitureDataItem(int id, int tip_id, String name, String size, String description, String image_url, String image_url_preview, FurnitureDataItemCategory category, boolean is_liked) {
             this.id = id;
+            this.tip_id = tip_id;
             this.name = name;
             this.size = size;
             this.description = description;

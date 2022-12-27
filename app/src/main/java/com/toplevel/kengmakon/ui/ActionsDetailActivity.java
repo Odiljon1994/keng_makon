@@ -27,6 +27,13 @@ public class ActionsDetailActivity extends AppCompatActivity {
         String description = getIntent().getStringExtra("description");
         String date = getIntent().getStringExtra("date");
         String file_name = getIntent().getStringExtra("file_name");
+        String category = getIntent().getStringExtra("type");
+
+        if (!TextUtils.isEmpty(category)) {
+            if (category.equals("EVENT")) {
+                binding.title.setText(getString(R.string.events));
+            }
+        }
 
         if (!TextUtils.isEmpty(file_name)) {
             Glide.with(this).load("http://144.202.7.226:8080" + file_name).centerCrop().into(binding.image);

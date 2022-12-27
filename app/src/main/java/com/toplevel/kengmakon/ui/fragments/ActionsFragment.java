@@ -56,9 +56,14 @@ public class ActionsFragment extends Fragment {
         View view = binding.getRoot();
         actionsVM = ViewModelProviders.of(this, viewModelFactory).get(ActionsVM.class);
         actionsVM.actionsModelLiveData().observe(getActivity(), this::onSuccessGetActions);
+        actionsVM.actionsEventModelLiveData().observe(getActivity(), this::onSuccessGetEventActions);
         actionsVM.onFailGetActions().observe(getActivity(), this::onFailGetActions);
 
+        newsItems = new ArrayList<>();
+        eventItems = new ArrayList<>();
         binding.eventsLayout.setOnClickListener(view1 -> {
+
+            isNewsSelected = false;
             binding.newTxtView.setTypeface(Typeface.DEFAULT);
             binding.eventsTxtView.setTypeface(Typeface.DEFAULT_BOLD);
             binding.eventsBottomView.setBackgroundColor(Color.parseColor("#385B96"));
@@ -67,6 +72,8 @@ public class ActionsFragment extends Fragment {
             if (eventItems.size() == 0) {
                 binding.recyclerView.setVisibility(View.GONE);
                 binding.emptyLayout.setVisibility(View.VISIBLE);
+                binding.swipeRefreshLayout.setRefreshing(true);
+                actionsVM.getActionsEvent(preferencesUtil.getLANGUAGE(), page, size, "EVENT");
             } else {
                 binding.recyclerView.setVisibility(View.VISIBLE);
                 binding.emptyLayout.setVisibility(View.GONE);
@@ -75,6 +82,7 @@ public class ActionsFragment extends Fragment {
         });
 
         binding.newsLayout.setOnClickListener(view1 -> {
+            isNewsSelected = true;
             binding.newTxtView.setTypeface(Typeface.DEFAULT_BOLD);
             binding.eventsTxtView.setTypeface(Typeface.DEFAULT);
             binding.eventsBottomView.setBackgroundColor(Color.parseColor("#ffffff"));
@@ -97,16 +105,21 @@ public class ActionsFragment extends Fragment {
             intent.putExtra("date", item.getCreated_at());
             intent.putExtra("description", item.getDescription());
             intent.putExtra("file_name", item.getFile_name());
+            intent.putExtra("type", item.getCategory());
             startActivity(intent);
         });
         binding.recyclerView.setAdapter(adapter);
         binding.swipeRefreshLayout.setRefreshing(true);
-        actionsVM.getActions(preferencesUtil.getLANGUAGE(), page, size);
+        actionsVM.getActions(preferencesUtil.getLANGUAGE(), page, size, "NEWS");
 
         binding.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                actionsVM.getActions(preferencesUtil.getLANGUAGE(), page, size);
+                if (isNewsSelected) {
+                    actionsVM.getActions(preferencesUtil.getLANGUAGE(), page, size, "NEWS");
+                } else {
+                    actionsVM.getActionsEvent(preferencesUtil.getLANGUAGE(), page, size, "EVENT");
+                }
             }
         });
 
@@ -114,19 +127,43 @@ public class ActionsFragment extends Fragment {
     }
 
     public void onSuccessGetActions(ActionsModel model) {
-        newsItems = new ArrayList<>();
-        eventItems = new ArrayList<>();
+
+
         binding.swipeRefreshLayout.setRefreshing(false);
         if (model.getCode() == 200 && model.getData().getItems().size() > 0) {
+            newsItems = new ArrayList<>();
             binding.emptyLayout.setVisibility(View.GONE);
             binding.recyclerView.setVisibility(View.VISIBLE);
-            for (int i = 0; i < model.getData().getItems().size(); i++) {
-                if (model.getData().getItems().get(i).getCategory().equals("NEWS")) {
-                    newsItems.add(model.getData().getItems().get(i));
-                } else {
-                    eventItems.add(model.getData().getItems().get(i));
-                }
-            }
+            newsItems.addAll(model.getData().getItems());
+//            for (int i = 0; i < model.getData().getItems().size(); i++) {
+//                if (model.getData().getItems().get(i).getCategory().equals("NEWS")) {
+//                    newsItems.add(model.getData().getItems().get(i));
+//                } else {
+//                    eventItems.add(model.getData().getItems().get(i));
+//                }
+//            }
+            //adapter.setItems(newsItems);
+            adapter.setItems(model.getData().getItems());
+        } else {
+            binding.emptyLayout.setVisibility(View.VISIBLE);
+            binding.recyclerView.setVisibility(View.GONE);
+        }
+    }
+
+    public void onSuccessGetEventActions(ActionsModel model) {
+        binding.swipeRefreshLayout.setRefreshing(false);
+        if (model.getCode() == 200 && model.getData().getItems().size() > 0) {
+            eventItems = new ArrayList<>();
+            binding.emptyLayout.setVisibility(View.GONE);
+            binding.recyclerView.setVisibility(View.VISIBLE);
+            eventItems.addAll(model.getData().getItems());
+//            for (int i = 0; i < model.getData().getItems().size(); i++) {
+//                if (model.getData().getItems().get(i).getCategory().equals("NEWS")) {
+//                    newsItems.add(model.getData().getItems().get(i));
+//                } else {
+//                    eventItems.add(model.getData().getItems().get(i));
+//                }
+//            }
             //adapter.setItems(newsItems);
             adapter.setItems(model.getData().getItems());
         } else {

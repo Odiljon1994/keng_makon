@@ -49,6 +49,9 @@ public interface Api {
                                         @Query("page") int page,
                                         @Query("size") int size);
 
+    @GET("/api/furniture/detail")
+    Single<FurnitureModel.FurnitureDataItem> getFurnitureDetail(@Header("Authorization") String token, @Query("id") int id);
+
     @GET("/api/set/detail")
     Single<SetDetailModel> getSetDetailList(@Header("Authorization") String token,
                                             @Query("id") int id);
@@ -86,5 +89,6 @@ public interface Api {
     @GET("/api/action/list")
     Single<ActionsModel> getActions(@Query("page") int page,
                                     @Query("size") int size,
-                                    @Query("lang") String lang);
+                                    @Query("lang") String lang,
+                                    @Query("type") String type);
 }
