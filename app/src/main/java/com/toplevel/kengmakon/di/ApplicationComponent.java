@@ -11,6 +11,7 @@ import com.toplevel.kengmakon.ui.FurnitureDetailActivity;
 import com.toplevel.kengmakon.ui.GetStartedActivity;
 import com.toplevel.kengmakon.ui.LoginActivity;
 import com.toplevel.kengmakon.ui.MainActivity;
+import com.toplevel.kengmakon.ui.NotificationsActivity;
 import com.toplevel.kengmakon.ui.OrderDetailActivity;
 import com.toplevel.kengmakon.ui.OrdersActivity;
 import com.toplevel.kengmakon.ui.SetDetailActivity;
@@ -20,6 +21,7 @@ import com.toplevel.kengmakon.ui.fragments.CashbackFragment;
 import com.toplevel.kengmakon.ui.fragments.HomeFragment;
 import com.toplevel.kengmakon.ui.fragments.SettingsFragment;
 import com.toplevel.kengmakon.ui.fragments.WishlistFragment;
+import com.toplevel.kengmakon.utils.MyFirebaseService;
 
 import javax.inject.Singleton;
 
@@ -54,6 +56,8 @@ public interface ApplicationComponent {
     void inject(OrderDetailActivity activity);
     void inject(BranchesActivity activity);
     void inject(FurnitureDetailActivity activity);
+    void inject(NotificationsActivity activity);
+    void inject(MyFirebaseService activity);
 
     @Component.Builder
     interface Builder {

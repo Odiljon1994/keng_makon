@@ -98,8 +98,14 @@ public class CategoryDetailActivity extends AppCompatActivity {
 
     public void onSuccessGetCategoryDetail(CategoryDetailModel model) {
         if (model.getCode() == 200 && model.getData().getItems().size() > 0) {
-            int totalItems = size * model.getData().getTotalPages();
-            binding.totalItem.setText(String.valueOf(totalItems) + " " + getString(R.string.products));
+
+
+            if (model.getData().getTotalPages() > 1) {
+                int totalItems = size * model.getData().getTotalPages();
+                binding.totalItem.setText(String.valueOf(totalItems) + " " + getString(R.string.products));
+            } else {
+                binding.totalItem.setText(String.valueOf(model.getData().getItems().size()) + " " + getString(R.string.products));
+            }
 
             for (int i = 0; i < model.getData().getItems().size(); i++) {
                 items.add(model.getData().getItems().get(i));

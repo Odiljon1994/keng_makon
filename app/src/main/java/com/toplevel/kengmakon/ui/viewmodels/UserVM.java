@@ -59,9 +59,9 @@ public class UserVM extends BaseVM {
                 }));
     }
 
-    public void getCashback(int user_id) {
+    public void getCashback(String token, int user_id) {
 
-        addToSubscribe(api.getCashback(user_id)
+        addToSubscribe(api.getCashback("Bearer " + token, user_id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {

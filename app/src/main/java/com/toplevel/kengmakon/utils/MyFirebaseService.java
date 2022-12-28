@@ -14,13 +14,17 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 import com.google.gson.Gson;
 import com.toplevel.kengmakon.R;
+import com.toplevel.kengmakon.models.PushNotificationModel;
 
 import java.util.Map;
+
+import javax.inject.Inject;
 
 public class MyFirebaseService extends FirebaseMessagingService {
     private Gson gson;
 
-
+    @Inject
+    PreferencesUtil preferencesUtil;
 
     @Override
     public void onNewToken(String s) {
@@ -43,13 +47,29 @@ public class MyFirebaseService extends FirebaseMessagingService {
         System.out.println(remoteMessage.toString());
         System.out.println(data.toString());
 
-        System.out.println(remoteMessage.getNotification().getTitle());
-        System.out.println(remoteMessage.getNotification().getBody());
+        System.out.println("TITLE: " + remoteMessage.getNotification().getTitle());
+        System.out.println("BODY: " + remoteMessage.getNotification().getBody());
 
         String title = remoteMessage.getNotification().getTitle();
-        String text = remoteMessage.getNotification().getBody();
+        String body = remoteMessage.getNotification().getBody();
+
+        Gson parser = new Gson();
+        PushNotificationModel pushNotificationTitleModel = parser.fromJson(remoteMessage.getNotification().getTitle(), PushNotificationModel.class);
+        PushNotificationModel pushNotificationBodyModel = parser.fromJson(remoteMessage.getNotification().getBody(), PushNotificationModel.class);
 
 
+//        String title = "";
+//        String body = "";
+//        if (preferencesUtil.getLANGUAGE().equals("en")) {
+//            title = pushNotificationTitleModel.getEn();
+//            body = pushNotificationBodyModel.getEn();
+//        } else if (preferencesUtil.getLANGUAGE().equals("ru")) {
+//            title = pushNotificationTitleModel.getRu();
+//            body = pushNotificationBodyModel.getRu();
+//        } else {
+//            title = pushNotificationTitleModel.getUz();
+//            body = pushNotificationBodyModel.getUz();
+//        }
 
         final String CHANNEL_ID = "HEADS_UP_NOTIFICATION";
 
@@ -63,9 +83,10 @@ public class MyFirebaseService extends FirebaseMessagingService {
 
         Notification.Builder notification =
                 new Notification.Builder(this, CHANNEL_ID)
-                        .setContentTitle(title)
-                        .setContentText(text)
-                        .setSmallIcon(R.drawable.scan_icon)
+                        .setContentTitle(pushNotificationTitleModel.getUz())
+                        .setContentText(pushNotificationBodyModel.getUz())
+                        .setSmallIcon(R.drawable.keng_makon_logo)
+                        .setDefaults(Notification.DEFAULT_ALL)
                         .setAutoCancel(true);
 
         NotificationManagerCompat.from(this).notify(1, notification.build());

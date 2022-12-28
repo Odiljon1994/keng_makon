@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.toplevel.kengmakon.api.Api;
 import com.toplevel.kengmakon.models.CategoryDetailModel;
+import com.toplevel.kengmakon.models.FurnitureDetailModel;
 import com.toplevel.kengmakon.models.FurnitureModel;
 import com.toplevel.kengmakon.models.LikeModel;
 import com.toplevel.kengmakon.models.SetDetailModel;
@@ -28,7 +29,7 @@ public class FurnitureDetailsVM extends BaseVM {
     private MutableLiveData<LikeModel> likeModelMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<String> onFailSetLikeMutableLiveData = new MutableLiveData<>();
 
-    private MutableLiveData<FurnitureModel.FurnitureDataItem> furnitureDetailMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<FurnitureDetailModel> furnitureDetailMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<String> onFailFurnitureDetailMutableLiveData = new MutableLiveData<>();
 
     private Api api;
@@ -64,7 +65,7 @@ public class FurnitureDetailsVM extends BaseVM {
         return onFailSetLikeMutableLiveData;
     }
 
-    public LiveData<FurnitureModel.FurnitureDataItem> onSuccessFurnitureDetailLiveData() {
+    public LiveData<FurnitureDetailModel> onSuccessFurnitureDetailLiveData() {
         return furnitureDetailMutableLiveData;
     }
 

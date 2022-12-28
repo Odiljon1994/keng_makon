@@ -236,6 +236,7 @@ public class SettingsFragment extends Fragment {
                 preferencesUtil.saveEmail("");
                 preferencesUtil.savePhoneNumber("");
                 preferencesUtil.saveTOKEN("");
+                preferencesUtil.saveUserId(-1);
                 preferencesUtil.saveIsPushTokenDone(false);
                 Intent intent = new Intent(getActivity(), LoginActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);

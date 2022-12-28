@@ -8,6 +8,7 @@ import com.toplevel.kengmakon.ui.viewmodels.AuthVM;
 import com.toplevel.kengmakon.ui.viewmodels.FurnitureDetailsVM;
 import com.toplevel.kengmakon.ui.viewmodels.FurnitureVM;
 import com.toplevel.kengmakon.ui.viewmodels.InfoVM;
+import com.toplevel.kengmakon.ui.viewmodels.NotificationsVM;
 import com.toplevel.kengmakon.ui.viewmodels.OrdersVM;
 import com.toplevel.kengmakon.ui.viewmodels.UserVM;
 
@@ -54,6 +55,11 @@ public abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(ActionsVM.class)
     abstract ViewModel bindActionsVm(ActionsVM ordersVM);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(NotificationsVM.class)
+    abstract ViewModel bindNotificationsVm(NotificationsVM notificationsVM);
 
 
 }

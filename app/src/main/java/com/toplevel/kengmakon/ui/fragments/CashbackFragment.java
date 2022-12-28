@@ -50,7 +50,7 @@ public class CashbackFragment extends Fragment {
         userVM.onFailCashbackLiveData().observe(getActivity(), this::onFailCashback);
 
         binding.swipeRefreshLayout.setRefreshing(true);
-        userVM.getCashback(preferencesUtil.getUserId());
+        userVM.getCashback(preferencesUtil.getTOKEN(), preferencesUtil.getUserId());
 
         if (!TextUtils.isEmpty(preferencesUtil.getName())) {
             binding.userName.setText(preferencesUtil.getName().toUpperCase(Locale.ROOT));
@@ -59,7 +59,7 @@ public class CashbackFragment extends Fragment {
         binding.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                userVM.getCashback(preferencesUtil.getUserId());
+                userVM.getCashback(preferencesUtil.getTOKEN(), preferencesUtil.getUserId());
             }
         });
 

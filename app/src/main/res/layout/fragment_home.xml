@@ -51,9 +51,11 @@
                             android:textSize="14dp" />
 
                         <ImageView
-                            android:layout_width="24dp"
-                            android:layout_height="24dp"
+                            android:id="@+id/notifications"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
                             android:layout_gravity="center"
+                            android:padding="3dp"
                             android:layout_marginStart="10dp"
                             android:src="@drawable/notification_icon" />
 

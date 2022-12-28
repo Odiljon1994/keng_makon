@@ -7,9 +7,11 @@ import com.toplevel.kengmakon.models.CashbackModel;
 import com.toplevel.kengmakon.models.CategoriesModel;
 import com.toplevel.kengmakon.models.CategoryDetailModel;
 import com.toplevel.kengmakon.models.FeedbackModel;
+import com.toplevel.kengmakon.models.FurnitureDetailModel;
 import com.toplevel.kengmakon.models.FurnitureModel;
 import com.toplevel.kengmakon.models.LikeModel;
 import com.toplevel.kengmakon.models.LoginModel;
+import com.toplevel.kengmakon.models.NotificationsModel;
 import com.toplevel.kengmakon.models.OrderDetailModel;
 import com.toplevel.kengmakon.models.OrdersModel;
 import com.toplevel.kengmakon.models.PushTokenReqModel;
@@ -50,7 +52,7 @@ public interface Api {
                                         @Query("size") int size);
 
     @GET("/api/furniture/detail")
-    Single<FurnitureModel.FurnitureDataItem> getFurnitureDetail(@Header("Authorization") String token, @Query("id") int id);
+    Single<FurnitureDetailModel> getFurnitureDetail(@Header("Authorization") String token, @Query("id") int id);
 
     @GET("/api/set/detail")
     Single<SetDetailModel> getSetDetailList(@Header("Authorization") String token,
@@ -75,7 +77,7 @@ public interface Api {
     Single<BaseResponse> postFeedback(@Header("Authorization") String token, @Body FeedbackModel feedbackModel);
 
     @GET("/api/user/cashback")
-    Single<CashbackModel> getCashback(@Query("user_id") int user_id);
+    Single<CashbackModel> getCashback(@Header("Authorization") String token, @Query("user_id") int user_id);
 
     @GET("/api/order/list")
     Single<OrdersModel> getOrders(@Header("Authorization") String token);
@@ -91,4 +93,9 @@ public interface Api {
                                     @Query("size") int size,
                                     @Query("lang") String lang,
                                     @Query("type") String type);
+
+    @GET("/api/notification/list")
+    Single<NotificationsModel> getNotifications(@Query("page") int page,
+                                                @Query("size") int size,
+                                                @Query("lang") String lang);
 }

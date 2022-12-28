@@ -33,6 +33,7 @@ import com.toplevel.kengmakon.models.SetModel;
 import com.toplevel.kengmakon.ui.CategoryDetailActivity;
 import com.toplevel.kengmakon.ui.FurnitureDetailActivity;
 import com.toplevel.kengmakon.ui.LoginActivity;
+import com.toplevel.kengmakon.ui.NotificationsActivity;
 import com.toplevel.kengmakon.ui.SetDetailActivity;
 import com.toplevel.kengmakon.ui.adapters.CategoriesAdapter;
 import com.toplevel.kengmakon.ui.adapters.FurnitureAdapter;
@@ -80,6 +81,8 @@ public class HomeFragment extends Fragment {
         furnitureDetailsVM = ViewModelProviders.of(this, viewModelFactory).get(FurnitureDetailsVM.class);
         furnitureDetailsVM.likeModelLiveData().observe(getActivity(), this::onSuccessLike);
         furnitureDetailsVM.onFailSetLikeLiveData().observe(getActivity(), this::onFailLike);
+
+        binding.notifications.setOnClickListener(view1 -> startActivity(new Intent(getActivity(), NotificationsActivity.class)));
 
         TOKEN = preferencesUtil.getTOKEN();
 
