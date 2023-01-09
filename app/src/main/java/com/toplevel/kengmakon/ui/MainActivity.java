@@ -7,8 +7,10 @@ import androidx.lifecycle.ViewModelProviders;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -29,6 +31,7 @@ import com.toplevel.kengmakon.ui.fragments.SettingsFragment;
 import com.toplevel.kengmakon.ui.fragments.WishlistFragment;
 import com.toplevel.kengmakon.ui.viewmodels.AuthVM;
 import com.toplevel.kengmakon.utils.LanguageChangeListener;
+import com.toplevel.kengmakon.utils.NetworkChangeListener;
 import com.toplevel.kengmakon.utils.PreferencesUtil;
 import com.toplevel.kengmakon.utils.Utils;
 
@@ -47,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
     private String appUniqueToken = "";
     private AuthVM authVM;
     private int state = 1;
+    NetworkChangeListener networkChangeListener = new NetworkChangeListener();
     @Inject
     ViewModelFactory viewModelFactory;
     private LanguageChangeListener languageChangeListener;
@@ -262,5 +266,18 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
         // [END subscribe_topics]
+    }
+
+    @Override
+    protected void onStart() {
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(networkChangeListener, filter);
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        unregisterReceiver(networkChangeListener);
+        super.onStop();
     }
 }

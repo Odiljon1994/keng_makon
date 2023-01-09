@@ -68,6 +68,8 @@ public class SetDetailAdapter extends RecyclerView.Adapter<SetDetailAdapter.View
 
             if (!TextUtils.isEmpty(model.getFurniture().getImage_url_preview())) {
                 Glide.with(context).load(model.getFurniture().getImage_url_preview()).centerCrop().into(binding.itemImage);
+            } else {
+                binding.itemImage.setImageDrawable(context.getDrawable(R.drawable.keng_makon_logo));
             }
 
             if (model.getFurniture().isIs_liked()) {

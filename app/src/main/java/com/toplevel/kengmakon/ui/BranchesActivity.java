@@ -2,7 +2,9 @@ package com.toplevel.kengmakon.ui;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.View;
@@ -27,6 +29,7 @@ import com.toplevel.kengmakon.ui.adapters.BranchesCitiesAdapter;
 import com.toplevel.kengmakon.ui.adapters.BranchesImageAdapter;
 import com.toplevel.kengmakon.ui.viewmodels.AuthVM;
 import com.toplevel.kengmakon.ui.viewmodels.InfoVM;
+import com.toplevel.kengmakon.utils.NetworkChangeListener;
 import com.toplevel.kengmakon.utils.PreferencesUtil;
 
 import java.util.ArrayList;
@@ -159,5 +162,19 @@ public class BranchesActivity extends AppCompatActivity {
     }
     public void onFailGetBranches(String error) {
         progressDialog.dismiss();
+    }
+
+    NetworkChangeListener networkChangeListener = new NetworkChangeListener();
+    @Override
+    protected void onStart() {
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(networkChangeListener, filter);
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        unregisterReceiver(networkChangeListener);
+        super.onStop();
     }
 }

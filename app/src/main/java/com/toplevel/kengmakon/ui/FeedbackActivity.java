@@ -3,8 +3,10 @@ package com.toplevel.kengmakon.ui;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.text.TextUtils;
 
@@ -22,6 +24,7 @@ import com.toplevel.kengmakon.models.LoginModel;
 import com.toplevel.kengmakon.ui.dialogs.BaseDialog;
 import com.toplevel.kengmakon.ui.viewmodels.AuthVM;
 import com.toplevel.kengmakon.ui.viewmodels.UserVM;
+import com.toplevel.kengmakon.utils.NetworkChangeListener;
 import com.toplevel.kengmakon.utils.PreferencesUtil;
 import com.toplevel.kengmakon.utils.Utils;
 
@@ -240,5 +243,19 @@ public class FeedbackActivity extends AppCompatActivity {
 
     public void onFailLogin(String error) {
 
+    }
+
+    NetworkChangeListener networkChangeListener = new NetworkChangeListener();
+    @Override
+    protected void onStart() {
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(networkChangeListener, filter);
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        unregisterReceiver(networkChangeListener);
+        super.onStop();
     }
 }

@@ -2,7 +2,9 @@ package com.toplevel.kengmakon.ui;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.text.TextUtils;
 
@@ -20,6 +22,7 @@ import com.toplevel.kengmakon.models.OrderDetailModel;
 import com.toplevel.kengmakon.ui.adapters.MyOrdersAdapter;
 import com.toplevel.kengmakon.ui.adapters.OrderDetailAdapter;
 import com.toplevel.kengmakon.ui.viewmodels.OrdersVM;
+import com.toplevel.kengmakon.utils.NetworkChangeListener;
 import com.toplevel.kengmakon.utils.PreferencesUtil;
 
 import java.text.DecimalFormat;
@@ -119,5 +122,19 @@ public class OrderDetailActivity extends AppCompatActivity {
 
     public void onFailOrderDetail(String error) {
         progressDialog.dismiss();
+    }
+
+    NetworkChangeListener networkChangeListener = new NetworkChangeListener();
+    @Override
+    protected void onStart() {
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(networkChangeListener, filter);
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        unregisterReceiver(networkChangeListener);
+        super.onStop();
     }
 }

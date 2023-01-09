@@ -2,7 +2,9 @@ package com.toplevel.kengmakon.ui;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.media.MediaPlayer;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -26,6 +28,7 @@ import com.toplevel.kengmakon.models.BaseResponse;
 import com.toplevel.kengmakon.models.LoginModel;
 import com.toplevel.kengmakon.models.UserInfoModel;
 import com.toplevel.kengmakon.ui.viewmodels.AuthVM;
+import com.toplevel.kengmakon.utils.NetworkChangeListener;
 import com.toplevel.kengmakon.utils.PreferencesUtil;
 
 import javax.inject.Inject;
@@ -166,5 +169,19 @@ public class LoginActivity extends AppCompatActivity {
     }
     public void onFailPushToken(String error) {
 
+    }
+
+    NetworkChangeListener networkChangeListener = new NetworkChangeListener();
+    @Override
+    protected void onStart() {
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(networkChangeListener, filter);
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        unregisterReceiver(networkChangeListener);
+        super.onStop();
     }
 }

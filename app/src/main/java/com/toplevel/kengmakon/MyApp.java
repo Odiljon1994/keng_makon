@@ -25,8 +25,6 @@ public class MyApp extends Application implements HasActivityInjector {
     public void onCreate() {
         super.onCreate();
 
-
-
         //  RxJavaPlugins.setErrorHandler(throwable -> {});
         mAppComponent = DaggerApplicationComponent.builder()
                 .application(this)

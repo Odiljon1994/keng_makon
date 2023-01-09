@@ -2,6 +2,8 @@ package com.toplevel.kengmakon.ui;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -19,6 +21,7 @@ import com.toplevel.kengmakon.models.NotificationsModel;
 import com.toplevel.kengmakon.ui.adapters.NotificationsAdapter;
 import com.toplevel.kengmakon.ui.viewmodels.AuthVM;
 import com.toplevel.kengmakon.ui.viewmodels.NotificationsVM;
+import com.toplevel.kengmakon.utils.NetworkChangeListener;
 import com.toplevel.kengmakon.utils.PreferencesUtil;
 
 import javax.inject.Inject;
@@ -72,5 +75,19 @@ public class NotificationsActivity extends AppCompatActivity {
     }
     public void onFailGetNotifications(String error) {
         binding.swipeRefreshLayout.setRefreshing(false);
+    }
+
+    NetworkChangeListener networkChangeListener = new NetworkChangeListener();
+    @Override
+    protected void onStart() {
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(networkChangeListener, filter);
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        unregisterReceiver(networkChangeListener);
+        super.onStop();
     }
 }

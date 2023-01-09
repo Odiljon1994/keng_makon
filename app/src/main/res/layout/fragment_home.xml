@@ -5,145 +5,168 @@
 
     </data>
 
-    <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/scrollView"
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical">
 
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
-            <ScrollView
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="20dp"
+                    android:orientation="horizontal">
 
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginEnd="20dp"
-                        android:orientation="horizontal">
-
-                        <EditText
-                            android:id="@+id/search"
-                            android:layout_width="0dp"
-                            android:layout_height="45dp"
-                            android:layout_weight="1"
-                            android:background="@drawable/search_bar"
-                            android:drawableStart="@drawable/search_icon"
-                            android:drawablePadding="10dp"
-                            android:hint="@string/search_hint"
-                            android:imeOptions="actionSearch"
-                            android:inputType="text"
-                            android:maxLines="1"
-                            android:paddingStart="15dp"
-                            android:textSize="14dp" />
-
-                        <ImageView
-                            android:id="@+id/notifications"
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:layout_gravity="center"
-                            android:padding="3dp"
-                            android:layout_marginStart="10dp"
-                            android:src="@drawable/notification_icon" />
-
-                        <ImageView
-                            android:id="@+id/redDot"
-                            android:layout_width="5dp"
-                            android:layout_height="5dp"
-                            android:layout_marginTop="10dp"
-                            android:src="@drawable/red_dot"
-                            android:visibility="invisible" />
-
-                    </LinearLayout>
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerView"
-                        android:layout_width="match_parent"
-                        android:layout_height="340dp"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="8dp"
-                        android:clipToPadding="false"
-                        android:paddingStart="30dp"
-                        android:paddingEnd="75dp"
-                        android:nestedScrollingEnabled="false"
-                        tools:listitem="@layout/item_set">
-
-                    </androidx.recyclerview.widget.RecyclerView>
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/categoryRecycler"
-                        android:layout_width="match_parent"
-                        android:layout_height="90dp"
-
-                        android:layout_marginTop="5dp"
-                        tools:listitem="@layout/item_categories">
-
-                    </androidx.recyclerview.widget.RecyclerView>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginEnd="20dp"
-                        android:gravity="center"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="@string/new_products"
-                            android:textColor="#191A26"
-                            android:textSize="18dp"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/see_all"
-                            android:textColor="#191A26"
-                            android:textSize="14dp"
-                            android:textStyle="bold"
-                            android:visibility="invisible" />
-
-                        <ImageView
-                            android:layout_width="16dp"
-                            android:layout_height="16dp"
-                            android:layout_gravity="center"
-                            android:layout_marginStart="5dp"
-                            android:src="@drawable/circle_arrow_icon"
-                            android:visibility="invisible" />
-
-                    </LinearLayout>
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/furnitureRecycler"
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_marginStart="20dp"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginEnd="20dp"
+                    <EditText
+                        android:id="@+id/search"
+                        android:layout_width="0dp"
+                        android:layout_height="45dp"
                         android:layout_weight="1"
-                        tools:listitem="@layout/item_furniture">
+                        android:background="@drawable/search_bar"
+                        android:drawableStart="@drawable/search_icon"
+                        android:drawablePadding="10dp"
+                        android:hint="@string/search_hint"
+                        android:imeOptions="actionSearch"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:paddingStart="15dp"
+                        android:textSize="14dp" />
 
-                    </androidx.recyclerview.widget.RecyclerView>
+                    <ImageView
+                        android:id="@+id/notifications"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="10dp"
+                        android:padding="3dp"
+                        android:src="@drawable/notification_icon" />
+
+                    <ImageView
+                        android:id="@+id/redDot"
+                        android:layout_width="5dp"
+                        android:layout_height="5dp"
+                        android:layout_marginTop="10dp"
+                        android:src="@drawable/red_dot"
+                        android:visibility="invisible" />
+
                 </LinearLayout>
-            </ScrollView>
 
-        </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recentlyViewedRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="75dp"
+                    android:layout_marginTop="5dp"
+                    android:visibility="gone"
+                    tools:listitem="@layout/item_recently_viewed">
+
+                </androidx.recyclerview.widget.RecyclerView>
+
+                <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+                    android:id="@+id/swipeRefreshLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="340dp">
+
+                    <androidx.core.widget.NestedScrollView
+                        android:id="@+id/scrollView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="8dp">
+
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/recyclerView"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:clipToPadding="false"
+                            android:nestedScrollingEnabled="false"
+                            android:paddingStart="30dp"
+                            android:paddingEnd="75dp"
+                            tools:listitem="@layout/item_set">
+
+                        </androidx.recyclerview.widget.RecyclerView>
+                    </androidx.core.widget.NestedScrollView>
+                </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/categoryRecycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="90dp"
+
+                    android:layout_marginTop="5dp"
+                    tools:listitem="@layout/item_categories">
+
+                </androidx.recyclerview.widget.RecyclerView>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="20dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="@string/new_products"
+                        android:textColor="#191A26"
+                        android:textSize="18dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/see_all"
+                        android:textColor="#191A26"
+                        android:textSize="14dp"
+                        android:textStyle="bold"
+                        android:visibility="invisible" />
+
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="5dp"
+                        android:src="@drawable/circle_arrow_icon"
+                        android:visibility="invisible" />
+
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/furnitureRecycler"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_weight="1"
+                    tools:listitem="@layout/item_furniture">
+
+                </androidx.recyclerview.widget.RecyclerView>
+
+            </LinearLayout>
+        </ScrollView>
+
+    </LinearLayout>
+
+
 </layout>

@@ -2,8 +2,10 @@ package com.toplevel.kengmakon.ui;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.Toast;
@@ -26,6 +28,7 @@ import com.toplevel.kengmakon.ui.adapters.SetDetailAdapter;
 import com.toplevel.kengmakon.ui.dialogs.BaseDialog;
 import com.toplevel.kengmakon.ui.viewmodels.FurnitureDetailsVM;
 import com.toplevel.kengmakon.ui.viewmodels.FurnitureVM;
+import com.toplevel.kengmakon.utils.NetworkChangeListener;
 import com.toplevel.kengmakon.utils.PreferencesUtil;
 
 import javax.inject.Inject;
@@ -40,6 +43,7 @@ public class SetDetailActivity extends AppCompatActivity {
     PreferencesUtil preferencesUtil;
     private SetDetailAdapter adapter;
     int id;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,11 +66,13 @@ public class SetDetailActivity extends AppCompatActivity {
         adapter = new SetDetailAdapter(this, preferencesUtil.getIsIsSignedIn(), new SetDetailAdapter.ClickListener() {
             @Override
             public void onClick(SetDetailModel.SetDetailData model) {
-                if (!TextUtils.isEmpty(model.getFurniture().getImage_url_preview())){
-                    Glide.with(SetDetailActivity.this).load(model.getFurniture().getImage_url_preview()).centerCrop().into(binding.currentImage);
-                } else {
-                    Toast.makeText(SetDetailActivity.this, "No image url", Toast.LENGTH_SHORT).show();
-                }
+
+//                    Glide.with(SetDetailActivity.this).load(model.getFurniture().getImage_url_preview()).centerCrop().into(binding.currentImage);
+                Intent intent = new Intent(SetDetailActivity.this, FurnitureDetailActivity.class);
+                intent.putExtra("id", model.getFurniture().getId());
+                intent.putExtra("url", model.getFurniture().getImage_url_preview());
+                startActivity(intent);
+
             }
 
             @Override
@@ -98,6 +104,7 @@ public class SetDetailActivity extends AppCompatActivity {
             adapter.setItems(model.getData());
         }
     }
+
     public void onFailGetSetDetailModel(String error) {
 
     }
@@ -105,6 +112,7 @@ public class SetDetailActivity extends AppCompatActivity {
     public void onSuccessLike(LikeModel likeModel) {
 
     }
+
     public void onFailLike(String error) {
 
     }
@@ -133,5 +141,21 @@ public class SetDetailActivity extends AppCompatActivity {
             }
         };
         baseDialog.setClickListener(clickListener);
+    }
+
+
+    NetworkChangeListener networkChangeListener = new NetworkChangeListener();
+
+    @Override
+    protected void onStart() {
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(networkChangeListener, filter);
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        unregisterReceiver(networkChangeListener);
+        super.onStop();
     }
 }

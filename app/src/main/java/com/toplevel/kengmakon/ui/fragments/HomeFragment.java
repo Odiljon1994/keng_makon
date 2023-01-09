@@ -2,6 +2,7 @@ package com.toplevel.kengmakon.ui.fragments;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.SnapHelper;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.toplevel.kengmakon.MyApp;
 import com.toplevel.kengmakon.R;
@@ -29,6 +31,7 @@ import com.toplevel.kengmakon.di.ViewModelFactory;
 import com.toplevel.kengmakon.models.CategoriesModel;
 import com.toplevel.kengmakon.models.FurnitureModel;
 import com.toplevel.kengmakon.models.LikeModel;
+import com.toplevel.kengmakon.models.RecentlyViewedModel;
 import com.toplevel.kengmakon.models.SetModel;
 import com.toplevel.kengmakon.ui.CategoryDetailActivity;
 import com.toplevel.kengmakon.ui.FurnitureDetailActivity;
@@ -37,13 +40,17 @@ import com.toplevel.kengmakon.ui.NotificationsActivity;
 import com.toplevel.kengmakon.ui.SetDetailActivity;
 import com.toplevel.kengmakon.ui.adapters.CategoriesAdapter;
 import com.toplevel.kengmakon.ui.adapters.FurnitureAdapter;
+import com.toplevel.kengmakon.ui.adapters.RecentlyViewedAdapter;
 import com.toplevel.kengmakon.ui.adapters.SetAdapter;
 import com.toplevel.kengmakon.ui.dialogs.BaseDialog;
 import com.toplevel.kengmakon.ui.viewmodels.FurnitureDetailsVM;
 import com.toplevel.kengmakon.ui.viewmodels.FurnitureVM;
 import com.toplevel.kengmakon.utils.PreferencesUtil;
+import com.toplevel.kengmakon.utils.RecentlyViewedDB;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -64,6 +71,8 @@ public class HomeFragment extends Fragment {
     private int page = 1;
     private int size = 15;
     private List<SetModel.SetDataItem> setDataItems = new ArrayList<>();
+    private RecentlyViewedAdapter recentlyViewedAdapter;
+    private RecentlyViewedDB recentlyViewedDB;
 
     @Nullable
     @Override
@@ -82,9 +91,25 @@ public class HomeFragment extends Fragment {
         furnitureDetailsVM.likeModelLiveData().observe(getActivity(), this::onSuccessLike);
         furnitureDetailsVM.onFailSetLikeLiveData().observe(getActivity(), this::onFailLike);
 
+        recentlyViewedDB = new RecentlyViewedDB(getActivity());
         binding.notifications.setOnClickListener(view1 -> startActivity(new Intent(getActivity(), NotificationsActivity.class)));
 
         TOKEN = preferencesUtil.getTOKEN();
+
+        binding.recentlyViewedRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        List<RecentlyViewedModel> list;
+        list = getDataFromDB();
+        recentlyViewedAdapter = new RecentlyViewedAdapter(getActivity(), list, item -> {
+            Intent intent = new Intent(getActivity(), FurnitureDetailActivity.class);
+            intent.putExtra("id", Integer.parseInt(item.getFurnitureId()));
+            intent.putExtra("url", item.getUrl());
+            startActivity(intent);
+        });
+        binding.recentlyViewedRecyclerView.setAdapter(recentlyViewedAdapter);
+        if (list.size() > 0) {
+            binding.recentlyViewedRecyclerView.setVisibility(View.VISIBLE);
+        }
+
 
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         adapter = new SetAdapter(getContext(), item -> {
@@ -113,6 +138,7 @@ public class HomeFragment extends Fragment {
             public void onClick(FurnitureModel.FurnitureDataItem model) {
                 Intent intent = new Intent(getActivity(), FurnitureDetailActivity.class);
                 intent.putExtra("id", model.getId());
+                intent.putExtra("url", model.getImage_url_preview());
                 startActivity(intent);
 
             }
@@ -129,9 +155,19 @@ public class HomeFragment extends Fragment {
         binding.furnitureRecycler.setAdapter(furnitureAdapter);
 
 
+        binding.swipeRefreshLayout.setRefreshing(true);
         furnitureVM.getSet(page, size);
         furnitureVM.getCategories(1, 20);
         furnitureVM.getFurniture(preferencesUtil.getTOKEN(), 1, 20);
+
+        binding.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                furnitureVM.getSet(page, size);
+                furnitureVM.getCategories(1, 20);
+                furnitureVM.getFurniture(preferencesUtil.getTOKEN(), 1, 20);
+            }
+        });
 
 //        binding.scrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
 //            @Override
@@ -163,6 +199,7 @@ public class HomeFragment extends Fragment {
     }
 
     public void onSuccessGetSet(SetModel model) {
+        binding.swipeRefreshLayout.setRefreshing(false);
         if (model.getCode() == 200 && model.getData().getItems().size() > 0) {
 
             for (int i = 0; i < model.getData().getItems().size(); i++) {
@@ -174,6 +211,7 @@ public class HomeFragment extends Fragment {
     }
 
     public void onFailGetSet(String error) {
+        binding.swipeRefreshLayout.setRefreshing(false);
         System.out.println(error);
     }
 
@@ -229,5 +267,18 @@ public class HomeFragment extends Fragment {
             }
         };
         baseDialog.setClickListener(clickListener);
+    }
+
+    public List<RecentlyViewedModel> getDataFromDB() {
+        List<RecentlyViewedModel> list = new ArrayList<>();
+        Cursor cursor = recentlyViewedDB.getData();
+
+        while (cursor.moveToNext()) {
+            list.add(new RecentlyViewedModel(cursor.getInt(0), cursor.getString(1), cursor.getString(2)));
+        }
+
+        Collections.reverse(list);
+
+        return list;
     }
 }

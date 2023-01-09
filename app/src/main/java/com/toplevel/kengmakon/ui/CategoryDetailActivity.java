@@ -2,8 +2,10 @@ package com.toplevel.kengmakon.ui;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.Toast;
@@ -28,6 +30,7 @@ import com.toplevel.kengmakon.ui.adapters.CategoryDetailAdapter;
 import com.toplevel.kengmakon.ui.adapters.SetDetailAdapter;
 import com.toplevel.kengmakon.ui.dialogs.BaseDialog;
 import com.toplevel.kengmakon.ui.viewmodels.FurnitureDetailsVM;
+import com.toplevel.kengmakon.utils.NetworkChangeListener;
 import com.toplevel.kengmakon.utils.PreferencesUtil;
 
 import java.util.ArrayList;
@@ -148,5 +151,19 @@ public class CategoryDetailActivity extends AppCompatActivity {
             }
         };
         baseDialog.setClickListener(clickListener);
+    }
+
+    NetworkChangeListener networkChangeListener = new NetworkChangeListener();
+    @Override
+    protected void onStart() {
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(networkChangeListener, filter);
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        unregisterReceiver(networkChangeListener);
+        super.onStop();
     }
 }

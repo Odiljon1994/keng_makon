@@ -36,6 +36,10 @@ public class BaseDialog extends FrameLayout {
         binding.title.setText(title);
         binding.body.setText(body);
     }
+    public void setBtnTitle(String okBtnTitle, String noBtnTitle) {
+        binding.okBtn.setText(okBtnTitle);
+        binding.noBtn.setText(noBtnTitle);
+    }
 
     public void makeBtnInvisible() {
         binding.noBtn.setVisibility(GONE);
