@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -71,7 +72,7 @@ public class HomeFragment extends Fragment {
     private int page = 1;
     private int size = 15;
     private List<SetModel.SetDataItem> setDataItems = new ArrayList<>();
-    private RecentlyViewedAdapter recentlyViewedAdapter;
+    public RecentlyViewedAdapter recentlyViewedAdapter;
     private RecentlyViewedDB recentlyViewedDB;
 
     @Nullable
@@ -96,19 +97,7 @@ public class HomeFragment extends Fragment {
 
         TOKEN = preferencesUtil.getTOKEN();
 
-        binding.recentlyViewedRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-        List<RecentlyViewedModel> list;
-        list = getDataFromDB();
-        recentlyViewedAdapter = new RecentlyViewedAdapter(getActivity(), list, item -> {
-            Intent intent = new Intent(getActivity(), FurnitureDetailActivity.class);
-            intent.putExtra("id", Integer.parseInt(item.getFurnitureId()));
-            intent.putExtra("url", item.getUrl());
-            startActivity(intent);
-        });
-        binding.recentlyViewedRecyclerView.setAdapter(recentlyViewedAdapter);
-        if (list.size() > 0) {
-            binding.recentlyViewedRecyclerView.setVisibility(View.VISIBLE);
-        }
+
 
 
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
@@ -124,10 +113,17 @@ public class HomeFragment extends Fragment {
         snapHelper.attachToRecyclerView(binding.recyclerView);
 
         binding.categoryRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-        categoriesAdapter = new CategoriesAdapter(getActivity(), item -> {
+        categoriesAdapter = new CategoriesAdapter(getActivity(), preferencesUtil.getLANGUAGE(), item -> {
             Intent intent = new Intent(getActivity(), CategoryDetailActivity.class);
             intent.putExtra("id", item.getId());
-            intent.putExtra("name", item.getName());
+            if (preferencesUtil.getLANGUAGE().equals("uz") && !TextUtils.isEmpty(item.getName().getUz())) {
+                intent.putExtra("name", item.getName().getUz());
+            } else if (preferencesUtil.getLANGUAGE().equals("en") && !TextUtils.isEmpty(item.getName().getEn())) {
+                intent.putExtra("name", item.getName().getEn());
+            } else if (preferencesUtil.getLANGUAGE().equals("ru") && !TextUtils.isEmpty(item.getName().getRu())){
+                intent.putExtra("name", item.getName().getRu());
+            }
+
             startActivity(intent);
         });
         binding.categoryRecycler.setAdapter(categoriesAdapter);
@@ -281,4 +277,24 @@ public class HomeFragment extends Fragment {
 
         return list;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        binding.recentlyViewedRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        List<RecentlyViewedModel> list;
+        list = getDataFromDB();
+        recentlyViewedAdapter = new RecentlyViewedAdapter(getActivity(), list, item -> {
+            Intent intent = new Intent(getActivity(), FurnitureDetailActivity.class);
+            intent.putExtra("id", Integer.parseInt(item.getFurnitureId()));
+            intent.putExtra("url", item.getUrl());
+            startActivity(intent);
+        });
+        binding.recentlyViewedRecyclerView.setAdapter(recentlyViewedAdapter);
+        if (list.size() > 0) {
+            binding.recentlyViewedRecyclerView.setVisibility(View.VISIBLE);
+        }
+    }
+
+
 }

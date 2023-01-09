@@ -30,6 +30,7 @@ import com.toplevel.kengmakon.models.FurnitureModel;
 import com.toplevel.kengmakon.models.LikeModel;
 import com.toplevel.kengmakon.models.RecentlyViewedModel;
 import com.toplevel.kengmakon.ui.dialogs.BaseDialog;
+import com.toplevel.kengmakon.ui.fragments.HomeFragment;
 import com.toplevel.kengmakon.ui.viewmodels.FurnitureDetailsVM;
 import com.toplevel.kengmakon.ui.viewmodels.FurnitureVM;
 import com.toplevel.kengmakon.utils.NetworkChangeListener;
@@ -101,12 +102,14 @@ public class FurnitureDetailActivity extends AppCompatActivity {
             for (int i = 0; i < list.size(); i++) {
                 if (list.get(i).getFurnitureId().equals(String.valueOf(id))) {
                     isExist = true;
+                    recentlyViewedDB.deleteRow(list.get(i));
                 }
             }
 
-            if (!isExist) {
+//            if (!isExist) {
                 boolean ifWrittenSuccessfully = recentlyViewedDB.addData(String.valueOf(id), url);
-            }
+
+           // }
         } else {
             boolean ifWrittenSuccessfully = recentlyViewedDB.addData(String.valueOf(id), url);
         }

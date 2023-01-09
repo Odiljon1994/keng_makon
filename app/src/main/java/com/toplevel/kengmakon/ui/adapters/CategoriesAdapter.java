@@ -24,11 +24,13 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
     private Context context;
     private List<CategoriesModel.CategoriesDataItem> items;
     private ClickListener clickListener;
+    private String lang;
 
-    public CategoriesAdapter(Context context, ClickListener clickListener) {
+    public CategoriesAdapter(Context context, String lang, ClickListener clickListener) {
         this.context = context;
         this.items = new ArrayList<>();
         this.clickListener = clickListener;
+        this.lang = lang;
     }
 
     @NonNull
@@ -63,8 +65,12 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
             if (model.getName().equals("СП")) {
                 binding.image.setImageDrawable(context.getDrawable(R.drawable.category_bed_icon));
             }
-            if (!TextUtils.isEmpty(model.getName())) {
-                binding.name.setText(model.getName());
+            if (lang.equals("uz") && !TextUtils.isEmpty(model.getName().getUz())) {
+                binding.name.setText(model.getName().getUz());
+            } else if (lang.equals("en") && !TextUtils.isEmpty(model.getName().getEn())) {
+                binding.name.setText(model.getName().getEn());
+            } else if (lang.equals("ru") && !TextUtils.isEmpty(model.getName().getRu())) {
+                binding.name.setText(model.getName().getRu());
             }
             binding.getRoot().setOnClickListener(v -> clickListener.onClick(model));
         }

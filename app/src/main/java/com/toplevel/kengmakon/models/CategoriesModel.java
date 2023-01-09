@@ -85,7 +85,7 @@ public class CategoriesModel {
         @SerializedName("id")
         private int id;
         @SerializedName("name")
-        private String name;
+        private CategoriesItemName name;
 
         public int getId() {
             return id;
@@ -95,17 +95,56 @@ public class CategoriesModel {
             this.id = id;
         }
 
-        public String getName() {
+        public CategoriesItemName getName() {
             return name;
         }
 
-        public void setName(String name) {
+        public void setName(CategoriesItemName name) {
             this.name = name;
         }
 
-        public CategoriesDataItem(int id, String name) {
+        public CategoriesDataItem(int id, CategoriesItemName name) {
             this.id = id;
             this.name = name;
+        }
+    }
+
+    public class CategoriesItemName {
+        @SerializedName("uz")
+        private String uz;
+        @SerializedName("ru")
+        private String ru;
+        @SerializedName("en")
+        private String en;
+
+        public String getUz() {
+            return uz;
+        }
+
+        public void setUz(String uz) {
+            this.uz = uz;
+        }
+
+        public String getRu() {
+            return ru;
+        }
+
+        public void setRu(String ru) {
+            this.ru = ru;
+        }
+
+        public String getEn() {
+            return en;
+        }
+
+        public void setEn(String en) {
+            this.en = en;
+        }
+
+        public CategoriesItemName(String uz, String ru, String en) {
+            this.uz = uz;
+            this.ru = ru;
+            this.en = en;
         }
     }
 }

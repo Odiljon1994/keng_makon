@@ -2,6 +2,7 @@ package com.toplevel.kengmakon.ui.fragments;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -23,6 +24,7 @@ import com.toplevel.kengmakon.MyApp;
 import com.toplevel.kengmakon.R;
 import com.toplevel.kengmakon.databinding.FragmentSettingsBinding;
 import com.toplevel.kengmakon.di.ViewModelFactory;
+import com.toplevel.kengmakon.models.RecentlyViewedModel;
 import com.toplevel.kengmakon.models.UserInfoModel;
 import com.toplevel.kengmakon.ui.AboutActivity;
 import com.toplevel.kengmakon.ui.BranchesActivity;
@@ -35,7 +37,11 @@ import com.toplevel.kengmakon.ui.dialogs.BaseDialog;
 import com.toplevel.kengmakon.ui.viewmodels.AuthVM;
 import com.toplevel.kengmakon.utils.LanguageChangeListener;
 import com.toplevel.kengmakon.utils.PreferencesUtil;
+import com.toplevel.kengmakon.utils.RecentlyViewedDB;
 import com.toplevel.kengmakon.utils.Utils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -49,6 +55,7 @@ public class SettingsFragment extends Fragment {
     AuthVM authVM;
     private String language = "";
     private LanguageChangeListener languageChangeListener;
+    private RecentlyViewedDB recentlyViewedDB;
 
     @Nullable
     @Override
@@ -238,6 +245,21 @@ public class SettingsFragment extends Fragment {
                 preferencesUtil.saveTOKEN("");
                 preferencesUtil.saveUserId(-1);
                 preferencesUtil.saveIsPushTokenDone(false);
+
+                recentlyViewedDB = new RecentlyViewedDB(getContext());
+
+                List<RecentlyViewedModel> list = getDataFromDB();
+
+                if (list != null && list.size() > 0) {
+
+                    for (int i = 0; i < list.size(); i++) {
+
+                        recentlyViewedDB.deleteRow(list.get(i));
+
+                    }
+                }
+
+
                 Intent intent = new Intent(getActivity(), LoginActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
@@ -271,5 +293,16 @@ public class SettingsFragment extends Fragment {
 
     public void setLanguageChangeListener(LanguageChangeListener languageChangeListener) {
         this.languageChangeListener = languageChangeListener;
+    }
+
+    public List<RecentlyViewedModel> getDataFromDB() {
+        List<RecentlyViewedModel> list = new ArrayList<>();
+        Cursor cursor = recentlyViewedDB.getData();
+
+        while (cursor.moveToNext()) {
+            list.add(new RecentlyViewedModel(cursor.getInt(0), cursor.getString(1), cursor.getString(2)));
+        }
+
+        return list;
     }
 }

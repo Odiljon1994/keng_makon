@@ -66,8 +66,13 @@ public class CategoryDetailActivity extends AppCompatActivity {
 
         binding.backBtn.setOnClickListener(view -> finish());
 
-        name = getIntent().getStringExtra("name");
-        binding.categoryName.setText(name);
+        try {
+            name = getIntent().getStringExtra("name");
+            binding.categoryName.setText(name);
+        } catch (Exception e) {
+
+        }
+
         binding.furnitureRecycler.setLayoutManager(new GridLayoutManager(this, 2));
         adapter = new CategoryDetailAdapter(this, preferencesUtil.getIsIsSignedIn(), new CategoryDetailAdapter.ClickListener() {
             @Override
