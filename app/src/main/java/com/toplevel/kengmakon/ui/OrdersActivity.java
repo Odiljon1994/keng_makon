@@ -31,6 +31,7 @@ public class OrdersActivity extends AppCompatActivity {
     PreferencesUtil preferencesUtil;
     @Inject
     ViewModelFactory viewModelFactory;
+
     private OrdersVM ordersVM;
     private ProgressDialog progressDialog;
     private MyOrdersAdapter adapter;
@@ -43,6 +44,7 @@ public class OrdersActivity extends AppCompatActivity {
         ordersVM.ordersModelLiveData().observe(this, this::onSuccessGetOrders);
         ordersVM.onFailGetOrdersLiveData().observe(this, this::onFailGetOrders);
 
+//        preferencesUtil.saveTOKEN("eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiY2YwM2RiOWEwNzc2ZWI3NWQ5MDM4OGFmMDBkNjE3ZDJkZGQwMzlhYjlhYWQyZDdiY2YyNjk4Nzg1MWE4M2IxNDJhNjY1ODUwZThhZDBhM2EiLCJpYXQiOjE2NzExOTM3NDYuNzg4MTg4LCJuYmYiOjE2NzExOTM3NDYuNzg4MTg5LCJleHAiOjE2NzEyMDA5NDYuNzg2NzUzLCJzdWIiOiI0Iiwic2NvcGVzIjpbXX0.H1ag8WKMrdKdxw9SH81ebE0_JldKe7l1XEUR_goKopRPq0KZoQ10xsY4DwWh7fShbQfhK20GK2KpFLgiTFotOJuc7zeGs_teecGI6UhAFIOCE5S12P7L2dzkTJw29ntw58g3JwJB2RQlLcmOV4K5_eJRAl4CkdZ4wasR4TKCM6GNHktWx7hM-GgXCS8JDwcNYw8F5LYd8pUweBZRcZc7vj505VrgPA3W3mspEawiLUIAP7ZXK37N_kDUGG4saAmmlinUzL4UZ3O4P-dTtAiIvpP5RLo63fMUCkR79ewxUIKRJs9qRnbo9F4OU5gckvsktFkkR-HuMvahL9MBKCBgLF12_47suHp10eBG-BtT8ylwz0RLXb9a4o_VYAWVy8C1JFte9LcLogBnUwkEe4YqRGFmKb210jJ-i6ugMofw21A1Caaq0ksvPjbpQ_D_2UNG0juP1cnp2muddIjD43BIgo5cUV1AlodWt4XTsjFjnt_mMqnCdd0Ur841Kg4FozIOmBg-Oz9HRJUYXg6mTiWpjsZpqwFGa5yzmxIPCYgpWhxfmyglfNVGCTIMCTUhRu5Omrmmjkwtm95U7BU075uwil5OHi-MFwISSvez2JQcNA9UigTZD18eTAz4TGBFTwCIxjehHY52CfADsgSihETUmoPcPx9BcsswXrZzXVUedyA");
 
         binding.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

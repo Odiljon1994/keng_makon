@@ -174,7 +174,7 @@ public class HomeFragment extends Fragment {
     }
 
     public void onFailGetSet(String error) {
-
+        System.out.println(error);
     }
 
     public void onSuccessGetCategories(CategoriesModel model) {
