@@ -11,12 +11,20 @@
         android:layout_marginStart="15dp"
         android:orientation="vertical">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/image"
+        <FrameLayout
             android:layout_width="75dp"
-            android:src="@drawable/app_logo"
             android:layout_height="75dp"
-            />
+            android:background="@drawable/recently_view_bgr"
+            >
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/image"
+                android:layout_width="73dp"
+                android:layout_height="73dp"
+                android:layout_gravity="center"
+                android:padding="0.7dp"
+                android:src="@drawable/app_logo" />
+        </FrameLayout>
 
     </LinearLayout>
 </layout>
