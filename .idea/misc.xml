@@ -15,7 +15,7 @@
         <entry key="app/src/main/res/layout/activity_branch_location.xml" value="0.18101092896174864" />
         <entry key="app/src/main/res/layout/activity_branches.xml" value="0.18101092896174864" />
         <entry key="app/src/main/res/layout/activity_category_detail.xml" value="0.2" />
-        <entry key="app/src/main/res/layout/activity_choose_language.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/activity_choose_language.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_create_account.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_feedback.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_furniture_detail.xml" value="0.19296448087431695" />
@@ -28,7 +28,7 @@
         <entry key="app/src/main/res/layout/activity_notifications.xml" value="0.19296448087431695" />
         <entry key="app/src/main/res/layout/activity_order_detail.xml" value="0.22" />
         <entry key="app/src/main/res/layout/activity_set_detail.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/activity_splash.xml" value="0.2776268115942029" />
+        <entry key="app/src/main/res/layout/activity_splash.xml" value="0.165" />
         <entry key="app/src/main/res/layout/bottom_sheet_select_language.xml" value="0.33" />
         <entry key="app/src/main/res/layout/dialog_base.xml" value="0.22" />
         <entry key="app/src/main/res/layout/dialog_base_single_btn.xml" value="0.24003623188405798" />

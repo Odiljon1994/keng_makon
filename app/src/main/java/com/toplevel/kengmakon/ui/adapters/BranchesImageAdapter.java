@@ -13,12 +13,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 import com.toplevel.kengmakon.R;
 import com.toplevel.kengmakon.databinding.ItemCitiesBinding;
 import com.toplevel.kengmakon.databinding.ViewpagerBranchesImageBinding;
 import com.toplevel.kengmakon.models.BranchesModel;
 import com.toplevel.kengmakon.models.CashbackModel;
 import com.toplevel.kengmakon.models.FurnitureModel;
+import com.toplevel.kengmakon.models.PushNotificationModel;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -30,12 +32,14 @@ public class BranchesImageAdapter extends RecyclerView.Adapter<BranchesImageAdap
     private ViewPager2 viewPager2;
     private Context context;
     private ClickListener clickListener;
+    private String language;
 
-    public BranchesImageAdapter(Context context, ViewPager2 viewPager2, ClickListener clickListener) {
+    public BranchesImageAdapter(Context context, String language, ViewPager2 viewPager2, ClickListener clickListener) {
         this.context = context;
         this.items = new ArrayList<>();
         this.viewPager2 = viewPager2;
         this.clickListener = clickListener;
+        this.language = language;
     }
 
     @NonNull
@@ -77,7 +81,18 @@ public class BranchesImageAdapter extends RecyclerView.Adapter<BranchesImageAdap
                 Glide.with(context).load(model.getStore().getImages().get(0)).centerCrop().into(binding.image);
             }
             if (!TextUtils.isEmpty(model.getStore().getAddress())) {
-                binding.branchRegion.setText(model.getStore().getAddress());
+                Gson parser = new Gson();
+                PushNotificationModel pushNotificationTitleModel = parser.fromJson(model.getStore().getAddress(),  PushNotificationModel.class);
+
+                if (language.equals("uz") && !TextUtils.isEmpty(pushNotificationTitleModel.getUz())) {
+                    binding.branchRegion.setText(pushNotificationTitleModel.getUz());
+                } else if (language.equals("en") && !TextUtils.isEmpty(pushNotificationTitleModel.getEn())) {
+                    binding.branchRegion.setText(pushNotificationTitleModel.getEn());
+                } else if (language.equals("ru") && !TextUtils.isEmpty(pushNotificationTitleModel.getRu())){
+                    binding.branchRegion.setText(pushNotificationTitleModel.getRu());
+                }
+
+
             }
             if (!TextUtils.isEmpty(model.getStore().getPhone())) {
                 binding.phoneNumber.setText(model.getStore().getPhone());

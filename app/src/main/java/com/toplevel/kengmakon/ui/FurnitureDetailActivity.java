@@ -21,6 +21,7 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 import com.toplevel.kengmakon.MyApp;
 import com.toplevel.kengmakon.R;
 import com.toplevel.kengmakon.databinding.ActivityFurnitureDetailBinding;
@@ -28,6 +29,7 @@ import com.toplevel.kengmakon.di.ViewModelFactory;
 import com.toplevel.kengmakon.models.FurnitureDetailModel;
 import com.toplevel.kengmakon.models.FurnitureModel;
 import com.toplevel.kengmakon.models.LikeModel;
+import com.toplevel.kengmakon.models.PushNotificationModel;
 import com.toplevel.kengmakon.models.RecentlyViewedModel;
 import com.toplevel.kengmakon.ui.dialogs.BaseDialog;
 import com.toplevel.kengmakon.ui.fragments.HomeFragment;
@@ -128,20 +130,44 @@ public class FurnitureDetailActivity extends AppCompatActivity {
     public void onSuccessGetFurnitureDetail(FurnitureDetailModel item) {
         progressDialog.dismiss();
         if (item.getCode() == 200) {
-            furnitureId = item.getData().getId();
-            if (!TextUtils.isEmpty(item.getData().getImage_url_preview())) {
-                Glide.with(this).load(item.getData().getImage_url_preview()).centerCrop().into(binding.furnitureImage);
+            furnitureId = item.getData().getFurniture().getId();
+            if (!TextUtils.isEmpty(item.getData().getFurniture().getImage_url_preview())) {
+                Glide.with(this).load(item.getData().getFurniture().getImage_url_preview()).centerCrop().into(binding.furnitureImage);
             }
-            if (!TextUtils.isEmpty(item.getData().getName())) {
-                binding.furnitureName.setText(item.getData().getName());
+            if (!TextUtils.isEmpty(item.getData().getFurniture().getName())) {
+
+                Gson parser = new Gson();
+                PushNotificationModel pushNotificationTitleModel = parser.fromJson(item.getData().getFurniture().getName(),  PushNotificationModel.class);
+
+                if (preferencesUtil.getLANGUAGE().equals("uz") && !TextUtils.isEmpty(pushNotificationTitleModel.getUz())) {
+                    binding.furnitureName.setText(pushNotificationTitleModel.getUz());
+                } else if (preferencesUtil.getLANGUAGE().equals("en") && !TextUtils.isEmpty(pushNotificationTitleModel.getEn())) {
+                    binding.furnitureName.setText(pushNotificationTitleModel.getEn());
+                } else if (preferencesUtil.getLANGUAGE().equals("ru") && !TextUtils.isEmpty(pushNotificationTitleModel.getRu())){
+                    binding.furnitureName.setText(pushNotificationTitleModel.getRu());
+                }
+
+               // binding.furnitureName.setText(item.getData().getName());
             }
-            if (!TextUtils.isEmpty(item.getData().getCategory().getName())) {
-                binding.furnitureName.setText(item.getData().getCategory().getName());
+            if (!TextUtils.isEmpty(item.getData().getFurniture().getCategory().getName())) {
+                binding.categoryName.setText(item.getData().getFurniture().getCategory().getName());
             }
-            if (!TextUtils.isEmpty(item.getData().getDescription())) {
-                binding.description.setText(item.getData().getDescription());
+            if (!TextUtils.isEmpty(item.getData().getFurniture().getInfo().getDescription())) {
+
+                Gson parser = new Gson();
+                PushNotificationModel pushNotificationTitleModel = parser.fromJson(item.getData().getFurniture().getInfo().getDescription(),  PushNotificationModel.class);
+
+                if (preferencesUtil.getLANGUAGE().equals("uz") && !TextUtils.isEmpty(pushNotificationTitleModel.getUz())) {
+                    binding.description.setText(pushNotificationTitleModel.getUz());
+                } else if (preferencesUtil.getLANGUAGE().equals("en") && !TextUtils.isEmpty(pushNotificationTitleModel.getEn())) {
+                    binding.description.setText(pushNotificationTitleModel.getEn());
+                } else if (preferencesUtil.getLANGUAGE().equals("ru") && !TextUtils.isEmpty(pushNotificationTitleModel.getRu())){
+                    binding.description.setText(pushNotificationTitleModel.getRu());
+                }
+
+                //binding.description.setText(item.getData().getFurniture().getInfo().getDescription());
             }
-            if (item.getData().isIs_liked()) {
+            if (item.getData().getFurniture().isIs_liked()) {
                 binding.likeImage.setImageDrawable(getDrawable(R.drawable.red_heart_icon));
             }
         }

@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.SnapHelper;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.google.gson.Gson;
 import com.toplevel.kengmakon.MyApp;
 import com.toplevel.kengmakon.R;
 import com.toplevel.kengmakon.databinding.FragmentHomeBinding;
@@ -32,6 +33,7 @@ import com.toplevel.kengmakon.di.ViewModelFactory;
 import com.toplevel.kengmakon.models.CategoriesModel;
 import com.toplevel.kengmakon.models.FurnitureModel;
 import com.toplevel.kengmakon.models.LikeModel;
+import com.toplevel.kengmakon.models.PushNotificationModel;
 import com.toplevel.kengmakon.models.RecentlyViewedModel;
 import com.toplevel.kengmakon.models.SetModel;
 import com.toplevel.kengmakon.ui.CategoryDetailActivity;
@@ -49,6 +51,7 @@ import com.toplevel.kengmakon.ui.viewmodels.FurnitureVM;
 import com.toplevel.kengmakon.utils.PreferencesUtil;
 import com.toplevel.kengmakon.utils.RecentlyViewedDB;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -97,14 +100,23 @@ public class HomeFragment extends Fragment {
 
         TOKEN = preferencesUtil.getTOKEN();
 
-
-
-
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-        adapter = new SetAdapter(getContext(), item -> {
+        adapter = new SetAdapter(getContext(), preferencesUtil.getLANGUAGE(), item -> {
             Intent intent = new Intent(getActivity(), SetDetailActivity.class);
             intent.putExtra("id", item.getId());
-            intent.putExtra("name", item.getName());
+
+            Gson parser = new Gson();
+            PushNotificationModel pushNotificationTitleModel = parser.fromJson(item.getName(),  PushNotificationModel.class);
+
+            if (preferencesUtil.getLANGUAGE().equals("uz") && !TextUtils.isEmpty(pushNotificationTitleModel.getUz())) {
+                intent.putExtra("name", pushNotificationTitleModel.getUz());
+            } else if (preferencesUtil.getLANGUAGE().equals("en") && !TextUtils.isEmpty(pushNotificationTitleModel.getEn())) {
+                intent.putExtra("name", pushNotificationTitleModel.getEn());
+            } else if (preferencesUtil.getLANGUAGE().equals("ru") && !TextUtils.isEmpty(pushNotificationTitleModel.getRu())){
+                intent.putExtra("name", pushNotificationTitleModel.getRu());
+            }
+
+            //intent.putExtra("name", item.getName());
             intent.putExtra("count", item.getItem_count());
             startActivity(intent);
         });
@@ -116,12 +128,15 @@ public class HomeFragment extends Fragment {
         categoriesAdapter = new CategoriesAdapter(getActivity(), preferencesUtil.getLANGUAGE(), item -> {
             Intent intent = new Intent(getActivity(), CategoryDetailActivity.class);
             intent.putExtra("id", item.getId());
-            if (preferencesUtil.getLANGUAGE().equals("uz") && !TextUtils.isEmpty(item.getName().getUz())) {
-                intent.putExtra("name", item.getName().getUz());
-            } else if (preferencesUtil.getLANGUAGE().equals("en") && !TextUtils.isEmpty(item.getName().getEn())) {
-                intent.putExtra("name", item.getName().getEn());
-            } else if (preferencesUtil.getLANGUAGE().equals("ru") && !TextUtils.isEmpty(item.getName().getRu())){
-                intent.putExtra("name", item.getName().getRu());
+            Gson parser = new Gson();
+            PushNotificationModel pushNotificationTitleModel = parser.fromJson(item.getName(),  PushNotificationModel.class);
+
+            if (preferencesUtil.getLANGUAGE().equals("uz") && !TextUtils.isEmpty(pushNotificationTitleModel.getUz())) {
+                intent.putExtra("name", pushNotificationTitleModel.getUz());
+            } else if (preferencesUtil.getLANGUAGE().equals("en") && !TextUtils.isEmpty(pushNotificationTitleModel.getEn())) {
+                intent.putExtra("name", pushNotificationTitleModel.getEn());
+            } else if (preferencesUtil.getLANGUAGE().equals("ru") && !TextUtils.isEmpty(pushNotificationTitleModel.getRu())){
+                intent.putExtra("name", pushNotificationTitleModel.getRu());
             }
 
             startActivity(intent);
@@ -129,7 +144,7 @@ public class HomeFragment extends Fragment {
         binding.categoryRecycler.setAdapter(categoriesAdapter);
 
         binding.furnitureRecycler.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-        furnitureAdapter = new FurnitureAdapter(getContext(), preferencesUtil.getIsIsSignedIn(), new FurnitureAdapter.ClickListener() {
+        furnitureAdapter = new FurnitureAdapter(getContext(), preferencesUtil.getLANGUAGE(), preferencesUtil.getIsIsSignedIn(), new FurnitureAdapter.ClickListener() {
             @Override
             public void onClick(FurnitureModel.FurnitureDataItem model) {
                 Intent intent = new Intent(getActivity(), FurnitureDetailActivity.class);

@@ -1,19 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
 
     </data>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
         android:orientation="vertical">
-        <FrameLayout
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp">
+
             <ImageView
                 android:id="@+id/backBtn"
                 android:layout_width="56dp"
@@ -23,24 +25,30 @@
 
             <TextView
                 android:id="@+id/title"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:textSize="14dp"
+                android:text=""
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="20dp"
+                android:layout_weight="1"
                 android:textColor="@color/black"
-                android:layout_gravity="center"/>
-        </FrameLayout>
+                android:textSize="13dp" />
+        </LinearLayout>
 
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
             <ImageView
                 android:id="@+id/image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scrollbars="vertical"
-                android:contentDescription="Specs"
                 android:adjustViewBounds="true"
-                android:src="@drawable/about_photo"/>
+                android:contentDescription="Specs"
+                android:scrollbars="vertical"
+                android:src="@drawable/about_photo" />
         </ScrollView>
     </LinearLayout>
 </layout>

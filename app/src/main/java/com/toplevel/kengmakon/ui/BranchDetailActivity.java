@@ -9,20 +9,29 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 
+import com.google.gson.Gson;
+import com.toplevel.kengmakon.MyApp;
 import com.toplevel.kengmakon.R;
 import com.toplevel.kengmakon.databinding.ActivityBranchDetailBinding;
+import com.toplevel.kengmakon.models.PushNotificationModel;
 import com.toplevel.kengmakon.ui.adapters.BranchDetailAdapter;
+import com.toplevel.kengmakon.utils.PreferencesUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 public class BranchDetailActivity extends AppCompatActivity {
 
     private BranchDetailAdapter adapter;
     private ActivityBranchDetailBinding binding;
+    @Inject
+    PreferencesUtil preferencesUtil;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ((MyApp) getApplication()).getAppComponent().inject(this);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_branch_detail);
 
         binding.backBtn.setOnClickListener(view -> finish());
@@ -48,10 +57,30 @@ public class BranchDetailActivity extends AppCompatActivity {
         });
 
         if (!TextUtils.isEmpty(address)) {
-            binding.addressTextView.setText(address);
+            Gson parser = new Gson();
+            PushNotificationModel pushNotificationTitleModel = parser.fromJson(address,  PushNotificationModel.class);
+
+            if (preferencesUtil.getLANGUAGE().equals("uz")) {
+                binding.addressTextView.setText(pushNotificationTitleModel.getUz());
+            } else if (preferencesUtil.getLANGUAGE().equals("ru")) {
+                binding.addressTextView.setText(pushNotificationTitleModel.getRu());
+            } else if (preferencesUtil.getLANGUAGE().equals("en")) {
+                binding.addressTextView.setText(pushNotificationTitleModel.getEn());
+            }
+
         }
         if (!TextUtils.isEmpty(working_hours)) {
-            binding.workingHoursTextView.setText(working_hours);
+            Gson parser = new Gson();
+            PushNotificationModel pushNotificationTitleModel = parser.fromJson(working_hours,  PushNotificationModel.class);
+
+            if (preferencesUtil.getLANGUAGE().equals("uz")) {
+                binding.workingHoursTextView.setText(pushNotificationTitleModel.getUz());
+            } else if (preferencesUtil.getLANGUAGE().equals("ru")) {
+                binding.workingHoursTextView.setText(pushNotificationTitleModel.getRu());
+            } else if (preferencesUtil.getLANGUAGE().equals("en")) {
+                binding.workingHoursTextView.setText(pushNotificationTitleModel.getEn());
+            }
+            //binding.workingHoursTextView.setText(working_hours);
         }
         if (!TextUtils.isEmpty(phone_number)) {
             binding.phoneNumberTextView.setText(phone_number);

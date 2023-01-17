@@ -13,10 +13,12 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 import com.toplevel.kengmakon.R;
 import com.toplevel.kengmakon.databinding.ItemSetBinding;
 import com.toplevel.kengmakon.databinding.ItemSetDetailBinding;
 import com.toplevel.kengmakon.models.CategoryDetailModel;
+import com.toplevel.kengmakon.models.PushNotificationModel;
 import com.toplevel.kengmakon.models.SetDetailModel;
 import com.toplevel.kengmakon.models.SetModel;
 
@@ -28,11 +30,13 @@ public class SetDetailAdapter extends RecyclerView.Adapter<SetDetailAdapter.View
     private List<SetDetailModel.SetDetailData> items;
     private ClickListener clickListener;
     private boolean isSigned;
+    private String language;
 
-    public SetDetailAdapter(Context context, boolean isSigned, ClickListener clickListener) {
+    public SetDetailAdapter(Context context, String language, boolean isSigned, ClickListener clickListener) {
         this.context = context;
         this.items = new ArrayList<>();
         this.clickListener = clickListener;
+        this.language = language;
         this.isSigned = isSigned;
     }
 
@@ -78,9 +82,22 @@ public class SetDetailAdapter extends RecyclerView.Adapter<SetDetailAdapter.View
                 binding.likeImage.setImageDrawable(context.getDrawable(R.drawable.gray_heart_icon));
             }
             if (!TextUtils.isEmpty(model.getFurniture().getName())) {
-                binding.name.setText(model.getFurniture().getName());
+                Gson parser = new Gson();
+                PushNotificationModel pushNotificationTitleModel = parser.fromJson(model.getFurniture().getName(),  PushNotificationModel.class);
+
+                if (language.equals("uz")) {
+                    binding.name.setText(pushNotificationTitleModel.getUz());
+                } else if (language.equals("ru")) {
+                    binding.name.setText(pushNotificationTitleModel.getRu());
+                } else if (language.equals("en")) {
+                    binding.name.setText(pushNotificationTitleModel.getEn());
+                }
+
+
+               // binding.name.setText(model.getFurniture().getName());
             }
             if (!TextUtils.isEmpty(model.getCategory().getName())) {
+
                 binding.type.setText(model.getCategory().getName());
             }
             binding.likeImage.setOnClickListener(view -> {

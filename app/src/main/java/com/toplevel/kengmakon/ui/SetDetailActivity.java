@@ -17,11 +17,13 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 import com.toplevel.kengmakon.MyApp;
 import com.toplevel.kengmakon.R;
 import com.toplevel.kengmakon.databinding.ActivitySetDetailBinding;
 import com.toplevel.kengmakon.di.ViewModelFactory;
 import com.toplevel.kengmakon.models.LikeModel;
+import com.toplevel.kengmakon.models.PushNotificationModel;
 import com.toplevel.kengmakon.models.SetDetailModel;
 import com.toplevel.kengmakon.ui.adapters.SetAdapter;
 import com.toplevel.kengmakon.ui.adapters.SetDetailAdapter;
@@ -63,7 +65,7 @@ public class SetDetailActivity extends AppCompatActivity {
         }
         binding.backBtn.setOnClickListener(view -> finish());
         binding.furnitureRecycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        adapter = new SetDetailAdapter(this, preferencesUtil.getIsIsSignedIn(), new SetDetailAdapter.ClickListener() {
+        adapter = new SetDetailAdapter(this, preferencesUtil.getLANGUAGE(), preferencesUtil.getIsIsSignedIn(), new SetDetailAdapter.ClickListener() {
             @Override
             public void onClick(SetDetailModel.SetDetailData model) {
 
@@ -96,7 +98,19 @@ public class SetDetailActivity extends AppCompatActivity {
     public void onSuccessGetSetDetails(SetDetailModel model) {
         if (model.getCode() == 200 && model.getData().size() > 0) {
             try {
-                binding.category.setText(model.getData().get(0).getFurniture().getName());
+                Gson parser = new Gson();
+                PushNotificationModel pushNotificationTitleModel = parser.fromJson(model.getData().get(0).getFurniture().getName(),  PushNotificationModel.class);
+
+                if (preferencesUtil.getLANGUAGE().equals("uz") && !TextUtils.isEmpty(pushNotificationTitleModel.getUz())) {
+                    binding.category.setText(pushNotificationTitleModel.getUz());
+                } else if (preferencesUtil.getLANGUAGE().equals("en") && !TextUtils.isEmpty(pushNotificationTitleModel.getEn())) {
+                    binding.category.setText(pushNotificationTitleModel.getEn());
+                } else if (preferencesUtil.getLANGUAGE().equals("ru") && !TextUtils.isEmpty(pushNotificationTitleModel.getRu())){
+                    binding.category.setText(pushNotificationTitleModel.getRu());
+                }
+
+
+               // binding.category.setText(model.getData().get(0).getFurniture().getName());
             } catch (Exception e) {
                 System.out.println(e);
             }

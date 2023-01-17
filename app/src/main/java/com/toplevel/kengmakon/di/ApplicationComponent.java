@@ -1,7 +1,10 @@
 package com.toplevel.kengmakon.di;
 
 import com.toplevel.kengmakon.MyApp;
+import com.toplevel.kengmakon.ui.AboutActivity;
+import com.toplevel.kengmakon.ui.ActionsDetailActivity;
 import com.toplevel.kengmakon.ui.BaseActivity;
+import com.toplevel.kengmakon.ui.BranchDetailActivity;
 import com.toplevel.kengmakon.ui.BranchesActivity;
 import com.toplevel.kengmakon.ui.CategoryDetailActivity;
 import com.toplevel.kengmakon.ui.ChooseLanguageActivity;
@@ -58,6 +61,9 @@ public interface ApplicationComponent {
     void inject(FurnitureDetailActivity activity);
     void inject(NotificationsActivity activity);
     void inject(MyFirebaseService activity);
+    void inject(AboutActivity activity);
+    void inject(ActionsDetailActivity activity);
+    void inject(BranchDetailActivity activity);
 
     @Component.Builder
     interface Builder {

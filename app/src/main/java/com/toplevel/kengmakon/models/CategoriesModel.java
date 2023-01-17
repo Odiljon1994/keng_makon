@@ -85,7 +85,7 @@ public class CategoriesModel {
         @SerializedName("id")
         private int id;
         @SerializedName("name")
-        private CategoriesItemName name;
+        private String name;
 
         public int getId() {
             return id;
@@ -95,15 +95,15 @@ public class CategoriesModel {
             this.id = id;
         }
 
-        public CategoriesItemName getName() {
+        public String getName() {
             return name;
         }
 
-        public void setName(CategoriesItemName name) {
+        public void setName(String name) {
             this.name = name;
         }
 
-        public CategoriesDataItem(int id, CategoriesItemName name) {
+        public CategoriesDataItem(int id, String name) {
             this.id = id;
             this.name = name;
         }

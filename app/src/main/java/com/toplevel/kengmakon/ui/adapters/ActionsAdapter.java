@@ -12,9 +12,11 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 import com.toplevel.kengmakon.R;
 import com.toplevel.kengmakon.databinding.ItemActionsBinding;
 import com.toplevel.kengmakon.models.ActionsModel;
+import com.toplevel.kengmakon.models.PushNotificationModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,11 +25,13 @@ public class ActionsAdapter extends RecyclerView.Adapter<ActionsAdapter.ViewHold
     private Context context;
     private ClickListener clickListener;
     private List<ActionsModel.ActionsItems> items;
+    private String language;
 
-    public ActionsAdapter(Context context, ClickListener clickListener) {
+    public ActionsAdapter(Context context, String language, ClickListener clickListener) {
         this.context = context;
         this.clickListener = clickListener;
         this.items = new ArrayList<>();
+        this.language = language;
     }
 
     @NonNull
@@ -67,11 +71,22 @@ public class ActionsAdapter extends RecyclerView.Adapter<ActionsAdapter.ViewHold
                 Glide.with(context).load("http://144.202.7.226:8080" + model.getFile_name()).centerCrop().into(binding.image);
             }
             if (!TextUtils.isEmpty(model.getTitle())) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    binding.title.setText(Html.fromHtml(model.getTitle(), Html.FROM_HTML_MODE_COMPACT));
-                } else {
-                    binding.title.setText(Html.fromHtml(model.getTitle()));
+                Gson parser = new Gson();
+                PushNotificationModel pushNotificationTitleModel = parser.fromJson(model.getTitle(),  PushNotificationModel.class);
+
+                if (language.equals("uz")) {
+                    binding.title.setText(pushNotificationTitleModel.getUz());
+                } else if (language.equals("ru")) {
+                    binding.title.setText(pushNotificationTitleModel.getRu());
+                } else if (language.equals("en")) {
+                    binding.title.setText(pushNotificationTitleModel.getEn());
                 }
+
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+//                    binding.title.setText(Html.fromHtml(model.getTitle(), Html.FROM_HTML_MODE_COMPACT));
+//                } else {
+//                    binding.title.setText(Html.fromHtml(model.getTitle()));
+//                }
             }
 
 

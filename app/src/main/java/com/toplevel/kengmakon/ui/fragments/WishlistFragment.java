@@ -79,7 +79,7 @@ public class WishlistFragment extends Fragment {
         binding.categoriesRecyclerView.setAdapter(wishlistCategoriesAdapter);
 
         binding.recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
-        wishlistAdapter = new WishlistAdapter(getContext(), preferencesUtil.getIsIsSignedIn(), new WishlistAdapter.ClickListener() {
+        wishlistAdapter = new WishlistAdapter(getContext(), preferencesUtil.getLANGUAGE(), preferencesUtil.getIsIsSignedIn(), new WishlistAdapter.ClickListener() {
             @Override
             public void onClick(FurnitureModel.FurnitureDataItem model) {
 

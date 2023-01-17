@@ -74,7 +74,7 @@ public class CategoryDetailActivity extends AppCompatActivity {
         }
 
         binding.furnitureRecycler.setLayoutManager(new GridLayoutManager(this, 2));
-        adapter = new CategoryDetailAdapter(this, preferencesUtil.getIsIsSignedIn(), new CategoryDetailAdapter.ClickListener() {
+        adapter = new CategoryDetailAdapter(this, preferencesUtil.getLANGUAGE(), preferencesUtil.getIsIsSignedIn(), new CategoryDetailAdapter.ClickListener() {
             @Override
             public void onClick(CategoryDetailModel.CategoryDetailDataItem model) {
 

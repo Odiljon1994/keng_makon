@@ -99,7 +99,7 @@ public class ActionsFragment extends Fragment {
         });
 
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter = new ActionsAdapter(getContext(), item -> {
+        adapter = new ActionsAdapter(getContext(), preferencesUtil.getLANGUAGE(), item -> {
             Intent intent = new Intent(getContext(), ActionsDetailActivity.class);
             intent.putExtra("title", item.getTitle());
             intent.putExtra("date", item.getCreated_at());

@@ -65,7 +65,7 @@ public class BranchesActivity extends AppCompatActivity {
         imageItems = new ArrayList<>();
         binding.backBtn.setOnClickListener(view -> finish());
 
-        imageAdapter = new BranchesImageAdapter(this, binding.viewPager, item -> {
+        imageAdapter = new BranchesImageAdapter(this, preferencesUtil.getLANGUAGE(), binding.viewPager, item -> {
             Intent intent = new Intent(BranchesActivity.this, BranchDetailActivity.class);
             intent.putStringArrayListExtra("images", (ArrayList<String>) item.getStore().getImages());
             intent.putExtra("address", item.getStore().getAddress());
