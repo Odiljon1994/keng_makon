@@ -308,6 +308,8 @@ public class HomeFragment extends Fragment {
         binding.recentlyViewedRecyclerView.setAdapter(recentlyViewedAdapter);
         if (list.size() > 0) {
             binding.recentlyViewedRecyclerView.setVisibility(View.VISIBLE);
+        } else {
+            binding.recentlyViewedRecyclerView.setVisibility(View.GONE);
         }
     }
 

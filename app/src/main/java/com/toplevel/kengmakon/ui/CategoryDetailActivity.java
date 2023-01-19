@@ -162,6 +162,7 @@ public class CategoryDetailActivity extends AppCompatActivity {
                 totalItems = size * model.getData().getTotalPages();
                 binding.totalItem.setText(String.valueOf(totalItems) + " " + getString(R.string.products));
             } else {
+                totalItems = model.getData().getItems().size();
                 binding.totalItem.setText(String.valueOf(model.getData().getItems().size()) + " " + getString(R.string.products));
             }
 
