@@ -75,4 +75,9 @@
     <string name="description">Описание</string>
     <string name="notifications">Уведомления</string>
     <string name="get_directions">Получить направления.</string>
+
+    <string name="materials">Материалы</string>
+    <string name="handmade">Ручной работы</string>
+    <string name="size">Размер</string>
+    <string name="delivery_">Доставка</string>
 </resources>

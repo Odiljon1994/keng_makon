@@ -75,4 +75,9 @@
     <string name="description">Tavsif</string>
     <string name="notifications">Bildirishnomalar</string>
     <string name="get_directions">Yoʻnalishlarni olish.</string>
+
+    <string name="materials">Materiallar</string>
+    <string name="handmade">Qo’lda ishlangan</string>
+    <string name="size">O’lcham</string>
+    <string name="delivery_">Yetkazib berish</string>
 </resources>

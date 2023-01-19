@@ -18,7 +18,7 @@
         <entry key="app/src/main/res/layout/activity_choose_language.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_create_account.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_feedback.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/activity_furniture_detail.xml" value="0.19296448087431695" />
+        <entry key="app/src/main/res/layout/activity_furniture_detail.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_get_started.xml" value="0.2" />
         <entry key="app/src/main/res/layout/activity_item_set_detail.xml" value="0.2520833333333333" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.2776268115942029" />
@@ -43,6 +43,7 @@
         <entry key="app/src/main/res/layout/item_categories.xml" value="0.22395833333333334" />
         <entry key="app/src/main/res/layout/item_cities.xml" value="0.15" />
         <entry key="app/src/main/res/layout/item_furniture.xml" value="0.22395833333333334" />
+        <entry key="app/src/main/res/layout/item_furniture_detail_img.xml" value="0.252734375" />
         <entry key="app/src/main/res/layout/item_my_orders.xml" value="0.22" />
         <entry key="app/src/main/res/layout/item_notifications.xml" value="0.19296448087431695" />
         <entry key="app/src/main/res/layout/item_order_detail.xml" value="0.18101092896174864" />

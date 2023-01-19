@@ -77,9 +77,12 @@ public class BranchesImageAdapter extends RecyclerView.Adapter<BranchesImageAdap
         void bind(BranchesModel.BranchesData model) {
 
             binding.getRoot().setOnClickListener(view -> clickListener.onClick(model));
-            if (!TextUtils.isEmpty(model.getStore().getImages().get(0))) {
-                Glide.with(context).load(model.getStore().getImages().get(0)).centerCrop().into(binding.image);
+            if (model.getStore().getImages().size() > 0) {
+                if (!TextUtils.isEmpty(model.getStore().getImages().get(0))) {
+                    Glide.with(context).load(model.getStore().getImages().get(0)).centerCrop().into(binding.image);
+                }
             }
+
             if (!TextUtils.isEmpty(model.getStore().getAddress())) {
                 Gson parser = new Gson();
                 PushNotificationModel pushNotificationTitleModel = parser.fromJson(model.getStore().getAddress(),  PushNotificationModel.class);

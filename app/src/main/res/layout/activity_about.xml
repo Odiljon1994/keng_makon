@@ -48,7 +48,7 @@
                 android:adjustViewBounds="true"
                 android:contentDescription="Specs"
                 android:scrollbars="vertical"
-                android:src="@drawable/about_photo" />
+                 />
         </ScrollView>
     </LinearLayout>
 </layout>

@@ -86,6 +86,8 @@ public class CategoriesModel {
         private int id;
         @SerializedName("name")
         private String name;
+        @SerializedName("image_url")
+        private String image_url;
 
         public int getId() {
             return id;
@@ -103,9 +105,18 @@ public class CategoriesModel {
             this.name = name;
         }
 
-        public CategoriesDataItem(int id, String name) {
+        public String getImage_url() {
+            return image_url;
+        }
+
+        public void setImage_url(String image_url) {
+            this.image_url = image_url;
+        }
+
+        public CategoriesDataItem(int id, String name, String image_url) {
             this.id = id;
             this.name = name;
+            this.image_url = image_url;
         }
     }
 

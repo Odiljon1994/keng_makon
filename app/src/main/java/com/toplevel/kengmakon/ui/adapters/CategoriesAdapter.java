@@ -64,9 +64,7 @@ public class CategoriesAdapter extends RecyclerView.Adapter<CategoriesAdapter.Vi
 
         void bind(CategoriesModel.CategoriesDataItem model) {
 
-            if (model.getName().equals("СП")) {
-                binding.image.setImageDrawable(context.getDrawable(R.drawable.category_bed_icon));
-            }
+            Glide.with(context).load(model.getImage_url()).centerCrop().error(context.getDrawable(R.drawable.category_sofa_icon)).into(binding.image);
 
             if (!TextUtils.isEmpty(model.getName())) {
                 Gson parser = new Gson();

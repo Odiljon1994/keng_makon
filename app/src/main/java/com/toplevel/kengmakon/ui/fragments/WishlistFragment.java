@@ -1,5 +1,8 @@
 package com.toplevel.kengmakon.ui.fragments;
 
+import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -22,6 +25,8 @@ import com.toplevel.kengmakon.databinding.FragmentWishlistBinding;
 import com.toplevel.kengmakon.di.ViewModelFactory;
 import com.toplevel.kengmakon.models.FurnitureModel;
 import com.toplevel.kengmakon.models.LikeModel;
+import com.toplevel.kengmakon.ui.FurnitureDetailActivity;
+import com.toplevel.kengmakon.ui.SetDetailActivity;
 import com.toplevel.kengmakon.ui.adapters.FurnitureAdapter;
 import com.toplevel.kengmakon.ui.adapters.WishlistAdapter;
 import com.toplevel.kengmakon.ui.adapters.WishlistCategoriesAdapter;
@@ -47,6 +52,9 @@ public class WishlistFragment extends Fragment {
     private WishlistCategoriesAdapter wishlistCategoriesAdapter;
     private List<FurnitureModel.FurnitureDataItem> allItems;
     private List<String> wishlistCategories;
+    private boolean isItemSelected = true;
+    private List<FurnitureModel.FurnitureDataItem> items;
+    private List<FurnitureModel.FurnitureDataItem> sets;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -59,6 +67,46 @@ public class WishlistFragment extends Fragment {
         furnitureDetailsVM = ViewModelProviders.of(this, viewModelFactory).get(FurnitureDetailsVM.class);
         furnitureDetailsVM.likeModelLiveData().observe(getActivity(), this::onSuccessLike);
         furnitureDetailsVM.onFailSetLikeLiveData().observe(getActivity(), this::onFailLike);
+
+        items = new ArrayList<>();
+        sets = new ArrayList<>();
+
+        binding.setLayout.setOnClickListener(view1 -> {
+
+            isItemSelected = false;
+            binding.itemTxtView.setTypeface(Typeface.DEFAULT);
+            binding.setTxtView.setTypeface(Typeface.DEFAULT_BOLD);
+            binding.setBottomView.setBackgroundColor(Color.parseColor("#385B96"));
+            binding.itemBottomView.setBackgroundColor(Color.parseColor("#ffffff"));
+
+            if (sets.size() == 0) {
+                binding.recyclerView.setVisibility(View.GONE);
+                binding.emptyLayout.setVisibility(View.VISIBLE);
+               // binding.swipeRefreshLayout.setRefreshing(true);
+                //actionsVM.getActionsEvent(preferencesUtil.getLANGUAGE(), page, size, "EVENT");
+            } else {
+                binding.recyclerView.setVisibility(View.VISIBLE);
+                binding.emptyLayout.setVisibility(View.GONE);
+                wishlistAdapter.setItems(sets);
+            }
+        });
+
+        binding.itemLayout.setOnClickListener(view1 -> {
+            isItemSelected = true;
+            binding.itemTxtView.setTypeface(Typeface.DEFAULT_BOLD);
+            binding.setTxtView.setTypeface(Typeface.DEFAULT);
+            binding.setBottomView.setBackgroundColor(Color.parseColor("#ffffff"));
+            binding.itemBottomView.setBackgroundColor(Color.parseColor("#385B96"));
+
+            if (items.size() == 0) {
+                binding.recyclerView.setVisibility(View.GONE);
+                binding.emptyLayout.setVisibility(View.VISIBLE);
+            } else {
+                binding.recyclerView.setVisibility(View.VISIBLE);
+                binding.emptyLayout.setVisibility(View.GONE);
+                wishlistAdapter.setItems(items);
+            }
+        });
 
 
         binding.categoriesRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
@@ -82,7 +130,10 @@ public class WishlistFragment extends Fragment {
         wishlistAdapter = new WishlistAdapter(getContext(), preferencesUtil.getLANGUAGE(), preferencesUtil.getIsIsSignedIn(), new WishlistAdapter.ClickListener() {
             @Override
             public void onClick(FurnitureModel.FurnitureDataItem model) {
-
+                Intent intent = new Intent(getContext(), FurnitureDetailActivity.class);
+                intent.putExtra("id", model.getId());
+                intent.putExtra("url", model.getImage_url_preview());
+                startActivity(intent);
             }
 
             @Override
@@ -109,6 +160,7 @@ public class WishlistFragment extends Fragment {
     }
 
     public void onSuccessGetWishlist(FurnitureModel model) {
+        items = new ArrayList<>();
         binding.swipeRefreshLayout.setRefreshing(false);
         if (model.getCode() == 200 && model.getData().getItems().size() > 0) {
 
@@ -125,6 +177,7 @@ public class WishlistFragment extends Fragment {
                 if (i > 0) {
                     boolean isEqual = false;
                     for (int j = 0; j < i; j++) {
+
                         if (model.getData().getItems().get(j).getCategory().getName().equals(model.getData().getItems().get(i).getCategory().getName())) {
                             isEqual = true;
                         }
@@ -150,9 +203,12 @@ public class WishlistFragment extends Fragment {
 //            }
             wishlistCategoriesAdapter.setItems(wishlistCategories, 0);
 
+
             binding.recyclerView.setVisibility(View.VISIBLE);
             binding.emptyLayout.setVisibility(View.INVISIBLE);
-            wishlistAdapter.setItems(model.getData().getItems());
+
+            items = model.getData().getItems();
+            wishlistAdapter.setItems(items);
         } else {
             binding.recyclerView.setVisibility(View.INVISIBLE);
             binding.emptyLayout.setVisibility(View.VISIBLE);

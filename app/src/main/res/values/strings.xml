@@ -74,4 +74,9 @@
     <string name="description">Description</string>
     <string name="notifications">Notifications</string>
     <string name="get_directions">Get directions</string>
+
+    <string name="materials">Materials</string>
+    <string name="handmade">Handmade</string>
+    <string name="size">Size</string>
+    <string name="delivery_">Delivery</string>
 </resources>

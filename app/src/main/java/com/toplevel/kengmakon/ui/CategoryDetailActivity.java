@@ -4,10 +4,12 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -50,9 +52,13 @@ public class CategoryDetailActivity extends AppCompatActivity {
     int id;
     private int page = 1;
     private int size = 20;
+    private boolean isItemSelected = true;
     String name = "";
+    int totalItems = 0;
+    int totalSets = 0;
 
     List<CategoryDetailModel.CategoryDetailDataItem> items = new ArrayList<>();
+    List<CategoryDetailModel.CategoryDetailDataItem> sets = new ArrayList<>();
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +69,47 @@ public class CategoryDetailActivity extends AppCompatActivity {
         furnitureDetailsVM.onFailGetCategoryDetailLiveData().observe(this, this::onFailGetCategoryDetail);
         furnitureDetailsVM.likeModelLiveData().observe(this, this::onSuccessLike);
         furnitureDetailsVM.onFailSetLikeLiveData().observe(this, this::onFailLike);
+
+        binding.setLayout.setOnClickListener(view1 -> {
+
+            isItemSelected = false;
+            binding.itemTxtView.setTypeface(Typeface.DEFAULT);
+            binding.setTxtView.setTypeface(Typeface.DEFAULT_BOLD);
+            binding.setBottomView.setBackgroundColor(Color.parseColor("#385B96"));
+            binding.itemBottomView.setBackgroundColor(Color.parseColor("#ffffff"));
+
+            binding.totalItem.setText(String.valueOf(totalSets) + " " + getString(R.string.products));
+
+            if (sets.size() == 0) {
+                binding.furnitureRecycler.setVisibility(View.GONE);
+                binding.emptyLayout.setVisibility(View.VISIBLE);
+                // binding.swipeRefreshLayout.setRefreshing(true);
+                //actionsVM.getActionsEvent(preferencesUtil.getLANGUAGE(), page, size, "EVENT");
+            } else {
+                binding.furnitureRecycler.setVisibility(View.VISIBLE);
+                binding.emptyLayout.setVisibility(View.GONE);
+                adapter.setItems(sets);
+            }
+        });
+
+        binding.itemLayout.setOnClickListener(view1 -> {
+            isItemSelected = true;
+            binding.itemTxtView.setTypeface(Typeface.DEFAULT_BOLD);
+            binding.setTxtView.setTypeface(Typeface.DEFAULT);
+            binding.setBottomView.setBackgroundColor(Color.parseColor("#ffffff"));
+            binding.itemBottomView.setBackgroundColor(Color.parseColor("#385B96"));
+
+            binding.totalItem.setText(String.valueOf(totalItems) + " " + getString(R.string.products));
+
+            if (items.size() == 0) {
+                binding.furnitureRecycler.setVisibility(View.GONE);
+                binding.emptyLayout.setVisibility(View.VISIBLE);
+            } else {
+                binding.furnitureRecycler.setVisibility(View.VISIBLE);
+                binding.emptyLayout.setVisibility(View.GONE);
+                adapter.setItems(items);
+            }
+        });
 
         binding.backBtn.setOnClickListener(view -> finish());
 
@@ -77,7 +124,10 @@ public class CategoryDetailActivity extends AppCompatActivity {
         adapter = new CategoryDetailAdapter(this, preferencesUtil.getLANGUAGE(), preferencesUtil.getIsIsSignedIn(), new CategoryDetailAdapter.ClickListener() {
             @Override
             public void onClick(CategoryDetailModel.CategoryDetailDataItem model) {
-
+                Intent intent = new Intent(CategoryDetailActivity.this, FurnitureDetailActivity.class);
+                intent.putExtra("id", model.getFurniture_id());
+                intent.putExtra("url", model.getImage_url_preview());
+                startActivity(intent);
             }
 
             @Override
@@ -109,7 +159,7 @@ public class CategoryDetailActivity extends AppCompatActivity {
 
 
             if (model.getData().getTotalPages() > 1) {
-                int totalItems = size * model.getData().getTotalPages();
+                totalItems = size * model.getData().getTotalPages();
                 binding.totalItem.setText(String.valueOf(totalItems) + " " + getString(R.string.products));
             } else {
                 binding.totalItem.setText(String.valueOf(model.getData().getItems().size()) + " " + getString(R.string.products));
@@ -119,6 +169,9 @@ public class CategoryDetailActivity extends AppCompatActivity {
                 items.add(model.getData().getItems().get(i));
             }
             adapter.setItems(items);
+        } else if (model.getCode() == 200 && model.getData().getItems().size() == 0) {
+            binding.furnitureRecycler.setVisibility(View.GONE);
+            binding.emptyLayout.setVisibility(View.VISIBLE);
         }
     }
     public void onFailGetCategoryDetail(String error) {
