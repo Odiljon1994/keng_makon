@@ -27,7 +27,7 @@ import java.util.List;
 
 public class SetDetailAdapter extends RecyclerView.Adapter<SetDetailAdapter.ViewHolder>{
     private Context context;
-    private List<SetDetailModel.SetDetailData> items;
+    private List<SetDetailModel.SetItems> items;
     private ClickListener clickListener;
     private boolean isSigned;
     private String language;
@@ -49,7 +49,7 @@ public class SetDetailAdapter extends RecyclerView.Adapter<SetDetailAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        SetDetailModel.SetDetailData item = items.get(position);
+        SetDetailModel.SetItems item = items.get(position);
         holder.bind(item, position);
     }
 
@@ -67,7 +67,7 @@ public class SetDetailAdapter extends RecyclerView.Adapter<SetDetailAdapter.View
             this.binding = itemView;
         }
 
-        void bind(SetDetailModel.SetDetailData model, int position) {
+        void bind(SetDetailModel.SetItems model, int position) {
 
 
             if (!TextUtils.isEmpty(model.getFurniture().getImage_url_preview())) {
@@ -97,8 +97,17 @@ public class SetDetailAdapter extends RecyclerView.Adapter<SetDetailAdapter.View
                // binding.name.setText(model.getFurniture().getName());
             }
             if (!TextUtils.isEmpty(model.getCategory().getName())) {
+                Gson parser = new Gson();
+                PushNotificationModel pushNotificationTitleModel = parser.fromJson(model.getCategory().getName(),  PushNotificationModel.class);
 
-                binding.type.setText(model.getCategory().getName());
+                if (language.equals("uz")) {
+                    binding.type.setText(pushNotificationTitleModel.getUz());
+                } else if (language.equals("ru")) {
+                    binding.type.setText(pushNotificationTitleModel.getRu());
+                } else if (language.equals("en")) {
+                    binding.type.setText(pushNotificationTitleModel.getEn());
+                }
+
             }
             binding.likeImage.setOnClickListener(view -> {
 
@@ -126,13 +135,13 @@ public class SetDetailAdapter extends RecyclerView.Adapter<SetDetailAdapter.View
         }
     }
 
-    public void setItems(List<SetDetailModel.SetDetailData> items) {
+    public void setItems(List<SetDetailModel.SetItems> items) {
         this.items = items;
         notifyDataSetChanged();
     }
 
     public interface ClickListener {
-        void onClick(SetDetailModel.SetDetailData model);
-        void onClickLikeBtn(SetDetailModel.SetDetailData model, boolean isLiked);
+        void onClick(SetDetailModel.SetItems model);
+        void onClickLikeBtn(SetDetailModel.SetItems model, boolean isLiked);
     }
 }

@@ -67,7 +67,7 @@ public class SetDetailActivity extends AppCompatActivity {
         binding.furnitureRecycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         adapter = new SetDetailAdapter(this, preferencesUtil.getLANGUAGE(), preferencesUtil.getIsIsSignedIn(), new SetDetailAdapter.ClickListener() {
             @Override
-            public void onClick(SetDetailModel.SetDetailData model) {
+            public void onClick(SetDetailModel.SetItems model) {
 
 //                    Glide.with(SetDetailActivity.this).load(model.getFurniture().getImage_url_preview()).centerCrop().into(binding.currentImage);
                 Intent intent = new Intent(SetDetailActivity.this, FurnitureDetailActivity.class);
@@ -78,7 +78,7 @@ public class SetDetailActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onClickLikeBtn(SetDetailModel.SetDetailData model, boolean isLiked) {
+            public void onClickLikeBtn(SetDetailModel.SetItems model, boolean isLiked) {
                 if (preferencesUtil.getIsIsSignedIn()) {
                     furnitureDetailsVM.setLikeDislike(preferencesUtil.getTOKEN(), model.getFurniture().getId());
                 } else {
@@ -96,10 +96,10 @@ public class SetDetailActivity extends AppCompatActivity {
     }
 
     public void onSuccessGetSetDetails(SetDetailModel model) {
-        if (model.getCode() == 200 && model.getData().size() > 0) {
+        if (model.getCode() == 200 && model.getData() != null) {
             try {
                 Gson parser = new Gson();
-                PushNotificationModel pushNotificationTitleModel = parser.fromJson(model.getData().get(0).getFurniture().getName(),  PushNotificationModel.class);
+                PushNotificationModel pushNotificationTitleModel = parser.fromJson(model.getData().getSet().getName(),  PushNotificationModel.class);
 
                 if (preferencesUtil.getLANGUAGE().equals("uz") && !TextUtils.isEmpty(pushNotificationTitleModel.getUz())) {
                     binding.category.setText(pushNotificationTitleModel.getUz());
@@ -114,8 +114,8 @@ public class SetDetailActivity extends AppCompatActivity {
             } catch (Exception e) {
                 System.out.println(e);
             }
-            Glide.with(this).load(model.getData().get(0).getFurniture().getImage_url_preview()).centerCrop().into(binding.currentImage);
-            adapter.setItems(model.getData());
+            Glide.with(this).load(model.getData().getSet().getImage_url_preview()).centerCrop().into(binding.currentImage);
+            adapter.setItems(model.getData().getItems());
         }
     }
 
