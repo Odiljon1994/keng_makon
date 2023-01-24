@@ -19,12 +19,14 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.google.gson.Gson;
 import com.toplevel.kengmakon.MyApp;
 import com.toplevel.kengmakon.R;
 import com.toplevel.kengmakon.databinding.FragmentWishlistBinding;
 import com.toplevel.kengmakon.di.ViewModelFactory;
 import com.toplevel.kengmakon.models.FurnitureModel;
 import com.toplevel.kengmakon.models.LikeModel;
+import com.toplevel.kengmakon.models.PushNotificationModel;
 import com.toplevel.kengmakon.ui.FurnitureDetailActivity;
 import com.toplevel.kengmakon.ui.SetDetailActivity;
 import com.toplevel.kengmakon.ui.adapters.FurnitureAdapter;
@@ -116,7 +118,21 @@ public class WishlistFragment extends Fragment {
             } else {
                 List<FurnitureModel.FurnitureDataItem> sortedItems = new ArrayList<>();
                 for (int i = 0; i < allItems.size(); i++) {
-                    if (allItems.get(i).getCategory().getName().equals(item)) {
+
+                    Gson parser = new Gson();
+                    PushNotificationModel pushNotificationTitleModel = parser.fromJson(allItems.get(i).getCategory().getName(),  PushNotificationModel.class);
+                    String currentItemCategoryName = "";
+
+                    if (preferencesUtil.getLANGUAGE().equals("uz")) {
+                        currentItemCategoryName = pushNotificationTitleModel.getUz();
+                    } else if (preferencesUtil.getLANGUAGE().equals("ru")) {
+                        currentItemCategoryName = pushNotificationTitleModel.getRu();
+                    } else if (preferencesUtil.getLANGUAGE().equals("en")) {
+                        currentItemCategoryName = pushNotificationTitleModel.getEn();
+                    }
+
+
+                    if (currentItemCategoryName.equals(item)) {
                         sortedItems.add(allItems.get(i));
                     }
                 }
@@ -170,7 +186,21 @@ public class WishlistFragment extends Fragment {
             wishlistCategories.add(getString(R.string.all));
 
 
-            wishlistCategories.add(model.getData().getItems().get(0).getCategory().getName());
+          //  wishlistCategories.add(model.getData().getItems().get(0).getCategory().getName());
+
+            Gson parser1 = new Gson();
+            PushNotificationModel pushNotificationTitleModel1 = parser1.fromJson(model.getData().getItems().get(0).getCategory().getName(),  PushNotificationModel.class);
+
+            if (preferencesUtil.getLANGUAGE().equals("uz")) {
+
+                wishlistCategories.add(pushNotificationTitleModel1.getUz());
+            } else if (preferencesUtil.getLANGUAGE().equals("ru")) {
+
+                wishlistCategories.add(pushNotificationTitleModel1.getRu());
+            } else if (preferencesUtil.getLANGUAGE().equals("en")) {
+
+                wishlistCategories.add(pushNotificationTitleModel1.getEn());
+            }
 
             for (int i = 0; i < model.getData().getItems().size(); i++) {
 
@@ -183,7 +213,16 @@ public class WishlistFragment extends Fragment {
                         }
                     }
                     if (!isEqual) {
-                        wishlistCategories.add(model.getData().getItems().get(i).getCategory().getName());
+                        Gson parser = new Gson();
+                        PushNotificationModel pushNotificationTitleModel = parser.fromJson(model.getData().getItems().get(i).getCategory().getName(),  PushNotificationModel.class);
+
+                        if (preferencesUtil.getLANGUAGE().equals("uz")) {
+                            wishlistCategories.add(pushNotificationTitleModel.getUz());
+                        } else if (preferencesUtil.getLANGUAGE().equals("ru")) {
+                            wishlistCategories.add(pushNotificationTitleModel.getRu());
+                        } else if (preferencesUtil.getLANGUAGE().equals("en")) {
+                            wishlistCategories.add(pushNotificationTitleModel.getEn());
+                        }
                     }
                 }
 

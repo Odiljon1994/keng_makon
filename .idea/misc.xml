@@ -34,7 +34,7 @@
         <entry key="app/src/main/res/layout/dialog_base_single_btn.xml" value="0.24003623188405798" />
         <entry key="app/src/main/res/layout/dialog_registration.xml" value="0.28041362530413627" />
         <entry key="app/src/main/res/layout/fragment_actions.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/fragment_cashback.xml" value="0.18" />
+        <entry key="app/src/main/res/layout/fragment_cashback.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.2004081632653061" />
         <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_wishlist.xml" value="0.25" />

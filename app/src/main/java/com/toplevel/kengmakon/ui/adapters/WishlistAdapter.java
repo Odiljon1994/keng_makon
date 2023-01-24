@@ -23,7 +23,7 @@ import com.toplevel.kengmakon.models.PushNotificationModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHolder>{
+public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHolder> {
     private Context context;
     private List<FurnitureModel.FurnitureDataItem> items;
     private ClickListener clickListener;
@@ -76,30 +76,37 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
             if (!TextUtils.isEmpty(model.getName())) {
 
                 if (!TextUtils.isEmpty(model.getName())) {
-                    if (!TextUtils.isEmpty(model.getName())) {
-                        Gson parser = new Gson();
-                        PushNotificationModel pushNotificationTitleModel = parser.fromJson(model.getName(),  PushNotificationModel.class);
 
-                        if (language.equals("uz")) {
-                            binding.name.setText(pushNotificationTitleModel.getUz());
-                        } else if (language.equals("ru")) {
-                            binding.name.setText(pushNotificationTitleModel.getRu());
-                        } else if (language.equals("en")) {
-                            binding.name.setText(pushNotificationTitleModel.getEn());
-                        }
+                    Gson parser = new Gson();
+                    PushNotificationModel pushNotificationTitleModel = parser.fromJson(model.getName(), PushNotificationModel.class);
 
+                    if (language.equals("uz")) {
+                        binding.name.setText(pushNotificationTitleModel.getUz());
+                    } else if (language.equals("ru")) {
+                        binding.name.setText(pushNotificationTitleModel.getRu());
+                    } else if (language.equals("en")) {
+                        binding.name.setText(pushNotificationTitleModel.getEn());
                     }
-
                 }
             }
             if (!TextUtils.isEmpty(model.getCategory().getName())) {
-                binding.type.setText(model.getCategory().getName());
+
+                Gson parser = new Gson();
+                PushNotificationModel pushNotificationTitleModel = parser.fromJson(model.getCategory().getName(), PushNotificationModel.class);
+
+                if (language.equals("uz")) {
+                    binding.type.setText(pushNotificationTitleModel.getUz());
+                } else if (language.equals("ru")) {
+                    binding.type.setText(pushNotificationTitleModel.getRu());
+                } else if (language.equals("en")) {
+                    binding.type.setText(pushNotificationTitleModel.getEn());
+                }
             }
             binding.getRoot().setOnClickListener(v -> clickListener.onClick(model));
             binding.likeImage.setOnClickListener(view -> {
 
                 if (isSigned) {
-                    final Bitmap bitmap = ((BitmapDrawable)binding.likeImage.getDrawable()).getBitmap();
+                    final Bitmap bitmap = ((BitmapDrawable) binding.likeImage.getDrawable()).getBitmap();
                     final Drawable likeDrawable = context.getResources().getDrawable(R.drawable.red_heart_icon);
                     final Bitmap likeBitmap = ((BitmapDrawable) likeDrawable).getBitmap();
 
@@ -124,6 +131,7 @@ public class WishlistAdapter extends RecyclerView.Adapter<WishlistAdapter.ViewHo
 
     public interface ClickListener {
         void onClick(FurnitureModel.FurnitureDataItem model);
+
         void onClickLikeBtn(FurnitureModel.FurnitureDataItem model, boolean isLiked);
     }
 }

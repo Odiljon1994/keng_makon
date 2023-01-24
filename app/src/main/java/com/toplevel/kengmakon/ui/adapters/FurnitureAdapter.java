@@ -94,8 +94,17 @@ public class FurnitureAdapter extends RecyclerView.Adapter<FurnitureAdapter.View
 
             }
             if (!TextUtils.isEmpty(model.getCategory().getName())) {
+                Gson parser = new Gson();
+                PushNotificationModel pushNotificationTitleModel = parser.fromJson(model.getCategory().getName(),  PushNotificationModel.class);
 
-                binding.type.setText(model.getCategory().getName());
+                if (language.equals("uz")) {
+                    binding.type.setText(pushNotificationTitleModel.getUz());
+                } else if (language.equals("ru")) {
+                    binding.type.setText(pushNotificationTitleModel.getRu());
+                } else if (language.equals("en")) {
+                    binding.type.setText(pushNotificationTitleModel.getEn());
+                }
+               // binding.type.setText(model.getCategory().getName());
             }
             binding.getRoot().setOnClickListener(v -> clickListener.onClick(model));
             binding.likeImage.setOnClickListener(view -> {
