@@ -27,12 +27,11 @@ public class AboutActivity extends AppCompatActivity {
 
         if (preferencesUtil.getLANGUAGE().equals("uz")) {
             binding.title.setText("Keng Makon mebel fabrikasi haqida");
-           // binding.image.setImageDrawable(getDrawable(R.drawable.about_img_uz));
-            binding.image.setImageDrawable(getDrawable(R.drawable.abount_img_en));
+            binding.image.setImageDrawable(getDrawable(R.drawable.about_img_uz));
+
         } else if (preferencesUtil.getLANGUAGE().equals("ru")) {
             binding.title.setText("О фабрике мебели Keng Makon");
-            binding.image.setImageDrawable(getDrawable(R.drawable.abount_img_en));
-           // binding.image.setImageDrawable(getDrawable(R.drawable.about_img_ru));
+            binding.image.setImageDrawable(getDrawable(R.drawable.about_img_ru));
         } else if (preferencesUtil.getLANGUAGE().equals("en")) {
             binding.title.setText("About Keng Makon");
             binding.image.setImageDrawable(getDrawable(R.drawable.abount_img_en));

@@ -63,6 +63,11 @@ public interface Api {
                                                       @Query("page") int page,
                                                       @Query("size") int size,
                                                       @Query("id") int id);
+    @GET("/api/category/items")
+    Single<CategoryDetailModel> getCategoryDetailSetList(@Header("Authorization") String token,
+                                                      @Query("page") int page,
+                                                      @Query("size") int size,
+                                                      @Query("id") int id);
 
     @POST("api/furniture/likeDislike")
     Single<LikeModel> setLikeDislike(@Header("Authorization") String token, @Body LikeModel.LikeReqModel model);
