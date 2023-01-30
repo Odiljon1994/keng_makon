@@ -132,9 +132,12 @@ public class WishlistFragment extends Fragment {
                     }
 
 
-                    if (currentItemCategoryName.equals(item)) {
-                        sortedItems.add(allItems.get(i));
+                    if (!TextUtils.isEmpty(currentItemCategoryName) && !TextUtils.isEmpty(item)) {
+                        if (currentItemCategoryName.equals(item)) {
+                            sortedItems.add(allItems.get(i));
+                        }
                     }
+
                 }
                 wishlistAdapter.setItems(sortedItems);
             }

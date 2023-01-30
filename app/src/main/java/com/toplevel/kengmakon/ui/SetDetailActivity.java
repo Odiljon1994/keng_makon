@@ -114,7 +114,7 @@ public class SetDetailActivity extends AppCompatActivity {
             } catch (Exception e) {
                 System.out.println(e);
             }
-            Glide.with(this).load(model.getData().getSet().getImage_url_preview()).centerCrop().into(binding.currentImage);
+            Glide.with(this).load(model.getData().getSet().getImage_url()).centerCrop().into(binding.currentImage);
             adapter.setItems(model.getData().getItems());
         }
     }

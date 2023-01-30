@@ -47,6 +47,7 @@
                 android:id="@+id/itemImage"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
+                android:src="@drawable/logo_with_text"
                 android:layout_gravity="center|top"
                  />
 
@@ -59,6 +60,7 @@
             android:layout_marginTop="3dp"
             android:textColor="#191A26"
             android:textSize="14dp"
+            android:text="fda"
             android:textStyle="bold" />
 
         <TextView
@@ -66,6 +68,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
+            android:text="fdsa"
             android:textColor="#808D9E"
             android:textSize="10dp" />
     </LinearLayout>

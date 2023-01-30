@@ -12,11 +12,13 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 import com.toplevel.kengmakon.R;
 import com.toplevel.kengmakon.databinding.ItemMyOrdersBinding;
 import com.toplevel.kengmakon.databinding.ItemOrderDetailBinding;
 import com.toplevel.kengmakon.models.OrderDetailModel;
 import com.toplevel.kengmakon.models.OrdersModel;
+import com.toplevel.kengmakon.models.PushNotificationModel;
 import com.toplevel.kengmakon.models.SetModel;
 
 import java.text.DecimalFormat;
@@ -27,10 +29,12 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
 
     private Context context;
     private List<OrderDetailModel.DetailDataFurnitures> items;
+    private String language;
 
-    public OrderDetailAdapter(Context context) {
+    public OrderDetailAdapter(Context context, String language) {
         this.context = context;
         this.items = new ArrayList<>();
+        this.language = language;
     }
 
     @NonNull
@@ -67,7 +71,24 @@ public class OrderDetailAdapter extends RecyclerView.Adapter<OrderDetailAdapter.
 
             Glide.with(context).load(model.getFurniture().getImage_url_preview()).centerCrop().into(binding.image);
             if (!TextUtils.isEmpty(model.getCategory().getName())) {
-                binding.categoryName.setText(model.getCategory().getName());
+
+                if (!TextUtils.isEmpty(model.getCategory().getName())) {
+                    Gson parser = new Gson();
+                    PushNotificationModel pushNotificationTitleModel = parser.fromJson(model.getCategory().getName(),  PushNotificationModel.class);
+
+                    if (language.equals("uz")) {
+                        binding.categoryName.setText(pushNotificationTitleModel.getUz());
+                    } else if (language.equals("ru")) {
+                        binding.categoryName.setText(pushNotificationTitleModel.getRu());
+                    } else if (language.equals("en")) {
+                        binding.categoryName.setText(pushNotificationTitleModel.getEn());
+                    }
+
+                    // binding.name.setText(model.getName());
+                }
+
+
+              //  binding.categoryName.setText(model.getCategory().getName());
             }
             binding.orderCount.setText("x" + model.getInfo().getAmount());
             binding.price.setText(df.format(model.getInfo().getSelling_cost()) + "sum");

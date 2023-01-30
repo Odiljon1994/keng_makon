@@ -57,7 +57,7 @@ public class OrderDetailActivity extends AppCompatActivity {
         ordersVM.getOrderDetail(preferencesUtil.getTOKEN(), order_id);
 
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        adapter = new OrderDetailAdapter(this);
+        adapter = new OrderDetailAdapter(this, preferencesUtil.getLANGUAGE());
         binding.recyclerView.setAdapter(adapter);
 
         binding.backBtn.setOnClickListener(view -> finish());

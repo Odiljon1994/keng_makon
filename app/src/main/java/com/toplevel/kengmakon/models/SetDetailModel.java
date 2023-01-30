@@ -218,6 +218,8 @@ public class SetDetailModel {
         private SetCategory category;
         @SerializedName("image_url_preview")
         private String image_url_preview;
+        @SerializedName("image_url")
+        private String image_url;
 
         public int getId() {
             return id;
@@ -251,11 +253,20 @@ public class SetDetailModel {
             this.image_url_preview = image_url_preview;
         }
 
-        public SetDetailDataSet(int id, String name, SetCategory category, String image_url_preview) {
+        public String getImage_url() {
+            return image_url;
+        }
+
+        public void setImage_url(String image_url) {
+            this.image_url = image_url;
+        }
+
+        public SetDetailDataSet(int id, String name, SetCategory category, String image_url_preview, String image_url) {
             this.id = id;
             this.name = name;
             this.category = category;
             this.image_url_preview = image_url_preview;
+            this.image_url = image_url;
         }
     }
 }
