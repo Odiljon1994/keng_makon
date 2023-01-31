@@ -64,21 +64,25 @@ public class SetAdapter extends RecyclerView.Adapter<SetAdapter.ViewHolder> {
         void bind(SetModel.SetDataItem model) {
 
             if (!TextUtils.isEmpty(model.getImage_url_preview())) {
-                Glide.with(context).load(model.getImage_url_preview()).centerCrop().into(binding.image);
+                Glide.with(context).load(model.getImage_url()).centerCrop().into(binding.image);
             }
 
 
 
             if (!TextUtils.isEmpty(model.getName())) {
-                Gson parser = new Gson();
-                PushNotificationModel pushNotificationTitleModel = parser.fromJson(model.getName(),  PushNotificationModel.class);
+                try {
+                    Gson parser = new Gson();
+                    PushNotificationModel pushNotificationTitleModel = parser.fromJson(model.getName(), PushNotificationModel.class);
 
-                if (language.equals("uz")) {
-                    binding.name.setText(pushNotificationTitleModel.getUz());
-                } else if (language.equals("ru")) {
-                    binding.name.setText(pushNotificationTitleModel.getRu());
-                } else if (language.equals("en")) {
-                    binding.name.setText(pushNotificationTitleModel.getEn());
+                    if (language.equals("uz")) {
+                        binding.name.setText(pushNotificationTitleModel.getUz());
+                    } else if (language.equals("ru")) {
+                        binding.name.setText(pushNotificationTitleModel.getRu());
+                    } else if (language.equals("en")) {
+                        binding.name.setText(pushNotificationTitleModel.getEn());
+                    }
+                } catch (Exception e) {
+                    System.out.println(e);
                 }
 
                // binding.name.setText(model.getName());

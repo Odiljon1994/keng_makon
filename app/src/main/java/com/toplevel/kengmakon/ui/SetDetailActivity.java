@@ -57,6 +57,9 @@ public class SetDetailActivity extends AppCompatActivity {
         furnitureDetailsVM.likeModelLiveData().observe(this, this::onSuccessLike);
         furnitureDetailsVM.onFailSetLikeLiveData().observe(this, this::onFailLike);
 
+        String description = getIntent().getStringExtra("description");
+        binding.description.setText(parseLanguage(description));
+
         try {
             binding.name.setText(getIntent().getStringExtra("name"));
             binding.productCount.setText(String.valueOf(getIntent().getIntExtra("count", 1)) + " " + getString(R.string.products));
@@ -94,9 +97,32 @@ public class SetDetailActivity extends AppCompatActivity {
         furnitureDetailsVM.getSet(preferencesUtil.getTOKEN(), id);
 
     }
+    private String parseLanguage(String data) {
+        try {
+            Gson parser = new Gson();
+            PushNotificationModel pushNotificationTitleModel = parser.fromJson(data,  PushNotificationModel.class);
+            String parsedString = "";
+
+            if (preferencesUtil.getLANGUAGE().equals("uz") && !TextUtils.isEmpty(pushNotificationTitleModel.getUz())) {
+                parsedString = pushNotificationTitleModel.getUz();
+            } else if (preferencesUtil.getLANGUAGE().equals("en") && !TextUtils.isEmpty(pushNotificationTitleModel.getEn())) {
+                parsedString = pushNotificationTitleModel.getEn();
+            } else if (preferencesUtil.getLANGUAGE().equals("ru") && !TextUtils.isEmpty(pushNotificationTitleModel.getRu())){
+                parsedString = pushNotificationTitleModel.getRu();
+            }
+
+
+            return parsedString;
+        } catch (Exception e) {
+            System.out.println(e);
+            return "";
+        }
+
+    }
 
     public void onSuccessGetSetDetails(SetDetailModel model) {
         if (model.getCode() == 200 && model.getData() != null) {
+
             try {
                 Gson parser = new Gson();
                 PushNotificationModel pushNotificationTitleModel = parser.fromJson(model.getData().getSet().getName(),  PushNotificationModel.class);

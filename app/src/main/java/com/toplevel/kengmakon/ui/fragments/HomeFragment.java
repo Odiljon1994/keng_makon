@@ -118,6 +118,7 @@ public class HomeFragment extends Fragment {
 
             //intent.putExtra("name", item.getName());
             intent.putExtra("count", item.getItem_count());
+            intent.putExtra("description", item.getDescription());
             startActivity(intent);
         });
         binding.recyclerView.setAdapter(adapter);
@@ -167,9 +168,11 @@ public class HomeFragment extends Fragment {
 
 
         binding.swipeRefreshLayout.setRefreshing(true);
-        furnitureVM.getSet(page, size);
+        furnitureVM.getTopSet();
+        //furnitureVM.getSet(page, size);
         furnitureVM.getCategories(1, 20);
-        furnitureVM.getFurniture(preferencesUtil.getTOKEN(), 1, 20);
+        furnitureVM.getFurnitureTopList(preferencesUtil.getTOKEN());
+        //furnitureVM.getFurniture(preferencesUtil.getTOKEN(), 1, 20);
 
         binding.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -196,15 +199,15 @@ public class HomeFragment extends Fragment {
 //            }
 //        });
 
-        binding.scrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
-            @Override
-            public void onScrollChange(@NonNull NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                if (scrollX == v.getChildAt(0).getMeasuredWidth() - v.getMeasuredWidth()) {
-                    page++;
-                    furnitureVM.getSet(page, size);
-                }
-            }
-        });
+//        binding.scrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+//            @Override
+//            public void onScrollChange(@NonNull NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+//                if (scrollX == v.getChildAt(0).getMeasuredWidth() - v.getMeasuredWidth()) {
+//                    page++;
+//                    furnitureVM.getSet(page, size);
+//                }
+//            }
+//        });
 
         return view;
     }

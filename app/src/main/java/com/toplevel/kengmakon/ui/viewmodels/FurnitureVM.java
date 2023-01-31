@@ -85,6 +85,20 @@ public class FurnitureVM extends BaseVM {
                 }));
     }
 
+
+    public void getTopSet() {
+
+        addToSubscribe(api.getTopSet()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> {
+                    setModelMutableLiveData.postValue(response);
+                }, error -> {
+                    onFailGetSetMutableLiveData.postValue(error.getMessage());
+                }));
+    }
+
+
     public void getCategories(int page, int size) {
 
         addToSubscribe(api.getCategories(page, size)
@@ -100,6 +114,18 @@ public class FurnitureVM extends BaseVM {
     public void getFurniture(String token, int page, int size) {
 
         addToSubscribe(api.getFurniture("Bearer " + token, page, size)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> {
+                    furnitureModelMutableLiveData.postValue(response);
+                }, error -> {
+                    onFailGetFurnitureMutableLiveData.postValue(error.getMessage());
+                }));
+    }
+
+    public void getFurnitureTopList(String token) {
+
+        addToSubscribe(api.getFurnitureTopList("Bearer " + token)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {

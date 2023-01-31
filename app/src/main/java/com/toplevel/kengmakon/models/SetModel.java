@@ -93,6 +93,8 @@ public class SetModel {
         private String image_url;
         @SerializedName("image_url_preview")
         private String image_url_preview;
+        @SerializedName("description")
+        private String description;
 
         public int getId() {
             return id;
@@ -134,12 +136,21 @@ public class SetModel {
             this.image_url_preview = image_url_preview;
         }
 
-        public SetDataItem(int id, String name, int item_count, String image_url, String image_url_preview) {
+        public String getDescription() {
+            return description;
+        }
+
+        public void setDescription(String description) {
+            this.description = description;
+        }
+
+        public SetDataItem(int id, String name, int item_count, String image_url, String image_url_preview, String description) {
             this.id = id;
             this.name = name;
             this.item_count = item_count;
             this.image_url = image_url;
             this.image_url_preview = image_url_preview;
+            this.description = description;
         }
     }
 }

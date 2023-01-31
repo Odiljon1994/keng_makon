@@ -42,6 +42,9 @@ public interface Api {
     Single<SetModel> getSet(@Query("page") int page,
                             @Query("size") int size);
 
+    @GET("/api/set/topList")
+    Single<SetModel> getTopSet();
+
     @GET("/api/category/list")
     Single<CategoriesModel> getCategories(@Query("page") int page,
                                           @Query("size") int size);
@@ -50,6 +53,9 @@ public interface Api {
     Single<FurnitureModel> getFurniture(@Header("Authorization") String token,
                                         @Query("page") int page,
                                         @Query("size") int size);
+
+    @GET("/api/furniture/list")
+    Single<FurnitureModel> getFurnitureTopList(@Header("Authorization") String token);
 
     @GET("/api/furniture/detail")
     Single<FurnitureDetailModel> getFurnitureDetail(@Header("Authorization") String token, @Query("id") int id);
