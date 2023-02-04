@@ -65,7 +65,7 @@ public class MyOrdersAdapter extends RecyclerView.Adapter<MyOrdersAdapter.ViewHo
             binding.getRoot().setOnClickListener(view -> clickListener.onClick(model));
             DecimalFormat df = new DecimalFormat("#,###,###");
             df.setMaximumFractionDigits(6);
-            binding.totalPrice.setText(df.format(model.getPayment().getTotal_payment()) + "sum");
+            binding.totalPrice.setText(df.format(model.getPayment().getTotal_cost()) + "sum");
 
             String datePairs[] = model.getOrder().getDate().split("T");
             binding.date.setText(datePairs[0]);

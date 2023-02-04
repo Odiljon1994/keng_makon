@@ -104,6 +104,8 @@ public class FeedbackActivity extends AppCompatActivity {
         progressDialog.dismiss();
         if (response.getCode() == 200) {
             showDialog();
+        } else {
+            binding.error.setText("Hatolik yuz berdi");
         }
 
 
@@ -228,6 +230,7 @@ public class FeedbackActivity extends AppCompatActivity {
 
     public void onFailFeedback(String error) {
         progressDialog.dismiss();
+        binding.error.setText("Hatolik yuz berdi");
     }
 
     public void onLoginSuccess(LoginModel.LoginResModel model) {

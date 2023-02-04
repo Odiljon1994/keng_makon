@@ -14,11 +14,13 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.google.gson.Gson;
 import com.toplevel.kengmakon.MyApp;
 import com.toplevel.kengmakon.R;
 import com.toplevel.kengmakon.databinding.ActivityOrderDetailBinding;
 import com.toplevel.kengmakon.di.ViewModelFactory;
 import com.toplevel.kengmakon.models.OrderDetailModel;
+import com.toplevel.kengmakon.models.PushNotificationModel;
 import com.toplevel.kengmakon.ui.adapters.MyOrdersAdapter;
 import com.toplevel.kengmakon.ui.adapters.OrderDetailAdapter;
 import com.toplevel.kengmakon.ui.viewmodels.OrdersVM;
@@ -79,7 +81,23 @@ public class OrderDetailActivity extends AppCompatActivity {
                 binding.sellerName.setText(model.getData().getSeller().getName());
             }
             if (!TextUtils.isEmpty(model.getData().getStore().getName())) {
-                binding.branch.setText(model.getData().getStore().getName());
+
+                try {
+                    Gson parser = new Gson();
+                    PushNotificationModel pushNotificationTitleModel = parser.fromJson(model.getData().getStore().getName(), PushNotificationModel.class);
+
+                    if (preferencesUtil.getLANGUAGE().equals("uz")) {
+                        binding.branch.setText(pushNotificationTitleModel.getUz());
+                    } else if (preferencesUtil.getLANGUAGE().equals("ru")) {
+                        binding.branch.setText(pushNotificationTitleModel.getRu());
+                    } else if (preferencesUtil.getLANGUAGE().equals("en")) {
+                        binding.branch.setText(pushNotificationTitleModel.getEn());
+                    }
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
+
+                //  binding.branch.setText(model.getData().getStore().getName());
             }
 
             if (!TextUtils.isEmpty(model.getData().getOrder().getDate())) {
@@ -125,6 +143,7 @@ public class OrderDetailActivity extends AppCompatActivity {
     }
 
     NetworkChangeListener networkChangeListener = new NetworkChangeListener();
+
     @Override
     protected void onStart() {
         IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);

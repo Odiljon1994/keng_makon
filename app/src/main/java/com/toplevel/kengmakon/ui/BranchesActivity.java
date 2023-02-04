@@ -82,7 +82,7 @@ public class BranchesActivity extends AppCompatActivity {
         binding.viewPager.getChildAt(0).setOverScrollMode(RecyclerView.OVER_SCROLL_NEVER);
 
         binding.recyclerViewCities.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        adapter = new BranchesCitiesAdapter(this, (item, position) -> {
+        adapter = new BranchesCitiesAdapter(this, preferencesUtil.getLANGUAGE(), (item, position) -> {
             if (position == 0) {
                 adapter.setItems(cities, position);
                 imageAdapter.setItems(imageItems);
