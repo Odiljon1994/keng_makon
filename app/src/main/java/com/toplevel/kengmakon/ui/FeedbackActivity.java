@@ -74,7 +74,7 @@ public class FeedbackActivity extends AppCompatActivity {
 
     public void showDialog() {
         BaseDialog baseDialog = new BaseDialog(this);
-        baseDialog.setTitle("Muroja'atingiz qabul qilindi", "Rahmat");
+        baseDialog.setTitle("Muroja'atingiz qabul qilindi", "Rahmat", "");
         baseDialog.makeBtnInvisible();
         baseDialog.changeBtnText("", "ok");
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);

@@ -18,7 +18,7 @@ public class NetworkChangeListener extends BroadcastReceiver {
             BaseDialog baseDialog = new BaseDialog(context);
             baseDialog.makeBtnInvisible();
             baseDialog.changeBtnText("", "Ok");
-            baseDialog.setTitle("Internet o'chib qoldi", "Iltimos intertingizni ulang.");
+            baseDialog.setTitle("Internet o'chib qoldi", "Iltimos intertingizni ulang.", "");
             AlertDialog.Builder alertBuilder = new AlertDialog.Builder(context);
             alertBuilder.setView(baseDialog);
             AlertDialog dialog = alertBuilder.create();

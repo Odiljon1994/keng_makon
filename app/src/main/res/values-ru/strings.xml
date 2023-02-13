@@ -80,4 +80,39 @@
     <string name="handmade">Ручной работы</string>
     <string name="size">Размер</string>
     <string name="delivery_">Доставка</string>
+
+    <string name="save_language">Сохранить язык</string>
+    <string name="please_enter_email">Пожалуйста, введите свой адрес электронной почты, чтобы получить новый пароль.</string>
+    <string name="forgot_your_password">Забыли пароль?</string>
+    <string name="success_change_pwd">Пароль успешно изменен.</string>
+    <string name="new_pwd_has_sent">Новый пароль отправлен на вашу почту!</string>
+    <string name="no_parking"> Нет парковки</string>
+    <string name="loading">Загрузка...</string>
+
+    <string name="not_logged_in">Вы не авторизованы</string>
+    <string name="want_to_login">Хотите войти?</string>
+    <string name="really_want_leave">Вы действительно хотите выйти?</string>
+    <string name="yes">Да</string>;
+    <string name="no">Нет</string>
+    <string name="all_items">Все детали</string>
+    <string name="service_officer">Менеджер службы</string>
+    <string name="payment">Оплата</string>
+    <string name="summary">Итог</string>
+    <string name="already_paid">Оплачено</string>
+    <string name="need_to_pay">Нужно заплатить</string>
+    <string name="keng_makon_branches">Филиалы Кенг Макон</string>
+    <string name="incorrect_current_pwd">Текущий пароль введен неверно.</string>
+
+    <string name="error_confirm_pwd">Ошибка при повторном вводе нового пароля.</string>
+    <string name="fullname_change_success">Ваше имя было успешно изменено.</string>
+    <string name="photo_upload_success">Фото успешно загружено!</string>
+    <string name="change_password">Изменить пароль</string>
+    <string name="save_username">Сохранить имя</string>
+    <string name="save_photo">Сохранить фото</string>
+    <string name="new_password">Новый пароль</string>
+    <string name="feedback_success_message">Ваш запрос принят. Спасибо.</string>
+    <string name="not_registered_email">Эта электронная почта не зарегистрирована.</string>
+    <string name="enter_registered_email">Пожалуйста, введите свой адрес электронной почты, чтобы получить новый пароль.</string>
+    <string name="renew_password">Запросить новый пароль</string>
+
 </resources>

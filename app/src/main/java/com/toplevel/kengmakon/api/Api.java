@@ -7,6 +7,7 @@ import com.toplevel.kengmakon.models.CashbackModel;
 import com.toplevel.kengmakon.models.CategoriesModel;
 import com.toplevel.kengmakon.models.CategoryDetailModel;
 import com.toplevel.kengmakon.models.FeedbackModel;
+import com.toplevel.kengmakon.models.ForgotPasswordReqModel;
 import com.toplevel.kengmakon.models.FurnitureDetailModel;
 import com.toplevel.kengmakon.models.FurnitureModel;
 import com.toplevel.kengmakon.models.LikeModel;
@@ -21,10 +22,14 @@ import com.toplevel.kengmakon.models.SignUpModel;
 import com.toplevel.kengmakon.models.UserInfoModel;
 
 import io.reactivex.Single;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Query;
 
 public interface Api {
@@ -87,6 +92,9 @@ public interface Api {
     @POST("api/feedback/submit")
     Single<BaseResponse> postFeedback(@Header("Authorization") String token, @Body FeedbackModel feedbackModel);
 
+    @POST("api/user/forgetPassword")
+    Single<BaseResponse> forgotPassword(@Body ForgotPasswordReqModel forgotPasswordReqModel);
+
     @GET("/api/user/cashback")
     Single<CashbackModel> getCashback(@Header("Authorization") String token, @Query("user_id") int user_id);
 
@@ -109,4 +117,10 @@ public interface Api {
     Single<NotificationsModel> getNotifications(@Query("page") int page,
                                                 @Query("size") int size,
                                                 @Query("lang") String lang);
+
+    @Multipart
+    @POST("/seyfert/kyc/uploadId")
+    Single<BaseResponse> uploadUserImage(@Header("Authorization") String token,
+                                      @Part("name") RequestBody name,
+                                      @Part MultipartBody.Part image);
 }

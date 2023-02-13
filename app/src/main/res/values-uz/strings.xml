@@ -80,4 +80,39 @@
     <string name="handmade">Qo’lda ishlangan</string>
     <string name="size">O’lcham</string>
     <string name="delivery_">Yetkazib berish</string>
+
+    <string name="save_language">Tilni saqlash</string>
+    <string name="please_enter_email">Iltimos yangi parol olish uchun emailingizni kiriting.</string>
+    <string name="forgot_your_password">Parolingizni unutdingizmi?</string>
+    <string name="success_change_pwd">Parolni o’zgartirish muvaffaqiyatli amalga oshirildi.</string>
+    <string name="new_pwd_has_sent">Sizning elektron pochtangizga yangi parol yuborildi!</string>
+    <string name="no_parking">Avtoturargoh mavjud emas</string>
+    <string name="loading">Yuklanmoqda...</string>
+
+    <string name="not_logged_in">Siz tizimga kirmadingiz</string>
+    <string name="want_to_login">Tizimga kirishni istaysizmi?</string>
+    <string name="really_want_leave">Chindan ham dasturdan chiqmoqchimisiz?</string>
+    <string name="yes">Ha</string>;
+    <string name="no">Yo’q</string>
+    <string name="all_items">Barcha mebellar</string>
+    <string name="service_officer">Xizmat xodimi</string>
+    <string name="payment">To’lovlar</string>
+    <string name="summary">Xulosa</string>
+    <string name="already_paid">Toʻlangan summa</string>
+    <string name="need_to_pay">Toʻlanmagan summa</string>
+    <string name="keng_makon_branches">Keng Makon doʻkonlari</string>
+    <string name="incorrect_current_pwd">Joriy parol notoʻgʻri kiritildi.</string>
+    <string name="error_confirm_pwd">Yangi parol takroran kiritilganda hatolik.</string>
+    <string name="fullname_change_success">Ismingiz muvaffaqiyatli oʻzgartitirldi.</string>
+
+    <string name="photo_upload_success">Foto muvaffaqiyatli yuklandi!</string>
+    <string name="change_password">Parolni oʻzgartirish</string>
+    <string name="save_username">Ismni oʻzgartirish</string>
+    <string name="save_photo">Surʻatni saqlash</string>
+    <string name="new_password">Yangi parol</string>
+    <string name="feedback_success_message">Murojaʻatingiz qabul qilindi. Rahmat.</string>
+    <string name="not_registered_email">Ushbu elektron pochta roʻyxatdan oʻtmagan.</string>
+    <string name="enter_registered_email">Yangi parol olish uchun elektron pochtangizni kiriting.</string>
+    <string name="renew_password">Yangi parol olish</string>
+
 </resources>

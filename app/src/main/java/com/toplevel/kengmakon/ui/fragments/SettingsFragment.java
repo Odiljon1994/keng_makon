@@ -29,6 +29,7 @@ import com.toplevel.kengmakon.models.UserInfoModel;
 import com.toplevel.kengmakon.ui.AboutActivity;
 import com.toplevel.kengmakon.ui.BranchesActivity;
 import com.toplevel.kengmakon.ui.ChooseLanguageActivity;
+import com.toplevel.kengmakon.ui.EditAccountActivity;
 import com.toplevel.kengmakon.ui.FeedbackActivity;
 import com.toplevel.kengmakon.ui.LoginActivity;
 import com.toplevel.kengmakon.ui.MainActivity;
@@ -72,6 +73,9 @@ public class SettingsFragment extends Fragment {
             binding.editAccount.setVisibility(View.GONE);
         }
 
+        binding.editAccount.setOnClickListener(view1 -> {
+            startActivity(new Intent(getActivity(), EditAccountActivity.class));
+        });
 
         binding.language.setOnClickListener(view1 -> {
 
@@ -199,7 +203,7 @@ public class SettingsFragment extends Fragment {
 
     public void showDialog() {
         BaseDialog baseDialog = new BaseDialog(getActivity());
-        baseDialog.setTitle("Siz ro'yxatdan o'tmadingiz", "Ro'yxatdan o'tishni hohlaysizmi?");
+        baseDialog.setTitle(getString(R.string.not_logged_in), getString(R.string.want_to_login), "");
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getContext());
         alertBuilder.setView(baseDialog);
         AlertDialog dialog = alertBuilder.create();
@@ -225,7 +229,7 @@ public class SettingsFragment extends Fragment {
 
     public void showLogOutDialog() {
         BaseDialog baseDialog = new BaseDialog(getActivity());
-        baseDialog.setTitle("Chindan ham dasturdan chiqmoqchimisiz?", "");
+        baseDialog.setTitle("Chindan ham dasturdan chiqmoqchimisiz?", "", "");
         baseDialog.changeBtnText("Yo'q", "Ha");
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getActivity());
         alertBuilder.setView(baseDialog);

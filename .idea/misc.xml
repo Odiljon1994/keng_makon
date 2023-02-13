@@ -17,6 +17,7 @@
         <entry key="app/src/main/res/layout/activity_category_detail.xml" value="0.2" />
         <entry key="app/src/main/res/layout/activity_choose_language.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_create_account.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/activity_edit_account.xml" value="0.22" />
         <entry key="app/src/main/res/layout/activity_feedback.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_forgot_password.xml" value="0.2271174863387978" />
         <entry key="app/src/main/res/layout/activity_furniture_detail.xml" value="0.25" />

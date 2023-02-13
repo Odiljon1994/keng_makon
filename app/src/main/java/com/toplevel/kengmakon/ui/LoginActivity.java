@@ -67,7 +67,7 @@ public class LoginActivity extends AppCompatActivity {
         binding.videoView.start();
 
         binding.forgotPasswordBtn.setOnClickListener(view -> {
-
+            startActivity(new Intent(this, ForgotPasswordActivity.class));
         });
 
         binding.loginBtn.setOnClickListener(view -> {

@@ -177,9 +177,9 @@ public class HomeFragment extends Fragment {
         binding.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                furnitureVM.getSet(page, size);
+                furnitureVM.getTopSet();
                 furnitureVM.getCategories(1, 20);
-                furnitureVM.getFurniture(preferencesUtil.getTOKEN(), 1, 20);
+                furnitureVM.getFurnitureTopList(preferencesUtil.getTOKEN());
             }
         });
 
@@ -242,11 +242,14 @@ public class HomeFragment extends Fragment {
     public void onSuccessGetFurniture(FurnitureModel model) {
         if (model.getCode() == 200 && model.getData().getItems().size() > 0) {
             furnitureAdapter.setItems(model.getData().getItems());
+        } else {
+            System.out.println("Furniture fail: " + model.getMessage());
         }
     }
 
     public void onFailGetFurnitureModel(String error) {
 
+        System.out.println("Furniture fail: " + error);
     }
 
     public void onSuccessLike(LikeModel likeModel) {
@@ -259,7 +262,7 @@ public class HomeFragment extends Fragment {
 
     public void showDialog() {
         BaseDialog baseDialog = new BaseDialog(getActivity());
-        baseDialog.setTitle("Siz ro'yxatdan o'tmadingiz", "Ro'yxatdan o'tishni hohlaysizmi?");
+        baseDialog.setTitle(getString(R.string.not_logged_in), getString(R.string.want_to_login), "");
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getContext());
         alertBuilder.setView(baseDialog);
         AlertDialog dialog = alertBuilder.create();

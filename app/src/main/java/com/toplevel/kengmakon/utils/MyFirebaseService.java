@@ -5,6 +5,7 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.os.Build;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationManagerCompat;
@@ -57,19 +58,8 @@ public class MyFirebaseService extends FirebaseMessagingService {
         PushNotificationModel pushNotificationTitleModel = parser.fromJson(remoteMessage.getNotification().getTitle(), PushNotificationModel.class);
         PushNotificationModel pushNotificationBodyModel = parser.fromJson(remoteMessage.getNotification().getBody(), PushNotificationModel.class);
 
-
-//        String title = "";
-//        String body = "";
-//        if (preferencesUtil.getLANGUAGE().equals("en")) {
-//            title = pushNotificationTitleModel.getEn();
-//            body = pushNotificationBodyModel.getEn();
-//        } else if (preferencesUtil.getLANGUAGE().equals("ru")) {
-//            title = pushNotificationTitleModel.getRu();
-//            body = pushNotificationBodyModel.getRu();
-//        } else {
-//            title = pushNotificationTitleModel.getUz();
-//            body = pushNotificationBodyModel.getUz();
-//        }
+        System.out.println("Parsed title: " + pushNotificationTitleModel.getUz());
+        System.out.println("Parsed body: " + pushNotificationBodyModel.getUz());
 
         final String CHANNEL_ID = "HEADS_UP_NOTIFICATION";
 
@@ -80,6 +70,9 @@ public class MyFirebaseService extends FirebaseMessagingService {
         );
 
         getSystemService(NotificationManager.class).createNotificationChannel(channel);
+
+//        Toast.makeText(this, "Body not parsed: " + pushNotificationBodyModel.toString(), Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "Body: " + pushNotificationBodyModel.getUz(), Toast.LENGTH_SHORT).show();
 
         Notification.Builder notification =
                 new Notification.Builder(this, CHANNEL_ID)

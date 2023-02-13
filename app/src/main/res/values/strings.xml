@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Keng Makon</string>
     <string name="select_language">Select language</string>
@@ -79,4 +80,37 @@
     <string name="handmade">Handmade</string>
     <string name="size">Size</string>
     <string name="delivery_">Delivery</string>
+
+    <string name="save_language">Save language</string>
+    <string name="please_enter_email">Please enter your email to get a new password.</string>
+    <string name="forgot_your_password">Forgot your password?</string>
+    <string name="success_change_pwd">The password has been changed successfully.</string>
+    <string name="new_pwd_has_sent">New password has been sent to your email!</string>
+    <string name="no_parking">No parking</string>
+    <string name="loading">Loading...</string>
+
+    <string name="not_logged_in">You are not Logged in</string>
+    <string name="want_to_login">Do you want to log in?</string>
+    <string name="really_want_leave">Do you really want to leave?</string>
+    <string name="yes">Yes</string>;
+    <string name="no">No</string>
+    <string name="all_items">All items</string>
+    <string name="service_officer">Service Officer</string>
+    <string name="payment">Payment</string>
+    <string name="summary">Summary</string>
+    <string name="already_paid">Already paid</string>
+    <string name="need_to_pay">Need to pay</string>
+    <string name="keng_makon_branches">Keng Makon Branches</string>
+    <string name="incorrect_current_pwd">The current password was entered incorrectly.</string>
+    <string name="error_confirm_pwd">Error when re-entering new password.</string>
+    <string name="fullname_change_success">Your name has been successfully changed.</string>
+    <string name="photo_upload_success">Photo uploaded successfully!</string>
+    <string name="change_password">Change password</string>
+    <string name="save_username">Save username</string>
+    <string name="save_photo">Save photo</string>
+    <string name="new_password">New password</string>
+    <string name="feedback_success_message">Your feedback has been accepted. Thank you.</string>
+    <string name="not_registered_email">This email is not registered.</string>
+    <string name="enter_registered_email">Please enter your email to get a new password.</string>
+    <string name="renew_password">Request new password</string>
 </resources>

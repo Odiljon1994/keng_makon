@@ -123,7 +123,7 @@
 
                     android:text=""
                     android:textColor="#808D9E"
-                    android:textSize="12dp" />
+                    android:textSize="14dp" />
 
                 <LinearLayout
                     android:id="@+id/materialsLayout"
@@ -159,7 +159,7 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="20dp"
                     android:text=""
-                    android:textSize="13dp"
+                    android:textSize="14dp"
                     android:visibility="gone" />
 
                 <View
@@ -204,7 +204,7 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="20dp"
                     android:text=""
-                    android:textSize="13dp"
+                    android:textSize="14dp"
                     android:visibility="gone" />
 
                 <View
@@ -250,7 +250,7 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="20dp"
                     android:text=""
-                    android:textSize="13dp"
+                    android:textSize="14dp"
                     android:visibility="gone" />
 
                 <View
@@ -295,7 +295,7 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="20dp"
                     android:text=""
-                    android:textSize="13dp"
+                    android:textSize="14dp"
                     android:visibility="gone" />
 
                 <View

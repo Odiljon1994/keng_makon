@@ -9,7 +9,9 @@ import com.toplevel.kengmakon.ui.BranchesActivity;
 import com.toplevel.kengmakon.ui.CategoryDetailActivity;
 import com.toplevel.kengmakon.ui.ChooseLanguageActivity;
 import com.toplevel.kengmakon.ui.CreateAccountActivity;
+import com.toplevel.kengmakon.ui.EditAccountActivity;
 import com.toplevel.kengmakon.ui.FeedbackActivity;
+import com.toplevel.kengmakon.ui.ForgotPasswordActivity;
 import com.toplevel.kengmakon.ui.FurnitureDetailActivity;
 import com.toplevel.kengmakon.ui.GetStartedActivity;
 import com.toplevel.kengmakon.ui.LoginActivity;
@@ -64,6 +66,8 @@ public interface ApplicationComponent {
     void inject(AboutActivity activity);
     void inject(ActionsDetailActivity activity);
     void inject(BranchDetailActivity activity);
+    void inject(ForgotPasswordActivity activity);
+    void inject(EditAccountActivity activity);
 
     @Component.Builder
     interface Builder {

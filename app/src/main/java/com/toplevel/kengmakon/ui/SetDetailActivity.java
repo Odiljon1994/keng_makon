@@ -159,7 +159,7 @@ public class SetDetailActivity extends AppCompatActivity {
 
     public void showDialog() {
         BaseDialog baseDialog = new BaseDialog(this);
-        baseDialog.setTitle("Siz ro'yxatdan o'tmadingiz", "Ro'yxatdan o'tishni hohlaysizmi?");
+        baseDialog.setTitle(getString(R.string.not_logged_in), getString(R.string.want_to_login), "");
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
         alertBuilder.setView(baseDialog);
         AlertDialog dialog = alertBuilder.create();

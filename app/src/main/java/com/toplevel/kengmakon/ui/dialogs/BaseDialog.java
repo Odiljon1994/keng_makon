@@ -32,9 +32,10 @@ public class BaseDialog extends FrameLayout {
     public void setClickListener(ClickListener clickListener) {
         this.clickListener = clickListener;
     }
-    public void setTitle(String title, String body) {
+    public void setTitle(String title, String body, String message) {
         binding.title.setText(title);
         binding.body.setText(body);
+        binding.message.setText(message);
     }
     public void setBtnTitle(String okBtnTitle, String noBtnTitle) {
         binding.okBtn.setText(okBtnTitle);

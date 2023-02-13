@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.toplevel.kengmakon.ui.viewmodels.ActionsVM;
 import com.toplevel.kengmakon.ui.viewmodels.AuthVM;
+import com.toplevel.kengmakon.ui.viewmodels.EditAccountVM;
 import com.toplevel.kengmakon.ui.viewmodels.FurnitureDetailsVM;
 import com.toplevel.kengmakon.ui.viewmodels.FurnitureVM;
 import com.toplevel.kengmakon.ui.viewmodels.InfoVM;
@@ -61,5 +62,8 @@ public abstract class ViewModelModule {
     @ViewModelKey(NotificationsVM.class)
     abstract ViewModel bindNotificationsVm(NotificationsVM notificationsVM);
 
-
+    @Binds
+    @IntoMap
+    @ViewModelKey(EditAccountVM.class)
+    abstract ViewModel bindEditAccountVm(EditAccountVM editAccountVM);
 }

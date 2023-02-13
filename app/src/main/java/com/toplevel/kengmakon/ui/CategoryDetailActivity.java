@@ -188,7 +188,7 @@ public class CategoryDetailActivity extends AppCompatActivity {
 
     public void showDialog() {
         BaseDialog baseDialog = new BaseDialog(this);
-        baseDialog.setTitle("Siz ro'yxatdan o'tmadingiz", "Ro'yxatdan o'tishni hohlaysizmi?");
+        baseDialog.setTitle("Siz ro'yxatdan o'tmadingiz", "Ro'yxatdan o'tishni hohlaysizmi?", "");
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
         alertBuilder.setView(baseDialog);
         AlertDialog dialog = alertBuilder.create();
