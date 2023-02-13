@@ -19,6 +19,8 @@ import com.toplevel.kengmakon.models.PushTokenReqModel;
 import com.toplevel.kengmakon.models.SetDetailModel;
 import com.toplevel.kengmakon.models.SetModel;
 import com.toplevel.kengmakon.models.SignUpModel;
+import com.toplevel.kengmakon.models.UpdatePasswordReqModel;
+import com.toplevel.kengmakon.models.UpdateUsernameReqModel;
 import com.toplevel.kengmakon.models.UserInfoModel;
 
 import io.reactivex.Single;
@@ -74,8 +76,8 @@ public interface Api {
                                                       @Query("page") int page,
                                                       @Query("size") int size,
                                                       @Query("id") int id);
-    @GET("/api/category/items")
-    Single<CategoryDetailModel> getCategoryDetailSetList(@Header("Authorization") String token,
+    @GET("/api/category/sets")
+    Single<SetModel> getCategoryDetailSetList(@Header("Authorization") String token,
                                                       @Query("page") int page,
                                                       @Query("size") int size,
                                                       @Query("id") int id);
@@ -119,8 +121,14 @@ public interface Api {
                                                 @Query("lang") String lang);
 
     @Multipart
-    @POST("/seyfert/kyc/uploadId")
+    @POST("/api/user/updateInfo")
     Single<BaseResponse> uploadUserImage(@Header("Authorization") String token,
                                       @Part("name") RequestBody name,
                                       @Part MultipartBody.Part image);
+
+    @POST("/api/user/updateInfo")
+    Single<BaseResponse> updateUsername(@Header("Authorization") String token, @Body UpdateUsernameReqModel updateUsernameReqModel);
+
+    @POST("/api/user/updatePassword")
+    Single<BaseResponse> updatePassword(@Header("Authorization") String token, @Body UpdatePasswordReqModel updatePasswordReqModel);
 }

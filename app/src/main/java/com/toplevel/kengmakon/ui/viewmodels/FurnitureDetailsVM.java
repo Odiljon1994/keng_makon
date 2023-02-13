@@ -32,6 +32,9 @@ public class FurnitureDetailsVM extends BaseVM {
     private MutableLiveData<FurnitureDetailModel> furnitureDetailMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<String> onFailFurnitureDetailMutableLiveData = new MutableLiveData<>();
 
+    private MutableLiveData<SetModel> categoryDetailSetMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<String> onFailCategoryDetailSetMutableLiveData = new MutableLiveData<>();
+
     private Api api;
     private Context context;
 
@@ -73,6 +76,15 @@ public class FurnitureDetailsVM extends BaseVM {
         return onFailFurnitureDetailMutableLiveData;
     }
 
+
+    public LiveData<SetModel> onSuccessCategorySetDetailLiveData() {
+        return categoryDetailSetMutableLiveData;
+    }
+
+    public LiveData<String> onFailCategorySetDetailLiveData() {
+        return onFailCategoryDetailSetMutableLiveData;
+    }
+
     public void getSet(String token, int id) {
 
         addToSubscribe(api.getSetDetailList("Bearer " + token, id)
@@ -108,6 +120,20 @@ public class FurnitureDetailsVM extends BaseVM {
                     onFailGetCategoryDetailMutableLiveData.postValue(error.getMessage());
                 }));
     }
+
+
+    public void getCategorySetDetail(String token, int page, int size, int id) {
+
+        addToSubscribe(api.getCategoryDetailSetList("Bearer " + token, page, size, id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> {
+                    categoryDetailSetMutableLiveData.postValue(response);
+                }, error -> {
+                    onFailCategoryDetailSetMutableLiveData.postValue(error.getMessage());
+                }));
+    }
+
 
     public void setLikeDislike(String token, int furniture_id) {
 

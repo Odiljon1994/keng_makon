@@ -22,13 +22,17 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 import com.toplevel.kengmakon.MyApp;
 import com.toplevel.kengmakon.R;
 import com.toplevel.kengmakon.databinding.ActivityCategoryDetailBinding;
 import com.toplevel.kengmakon.di.ViewModelFactory;
 import com.toplevel.kengmakon.models.CategoryDetailModel;
 import com.toplevel.kengmakon.models.LikeModel;
+import com.toplevel.kengmakon.models.PushNotificationModel;
+import com.toplevel.kengmakon.models.SetModel;
 import com.toplevel.kengmakon.ui.adapters.CategoryDetailAdapter;
+import com.toplevel.kengmakon.ui.adapters.CategorySetDetailAdapter;
 import com.toplevel.kengmakon.ui.adapters.SetDetailAdapter;
 import com.toplevel.kengmakon.ui.dialogs.BaseDialog;
 import com.toplevel.kengmakon.ui.viewmodels.FurnitureDetailsVM;
@@ -49,6 +53,7 @@ public class CategoryDetailActivity extends AppCompatActivity {
     @Inject
     PreferencesUtil preferencesUtil;
     private CategoryDetailAdapter adapter;
+    private CategorySetDetailAdapter adapterSet;
     int id;
     private int page = 1;
     private int size = 20;
@@ -58,7 +63,7 @@ public class CategoryDetailActivity extends AppCompatActivity {
     int totalSets = 0;
 
     List<CategoryDetailModel.CategoryDetailDataItem> items = new ArrayList<>();
-    List<CategoryDetailModel.CategoryDetailDataItem> sets = new ArrayList<>();
+    List<SetModel.SetDataItem> sets = new ArrayList<>();
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +74,8 @@ public class CategoryDetailActivity extends AppCompatActivity {
         furnitureDetailsVM.onFailGetCategoryDetailLiveData().observe(this, this::onFailGetCategoryDetail);
         furnitureDetailsVM.likeModelLiveData().observe(this, this::onSuccessLike);
         furnitureDetailsVM.onFailSetLikeLiveData().observe(this, this::onFailLike);
+        furnitureDetailsVM.onSuccessCategorySetDetailLiveData().observe(this, this::onSuccessGetCategorySetDetail);
+        furnitureDetailsVM.onFailCategorySetDetailLiveData().observe(this, this::onFailGetCategorySetDetail);
 
         binding.setLayout.setOnClickListener(view1 -> {
 
@@ -80,16 +87,26 @@ public class CategoryDetailActivity extends AppCompatActivity {
 
             binding.totalItem.setText(String.valueOf(totalSets) + " " + getString(R.string.products));
 
-            if (sets.size() == 0) {
-                binding.furnitureRecycler.setVisibility(View.GONE);
-                binding.emptyLayout.setVisibility(View.VISIBLE);
-                // binding.swipeRefreshLayout.setRefreshing(true);
-                //actionsVM.getActionsEvent(preferencesUtil.getLANGUAGE(), page, size, "EVENT");
-            } else {
-                binding.furnitureRecycler.setVisibility(View.VISIBLE);
+            binding.furnitureRecycler.setVisibility(View.GONE);
+
+            if (sets.size() > 0) {
+                binding.setDetailRecycler.setVisibility(View.VISIBLE);
                 binding.emptyLayout.setVisibility(View.GONE);
-                adapter.setItems(sets);
+            } else {
+                binding.setDetailRecycler.setVisibility(View.GONE);
+                binding.emptyLayout.setVisibility(View.VISIBLE);
             }
+
+//            if (sets.size() == 0) {
+//                binding.furnitureRecycler.setVisibility(View.GONE);
+//                binding.emptyLayout.setVisibility(View.VISIBLE);
+//                // binding.swipeRefreshLayout.setRefreshing(true);
+//                //actionsVM.getActionsEvent(preferencesUtil.getLANGUAGE(), page, size, "EVENT");
+//            } else {
+//                binding.furnitureRecycler.setVisibility(View.VISIBLE);
+//                binding.emptyLayout.setVisibility(View.GONE);
+////                adapter.setItems(sets);
+//            }
         });
 
         binding.itemLayout.setOnClickListener(view1 -> {
@@ -101,14 +118,24 @@ public class CategoryDetailActivity extends AppCompatActivity {
 
             binding.totalItem.setText(String.valueOf(totalItems) + " " + getString(R.string.products));
 
-            if (items.size() == 0) {
-                binding.furnitureRecycler.setVisibility(View.GONE);
-                binding.emptyLayout.setVisibility(View.VISIBLE);
-            } else {
+            binding.setDetailRecycler.setVisibility(View.GONE);
+
+            if (items.size() > 0) {
                 binding.furnitureRecycler.setVisibility(View.VISIBLE);
                 binding.emptyLayout.setVisibility(View.GONE);
-                adapter.setItems(items);
+            } else {
+                binding.furnitureRecycler.setVisibility(View.GONE);
+                binding.emptyLayout.setVisibility(View.VISIBLE);
             }
+
+//            if (items.size() == 0) {
+//                binding.furnitureRecycler.setVisibility(View.GONE);
+//                binding.emptyLayout.setVisibility(View.VISIBLE);
+//            } else {
+//                binding.furnitureRecycler.setVisibility(View.VISIBLE);
+//                binding.emptyLayout.setVisibility(View.GONE);
+//                adapter.setItems(items);
+//            }
         });
 
         binding.backBtn.setOnClickListener(view -> finish());
@@ -140,18 +167,67 @@ public class CategoryDetailActivity extends AppCompatActivity {
             }
         });
         binding.furnitureRecycler.setAdapter(adapter);
+
+        binding.setDetailRecycler.setLayoutManager(new GridLayoutManager(this, 2));
+        adapterSet = new CategorySetDetailAdapter(this, preferencesUtil.getLANGUAGE(), preferencesUtil.getIsIsSignedIn(), new CategorySetDetailAdapter.ClickListener() {
+            @Override
+            public void onClick(SetModel.SetDataItem model) {
+                Intent intent = new Intent(CategoryDetailActivity.this, SetDetailActivity.class);
+                intent.putExtra("id", model.getId());
+
+                Gson parser = new Gson();
+                PushNotificationModel pushNotificationTitleModel = parser.fromJson(model.getName(),  PushNotificationModel.class);
+
+                if (preferencesUtil.getLANGUAGE().equals("uz") && !TextUtils.isEmpty(pushNotificationTitleModel.getUz())) {
+                    intent.putExtra("name", pushNotificationTitleModel.getUz());
+                } else if (preferencesUtil.getLANGUAGE().equals("en") && !TextUtils.isEmpty(pushNotificationTitleModel.getEn())) {
+                    intent.putExtra("name", pushNotificationTitleModel.getEn());
+                } else if (preferencesUtil.getLANGUAGE().equals("ru") && !TextUtils.isEmpty(pushNotificationTitleModel.getRu())){
+                    intent.putExtra("name", pushNotificationTitleModel.getRu());
+                }
+
+                //intent.putExtra("name", item.getName());
+                intent.putExtra("count", model.getItem_count());
+                intent.putExtra("description", model.getDescription());
+                startActivity(intent);
+            }
+
+            @Override
+            public void onClickLikeBtn(CategoryDetailModel.CategoryDetailDataItem model, boolean isLiked) {
+
+            }
+        });
+        binding.setDetailRecycler.setAdapter(adapterSet);
+
         id = getIntent().getIntExtra("id", 1);
-        furnitureDetailsVM.getCategoryDetail(preferencesUtil.getTOKEN(), page, size, id);
+//        furnitureDetailsVM.getCategoryDetail(preferencesUtil.getTOKEN(), page, size, id);
+//        furnitureDetailsVM.getCategorySetDetail(preferencesUtil.getTOKEN(), page, size, id);
+        furnitureDetailsVM.getCategoryDetail(preferencesUtil.getTOKEN(), 1, 200, id);
+        furnitureDetailsVM.getCategorySetDetail(preferencesUtil.getTOKEN(), 1, 200, id);
 
         binding.scrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
             public void onScrollChange(@NonNull NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
                 if (scrollY == v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight()) {
-                    page++;
-                    furnitureDetailsVM.getCategoryDetail(preferencesUtil.getTOKEN(), page, size, id);
+//                    page++;
+//                    furnitureDetailsVM.getCategoryDetail(preferencesUtil.getTOKEN(), page, size, id);
+//                    furnitureDetailsVM.getCategorySetDetail(preferencesUtil.getTOKEN(), page, size, id);
+                    furnitureDetailsVM.getCategoryDetail(preferencesUtil.getTOKEN(), 1, 200, id);
+                    furnitureDetailsVM.getCategorySetDetail(preferencesUtil.getTOKEN(), 1, 200, id);
                 }
             }
         });
+    }
+
+    public void onSuccessGetCategorySetDetail(SetModel model) {
+        if (model.getCode() == 200 && model.getData().getItems().size() > 0) {
+            adapterSet.setItems(model.getData().getItems());
+            sets = model.getData().getItems();
+            totalSets = model.getData().getItems().size();
+        }
+    }
+    public void onFailGetCategorySetDetail(String error) {
+
     }
 
     public void onSuccessGetCategoryDetail(CategoryDetailModel model) {

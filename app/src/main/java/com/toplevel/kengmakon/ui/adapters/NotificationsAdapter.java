@@ -10,25 +10,29 @@ import androidx.databinding.DataBindingUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
 import com.toplevel.kengmakon.R;
 import com.toplevel.kengmakon.databinding.ItemNotificationsBinding;
 import com.toplevel.kengmakon.databinding.ItemSetBinding;
 import com.toplevel.kengmakon.models.NotificationsModel;
+import com.toplevel.kengmakon.models.PushNotificationModel;
 import com.toplevel.kengmakon.models.SetModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdapter.ViewHolder>{
+public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdapter.ViewHolder> {
 
     private Context context;
     private ClickListener clickListener;
     private List<NotificationsModel.NotificationsDataItems> list;
+    private String language;
 
-    public NotificationsAdapter(Context context, ClickListener clickListener) {
+    public NotificationsAdapter(Context context, String language, ClickListener clickListener) {
         this.context = context;
         this.clickListener = clickListener;
         this.list = new ArrayList<>();
+        this.language = language;
     }
 
     @NonNull
@@ -48,6 +52,7 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
     public int getItemCount() {
         return list.size();
     }
+
     public void setItems(List<NotificationsModel.NotificationsDataItems> items) {
         this.list = items;
         notifyDataSetChanged();
@@ -65,7 +70,18 @@ public class NotificationsAdapter extends RecyclerView.Adapter<NotificationsAdap
         void bind(NotificationsModel.NotificationsDataItems model) {
 
             if (!TextUtils.isEmpty(model.getTitle())) {
-                binding.title.setText(model.getTitle());
+
+                Gson parser = new Gson();
+                PushNotificationModel pushNotificationTitleModel = parser.fromJson(model.getTitle(), PushNotificationModel.class);
+
+                if (language.equals("uz")) {
+                    binding.title.setText(pushNotificationTitleModel.getUz());
+                } else if (language.equals("ru")) {
+                    binding.title.setText(pushNotificationTitleModel.getRu());
+                } else if (language.equals("en")) {
+                    binding.title.setText(pushNotificationTitleModel.getEn());
+                }
+
             }
             if (!TextUtils.isEmpty(model.getCreated_at())) {
                 String datePairs[] = model.getCreated_at().split("T");

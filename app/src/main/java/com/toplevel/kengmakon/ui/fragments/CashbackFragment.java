@@ -70,6 +70,14 @@ public class CashbackFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!TextUtils.isEmpty(preferencesUtil.getName())) {
+            binding.userName.setText(preferencesUtil.getName().toUpperCase(Locale.ROOT));
+        }
+    }
+
     public void onSuccessCashback(CashbackModel model) {
 
         binding.swipeRefreshLayout.setRefreshing(false);

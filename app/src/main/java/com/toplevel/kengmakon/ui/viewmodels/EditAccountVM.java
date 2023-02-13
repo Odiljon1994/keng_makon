@@ -8,6 +8,8 @@ import androidx.lifecycle.MutableLiveData;
 import com.toplevel.kengmakon.api.Api;
 import com.toplevel.kengmakon.models.BaseResponse;
 import com.toplevel.kengmakon.models.ForgotPasswordReqModel;
+import com.toplevel.kengmakon.models.UpdatePasswordReqModel;
+import com.toplevel.kengmakon.models.UpdateUsernameReqModel;
 
 import java.io.File;
 
@@ -30,6 +32,12 @@ public class EditAccountVM extends BaseVM{
     private MutableLiveData<BaseResponse> uploadUserImageMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<String> onFailUploadUserImageMutableLiveData = new MutableLiveData<>();
 
+    private MutableLiveData<BaseResponse> updateUsernameMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<String> onFailUploadUsernameMutableLiveData = new MutableLiveData<>();
+
+    private MutableLiveData<BaseResponse> updatePasswordMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<String> onFailUpdatePasswordMutableLiveData = new MutableLiveData<>();
+
     @Inject
     public EditAccountVM(Api api, Context context) {
         this.api = api;
@@ -44,12 +52,30 @@ public class EditAccountVM extends BaseVM{
         return onFailForgetPasswordMutableLiveData;
     }
 
-    public LiveData<BaseResponse> onSuccessUploadUserImagePasswordLiveData() {
+    public LiveData<BaseResponse> onSuccessUploadUserImageLiveData() {
         return uploadUserImageMutableLiveData;
     }
 
     public LiveData<String> onFailUploadUserImageLiveData() {
         return onFailUploadUserImageMutableLiveData;
+    }
+
+
+    public LiveData<BaseResponse> onSuccessUpdateUsernameLiveData() {
+        return updateUsernameMutableLiveData;
+    }
+
+    public LiveData<String> onFailUpdateUsernameLiveData() {
+        return onFailUploadUsernameMutableLiveData;
+    }
+
+
+    public LiveData<BaseResponse> onSuccessUpdatePasswordLiveData() {
+        return updatePasswordMutableLiveData;
+    }
+
+    public LiveData<String> onFailUpdatePasswordLiveData() {
+        return onFailUpdatePasswordMutableLiveData;
     }
 
     public void postForgetPassword(String email) {
@@ -65,12 +91,38 @@ public class EditAccountVM extends BaseVM{
                 }));
     }
 
+    public void postUpdateUsername(String token, String name) {
+
+        UpdateUsernameReqModel updateUsernameReqModel = new UpdateUsernameReqModel(name);
+        addToSubscribe(api.updateUsername("Bearer " + token, updateUsernameReqModel)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> {
+                    updateUsernameMutableLiveData.postValue(response);
+                }, error -> {
+                    onFailUploadUsernameMutableLiveData.postValue(error.getMessage());
+                }));
+    }
+
+    public void postUpdatePassword(String token, String oldPassword, String newPassword) {
+
+        UpdatePasswordReqModel updatePasswordReqModel = new UpdatePasswordReqModel(oldPassword, newPassword);
+        addToSubscribe(api.updatePassword("Bearer " + token, updatePasswordReqModel)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> {
+                    updatePasswordMutableLiveData.postValue(response);
+                }, error -> {
+                    onFailUpdatePasswordMutableLiveData.postValue(error.getMessage());
+                }));
+    }
+
     public void uploadUserImagePassword(File file,
                                         String name,
                                         String token) {
 
         RequestBody requestFile = RequestBody.create(MediaType.parse("multipart/form-data"), file);
-        MultipartBody.Part body = MultipartBody.Part.createFormData("file", file.getName(), requestFile);
+        MultipartBody.Part body = MultipartBody.Part.createFormData("image", file.getName(), requestFile);
 
         RequestBody fullNameUpload =
                 RequestBody.create(MediaType.parse("multipart/form-data"), name);

@@ -6,7 +6,9 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +37,7 @@ import com.toplevel.kengmakon.models.FurnitureModel;
 import com.toplevel.kengmakon.models.LikeModel;
 import com.toplevel.kengmakon.models.PushNotificationModel;
 import com.toplevel.kengmakon.models.RecentlyViewedModel;
+import com.toplevel.kengmakon.models.SearchModel;
 import com.toplevel.kengmakon.models.SetModel;
 import com.toplevel.kengmakon.ui.CategoryDetailActivity;
 import com.toplevel.kengmakon.ui.FurnitureDetailActivity;
@@ -44,6 +47,7 @@ import com.toplevel.kengmakon.ui.SetDetailActivity;
 import com.toplevel.kengmakon.ui.adapters.CategoriesAdapter;
 import com.toplevel.kengmakon.ui.adapters.FurnitureAdapter;
 import com.toplevel.kengmakon.ui.adapters.RecentlyViewedAdapter;
+import com.toplevel.kengmakon.ui.adapters.SearchAdapter;
 import com.toplevel.kengmakon.ui.adapters.SetAdapter;
 import com.toplevel.kengmakon.ui.dialogs.BaseDialog;
 import com.toplevel.kengmakon.ui.viewmodels.FurnitureDetailsVM;
@@ -77,6 +81,9 @@ public class HomeFragment extends Fragment {
     private List<SetModel.SetDataItem> setDataItems = new ArrayList<>();
     public RecentlyViewedAdapter recentlyViewedAdapter;
     private RecentlyViewedDB recentlyViewedDB;
+    private List<SearchModel> furnitureSortedList = new ArrayList<>();
+    private List<SearchModel> furnitureAllList = new ArrayList<>();
+    private SearchAdapter searchAdapter;
 
     @Nullable
     @Override
@@ -91,14 +98,72 @@ public class HomeFragment extends Fragment {
         furnitureVM.onFailGetCategoriesLiveData().observe(getActivity(), this::onFailGetCategories);
         furnitureVM.furnitureModelLiveData().observe(getActivity(), this::onSuccessGetFurniture);
         furnitureVM.onFailGetFurnitureLiveData().observe(getActivity(), this::onFailGetFurnitureModel);
+        furnitureVM.furnitureSearchModelLiveData().observe(getActivity(), this::onSuccessGetFurnitureSearch);
+        furnitureVM.onFailGetFurnitureSearchLiveData().observe(getActivity(), this::onFailGetFurnitureSearchModel);
         furnitureDetailsVM = ViewModelProviders.of(this, viewModelFactory).get(FurnitureDetailsVM.class);
         furnitureDetailsVM.likeModelLiveData().observe(getActivity(), this::onSuccessLike);
         furnitureDetailsVM.onFailSetLikeLiveData().observe(getActivity(), this::onFailLike);
+
+
 
         recentlyViewedDB = new RecentlyViewedDB(getActivity());
         binding.notifications.setOnClickListener(view1 -> startActivity(new Intent(getActivity(), NotificationsActivity.class)));
 
         TOKEN = preferencesUtil.getTOKEN();
+
+        binding.search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                System.out.println(editable);
+                furnitureSortedList = new ArrayList<>();
+                if (TextUtils.isEmpty(binding.search.getText().toString()) == true) {
+                    furnitureSortedList = new ArrayList<>();
+                    searchAdapter.setItems(furnitureSortedList);
+                    binding.searchRecyclerView.setVisibility(View.GONE);
+                } else {
+                    for (int i = 0; i < furnitureAllList.size(); i++) {
+                        if (furnitureAllList.get(i).getName().toUpperCase().contains(editable.toString().toUpperCase())) {
+                            furnitureSortedList.add(furnitureAllList.get(i));
+                        }
+                    }
+                    if (furnitureSortedList.size() > 0) {
+                        searchAdapter.setItems(furnitureSortedList);
+                        binding.searchRecyclerView.setVisibility(View.VISIBLE);
+                    } else if (TextUtils.isEmpty(editable.toString())) {
+                        furnitureSortedList.clear();
+                        furnitureSortedList = new ArrayList<>();
+                        searchAdapter.setItems(furnitureSortedList);
+                        binding.searchRecyclerView.setVisibility(View.GONE);
+                    }
+                    else {
+                        furnitureSortedList.clear();
+                        searchAdapter.setItems(furnitureSortedList);
+                        binding.searchRecyclerView.setVisibility(View.GONE);
+                    }
+                }
+
+            }
+        });
+
+
+        binding.searchRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        searchAdapter = new SearchAdapter(getActivity(), item -> {
+            Intent intent = new Intent(getActivity(), FurnitureDetailActivity.class);
+            intent.putExtra("id", item.getFurniture_id());
+            intent.putExtra("url", item.getImage_url());
+            startActivity(intent);
+        });
+        binding.searchRecyclerView.setAdapter(searchAdapter);
 
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
         adapter = new SetAdapter(getContext(), preferencesUtil.getLANGUAGE(), item -> {
@@ -150,7 +215,7 @@ public class HomeFragment extends Fragment {
             public void onClick(FurnitureModel.FurnitureDataItem model) {
                 Intent intent = new Intent(getActivity(), FurnitureDetailActivity.class);
                 intent.putExtra("id", model.getId());
-                intent.putExtra("url", model.getImage_url_preview());
+                intent.putExtra("url", model.getImage_url());
                 startActivity(intent);
 
             }
@@ -170,8 +235,9 @@ public class HomeFragment extends Fragment {
         binding.swipeRefreshLayout.setRefreshing(true);
         furnitureVM.getTopSet();
         //furnitureVM.getSet(page, size);
-        furnitureVM.getCategories(1, 20);
+        furnitureVM.getCategories(1, 200);
         furnitureVM.getFurnitureTopList(preferencesUtil.getTOKEN());
+        furnitureVM.getFurniture(preferencesUtil.getTOKEN(), 1, 2000);
         //furnitureVM.getFurniture(preferencesUtil.getTOKEN(), 1, 20);
 
         binding.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -182,32 +248,6 @@ public class HomeFragment extends Fragment {
                 furnitureVM.getFurnitureTopList(preferencesUtil.getTOKEN());
             }
         });
-
-//        binding.scrollView.getViewTreeObserver().addOnScrollChangedListener(new ViewTreeObserver.OnScrollChangedListener() {
-//            @Override
-//            public void onScrollChanged() {
-//                View view = (View)binding.scrollView.getChildAt(binding.scrollView.getChildCount() - 1);
-//
-//                int diff = (view.getBottom() - (binding.scrollView.getHeight() + binding.scrollView
-//                        .getScrollY()));
-//
-//                if (diff == 0) {
-//                    page++;
-//                    furnitureVM.getSet(page, size);
-//                }
-//
-//            }
-//        });
-
-//        binding.scrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
-//            @Override
-//            public void onScrollChange(@NonNull NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-//                if (scrollX == v.getChildAt(0).getMeasuredWidth() - v.getMeasuredWidth()) {
-//                    page++;
-//                    furnitureVM.getSet(page, size);
-//                }
-//            }
-//        });
 
         return view;
     }
@@ -248,6 +288,40 @@ public class HomeFragment extends Fragment {
     }
 
     public void onFailGetFurnitureModel(String error) {
+
+        System.out.println("Furniture fail: " + error);
+    }
+
+
+    public void onSuccessGetFurnitureSearch(FurnitureModel model) {
+        if (model.getCode() == 200 && model.getData().getItems().size() > 0) {
+            for (int i = 0; i < model.getData().getItems().size(); i++) {
+
+                try {
+
+                    Gson parser = new Gson();
+                    PushNotificationModel pushNotificationTitleModel = parser.fromJson(model.getData().getItems().get(i).getName(), PushNotificationModel.class);
+
+                    furnitureAllList.add(new SearchModel(model.getData().getItems().get(i).getId(), pushNotificationTitleModel.getUz(),
+                            model.getData().getItems().get(i).getImage_url()));
+                    furnitureAllList.add(new SearchModel(model.getData().getItems().get(i).getId(), pushNotificationTitleModel.getRu(),
+                            model.getData().getItems().get(i).getImage_url()));
+                    furnitureAllList.add(new SearchModel(model.getData().getItems().get(i).getId(), pushNotificationTitleModel.getEn(),
+                            model.getData().getItems().get(i).getImage_url()));
+
+                } catch (Exception e) {
+                   continue;
+                }
+
+
+
+            }
+        } else {
+            System.out.println("Furniture fail: " + model.getMessage());
+        }
+    }
+
+    public void onFailGetFurnitureSearchModel(String error) {
 
         System.out.println("Furniture fail: " + error);
     }
@@ -319,5 +393,25 @@ public class HomeFragment extends Fragment {
         }
     }
 
+    public String parseLang(String data) {
+        try {
+            String parsedData = "";
 
+            Gson parser = new Gson();
+            PushNotificationModel pushNotificationTitleModel = parser.fromJson(data, PushNotificationModel.class);
+
+            if (preferencesUtil.getLANGUAGE().equals("uz")) {
+                parsedData = pushNotificationTitleModel.getUz();
+            } else if (preferencesUtil.getLANGUAGE().equals("ru")) {
+                parsedData = pushNotificationTitleModel.getRu();
+            } else if (preferencesUtil.getLANGUAGE().equals("en")) {
+                parsedData = pushNotificationTitleModel.getEn();
+            }
+
+            return parsedData;
+        } catch (Exception e) {
+            return "";
+        }
+
+    }
 }

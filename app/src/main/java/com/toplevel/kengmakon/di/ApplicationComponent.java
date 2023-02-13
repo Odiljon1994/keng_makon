@@ -16,6 +16,7 @@ import com.toplevel.kengmakon.ui.FurnitureDetailActivity;
 import com.toplevel.kengmakon.ui.GetStartedActivity;
 import com.toplevel.kengmakon.ui.LoginActivity;
 import com.toplevel.kengmakon.ui.MainActivity;
+import com.toplevel.kengmakon.ui.NotificationDetailActivity;
 import com.toplevel.kengmakon.ui.NotificationsActivity;
 import com.toplevel.kengmakon.ui.OrderDetailActivity;
 import com.toplevel.kengmakon.ui.OrdersActivity;
@@ -68,6 +69,8 @@ public interface ApplicationComponent {
     void inject(BranchDetailActivity activity);
     void inject(ForgotPasswordActivity activity);
     void inject(EditAccountActivity activity);
+    void inject(NotificationDetailActivity activity);
+
 
     @Component.Builder
     interface Builder {

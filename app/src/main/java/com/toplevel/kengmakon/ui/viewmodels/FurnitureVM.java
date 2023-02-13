@@ -31,6 +31,9 @@ public class FurnitureVM extends BaseVM {
     private MutableLiveData<FurnitureModel> furnitureModelMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<String> onFailGetFurnitureMutableLiveData = new MutableLiveData<>();
 
+    private MutableLiveData<FurnitureModel> furnitureSearchModelMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<String> onFailGetFurnitureSearchMutableLiveData = new MutableLiveData<>();
+
     private MutableLiveData<FurnitureModel> onSuccessGetWishlistMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<String> onFailGetWishlistMutableLiveData = new MutableLiveData<>();
 
@@ -62,6 +65,14 @@ public class FurnitureVM extends BaseVM {
 
     public LiveData<String> onFailGetFurnitureLiveData() {
         return onFailGetFurnitureMutableLiveData;
+    }
+
+    public LiveData<FurnitureModel> furnitureSearchModelLiveData() {
+        return furnitureSearchModelMutableLiveData;
+    }
+
+    public LiveData<String> onFailGetFurnitureSearchLiveData() {
+        return onFailGetFurnitureSearchMutableLiveData;
     }
 
     public LiveData<FurnitureModel> onSuccessGetWishlistLiveData() {
@@ -117,9 +128,9 @@ public class FurnitureVM extends BaseVM {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
-                    furnitureModelMutableLiveData.postValue(response);
+                    furnitureSearchModelMutableLiveData.postValue(response);
                 }, error -> {
-                    onFailGetFurnitureMutableLiveData.postValue(error.getMessage());
+                    onFailGetFurnitureSearchMutableLiveData.postValue(error.getMessage());
                 }));
     }
 

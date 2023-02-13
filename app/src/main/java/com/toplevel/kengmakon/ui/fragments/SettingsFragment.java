@@ -6,12 +6,14 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,9 +21,12 @@ import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.bumptech.glide.Glide;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.toplevel.kengmakon.MyApp;
 import com.toplevel.kengmakon.R;
+import com.toplevel.kengmakon.api.Api;
+import com.toplevel.kengmakon.api.ApiUtils;
 import com.toplevel.kengmakon.databinding.FragmentSettingsBinding;
 import com.toplevel.kengmakon.di.ViewModelFactory;
 import com.toplevel.kengmakon.models.RecentlyViewedModel;
@@ -182,12 +187,11 @@ public class SettingsFragment extends Fragment {
 
         });
 
+
+
         binding.languageTxt.setText(preferencesUtil.getLANGUAGE());
-        if (preferencesUtil.getIsIsSignedIn() && preferencesUtil.getName().equals("")) {
-            authVM.getUserInfo(preferencesUtil.getTOKEN());
-        } else {
-            binding.name.setText(preferencesUtil.getName());
-        }
+
+
 
         binding.feedback.setOnClickListener(view1 -> {
             if (preferencesUtil.getIsIsSignedIn()) {
@@ -199,6 +203,16 @@ public class SettingsFragment extends Fragment {
         });
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        binding.name.setText(preferencesUtil.getName());
+        if (preferencesUtil.getIsIsSignedIn()) {
+
+            authVM.getUserInfo(preferencesUtil.getTOKEN());
+        }
     }
 
     public void showDialog() {
@@ -287,6 +301,10 @@ public class SettingsFragment extends Fragment {
             preferencesUtil.saveUserId(model.getData().getId());
             preferencesUtil.savePhoneNumber(model.getData().getPhone());
             binding.name.setText(model.getData().getName());
+            if (!TextUtils.isEmpty(model.getData().getImage())) {
+                preferencesUtil.saveImageUrl(model.getData().getImage());
+                Glide.with(getActivity()).load(ApiUtils.getBaseUrl() + model.getData().getImage()).into(binding.userImage);
+            }
         }
     }
 
@@ -309,4 +327,6 @@ public class SettingsFragment extends Fragment {
 
         return list;
     }
+
+
 }

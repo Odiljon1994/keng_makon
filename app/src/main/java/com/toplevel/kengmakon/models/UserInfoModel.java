@@ -50,6 +50,8 @@ public class UserInfoModel {
         private String phone;
         @SerializedName("email")
         private String email;
+        @SerializedName("image")
+        private String image;
 
         public int getId() {
             return id;
@@ -83,11 +85,20 @@ public class UserInfoModel {
             this.email = email;
         }
 
-        public UserInfoData(int id, String name, String phone, String email) {
+        public String getImage() {
+            return image;
+        }
+
+        public void setImage(String image) {
+            this.image = image;
+        }
+
+        public UserInfoData(int id, String name, String phone, String email, String image) {
             this.id = id;
             this.name = name;
             this.phone = phone;
             this.email = email;
+            this.image = image;
         }
     }
 }

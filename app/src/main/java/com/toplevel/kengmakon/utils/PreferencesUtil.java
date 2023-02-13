@@ -19,6 +19,7 @@ public class PreferencesUtil {
     private static final String IS_SIGNED_IN = "IS_SIGNED_IN";
     private static final String IS_PUSH_TOKEN_DONE = "IS_PUSH_TOKEN_DONE";
     private static final String USER_ID = "USER_ID";
+    private static final String IMAGE_URL = "IMAGE_URL";
 
 
     public PreferencesUtil(Context context, SharedPreferences sharedPreferences) {
@@ -107,5 +108,13 @@ public class PreferencesUtil {
 
     public void saveUserId(int userId) {
         sharedPreferences.edit().putInt(USER_ID, userId).apply();
+    }
+
+    public String getImageUrl() {
+        return sharedPreferences.getString(IMAGE_URL, "");
+    }
+
+    public void saveImageUrl(String imageUrl) {
+        sharedPreferences.edit().putString(IMAGE_URL, imageUrl).apply();
     }
 }

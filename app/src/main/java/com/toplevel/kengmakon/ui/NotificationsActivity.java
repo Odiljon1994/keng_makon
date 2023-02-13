@@ -52,7 +52,7 @@ public class NotificationsActivity extends AppCompatActivity {
         notificationsVM.getNotifications(page, size, preferencesUtil.getLANGUAGE());
 
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new NotificationsAdapter(this, item -> {
+        adapter = new NotificationsAdapter(this, preferencesUtil.getLANGUAGE(), item -> {
             Intent intent = new Intent(this, NotificationDetailActivity.class);
             intent.putExtra("title", item.getTitle());
             intent.putExtra("description", item.getDescription());
