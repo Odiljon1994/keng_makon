@@ -61,7 +61,7 @@ public interface Api {
                                         @Query("page") int page,
                                         @Query("size") int size);
 
-    @GET("/api/furniture/list")
+    @GET("/api/furniture/topList")
     Single<FurnitureModel> getFurnitureTopList(@Header("Authorization") String token);
 
     @GET("/api/furniture/detail")

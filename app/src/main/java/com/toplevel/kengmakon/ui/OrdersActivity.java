@@ -1,8 +1,11 @@
 package com.toplevel.kengmakon.ui;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.View;
@@ -20,6 +23,8 @@ import com.toplevel.kengmakon.databinding.ActivityMyOrdersBinding;
 import com.toplevel.kengmakon.di.ViewModelFactory;
 import com.toplevel.kengmakon.models.OrdersModel;
 import com.toplevel.kengmakon.ui.adapters.MyOrdersAdapter;
+import com.toplevel.kengmakon.ui.dialogs.BaseDialog;
+import com.toplevel.kengmakon.ui.dialogs.LoadingDialog;
 import com.toplevel.kengmakon.ui.viewmodels.AuthVM;
 import com.toplevel.kengmakon.ui.viewmodels.OrdersVM;
 import com.toplevel.kengmakon.utils.NetworkChangeListener;
@@ -34,7 +39,7 @@ public class OrdersActivity extends AppCompatActivity {
     PreferencesUtil preferencesUtil;
     @Inject
     ViewModelFactory viewModelFactory;
-
+    AlertDialog dialog;
     private OrdersVM ordersVM;
     private ProgressDialog progressDialog;
     private MyOrdersAdapter adapter;
@@ -47,6 +52,8 @@ public class OrdersActivity extends AppCompatActivity {
         ordersVM.ordersModelLiveData().observe(this, this::onSuccessGetOrders);
         ordersVM.onFailGetOrdersLiveData().observe(this, this::onFailGetOrders);
 
+
+
         binding.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -55,7 +62,8 @@ public class OrdersActivity extends AppCompatActivity {
         });
 
         if (preferencesUtil.getIsIsSignedIn()) {
-            progressDialog = ProgressDialog.show(this, "", "Loading...", true);
+            showDialog();
+            //progressDialog = ProgressDialog.show(this, "", "Loading...", true);
             ordersVM.getOrders(preferencesUtil.getTOKEN());
         }
 
@@ -71,8 +79,23 @@ public class OrdersActivity extends AppCompatActivity {
         binding.backBtn.setOnClickListener(view -> finish());
     }
 
+    public void showDialog() {
+        LoadingDialog loadingDialog = new LoadingDialog(this);
+
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this, R.style.DialogTheme);
+        alertBuilder.setView(loadingDialog);
+        dialog = alertBuilder.create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
+
+
+    }
+
     public void onSuccessGetOrders(OrdersModel model) {
-        progressDialog.dismiss();
+        dialog.dismiss();
+       // progressDialog.dismiss();
         binding.swipeRefreshLayout.setRefreshing(false);
         if (model.getCode() == 200 && model.getData().getItems().size() > 0) {
             binding.swipeRefreshLayout.setVisibility(View.VISIBLE);
@@ -84,8 +107,9 @@ public class OrdersActivity extends AppCompatActivity {
         }
     }
     public void onFailGetOrders(String error) {
+        dialog.dismiss();
         binding.swipeRefreshLayout.setRefreshing(false);
-        progressDialog.dismiss();
+     //   progressDialog.dismiss();
     }
 
     NetworkChangeListener networkChangeListener = new NetworkChangeListener();

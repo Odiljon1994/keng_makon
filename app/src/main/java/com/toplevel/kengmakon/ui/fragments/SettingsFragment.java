@@ -78,6 +78,10 @@ public class SettingsFragment extends Fragment {
             binding.editAccount.setVisibility(View.GONE);
         }
 
+        if (!preferencesUtil.getImageUrl().equals("")) {
+            Glide.with(this).load(ApiUtils.getBaseUrl() + preferencesUtil.getImageUrl()).placeholder(getContext().getDrawable(R.drawable.no_profile_photo)).into(binding.userImage);
+        }
+
         binding.editAccount.setOnClickListener(view1 -> {
             startActivity(new Intent(getActivity(), EditAccountActivity.class));
         });
