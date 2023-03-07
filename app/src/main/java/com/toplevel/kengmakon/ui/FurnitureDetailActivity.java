@@ -22,7 +22,9 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
@@ -30,12 +32,16 @@ import com.toplevel.kengmakon.MyApp;
 import com.toplevel.kengmakon.R;
 import com.toplevel.kengmakon.databinding.ActivityFurnitureDetailBinding;
 import com.toplevel.kengmakon.di.ViewModelFactory;
+import com.toplevel.kengmakon.models.CategoryDetailModel;
 import com.toplevel.kengmakon.models.FurnitureDetailModel;
 import com.toplevel.kengmakon.models.FurnitureModel;
 import com.toplevel.kengmakon.models.LikeModel;
 import com.toplevel.kengmakon.models.PushNotificationModel;
 import com.toplevel.kengmakon.models.RecentlyViewedModel;
+import com.toplevel.kengmakon.ui.adapters.CategoryDetailAdapter;
+import com.toplevel.kengmakon.ui.adapters.FurnitureAdapter;
 import com.toplevel.kengmakon.ui.adapters.FurnitureDetailImgAdapter;
+import com.toplevel.kengmakon.ui.adapters.SameCategoryAdapter;
 import com.toplevel.kengmakon.ui.dialogs.BaseDialog;
 import com.toplevel.kengmakon.ui.fragments.HomeFragment;
 import com.toplevel.kengmakon.ui.viewmodels.FurnitureDetailsVM;
@@ -61,6 +67,7 @@ public class FurnitureDetailActivity extends AppCompatActivity {
     private int furnitureId = -1;
     private RecentlyViewedDB recentlyViewedDB;
     private FurnitureDetailImgAdapter adapter;
+    private SameCategoryAdapter sameCategoryAdapter;
 
     int id;
     String url;
@@ -75,6 +82,9 @@ public class FurnitureDetailActivity extends AppCompatActivity {
         furnitureDetailsVM.onFailFurnitureDetailLiveData().observe(this, this::onFailGetFurnitureDetail);
         furnitureDetailsVM.likeModelLiveData().observe(this, this::onSuccessLike);
         furnitureDetailsVM.onFailSetLikeLiveData().observe(this, this::onFailLike);
+        furnitureDetailsVM.successCategoryDetailLiveData().observe(this, this::onSuccessGetCategoryDetail);
+        furnitureDetailsVM.onFailGetCategoryDetailLiveData().observe(this, this::onFailGetCategoryDetail);
+
 
         binding.materialsLayout.setOnClickListener(view -> {
             if (binding.materialsTextView.getVisibility() == View.VISIBLE) {
@@ -137,6 +147,16 @@ public class FurnitureDetailActivity extends AppCompatActivity {
         url = getIntent().getStringExtra("url");
 
 
+        binding.sameCategoryRecycler.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
+        sameCategoryAdapter = new SameCategoryAdapter(this, preferencesUtil.getLANGUAGE(), preferencesUtil.getIsIsSignedIn(), model -> {
+            Intent intent = new Intent(this, FurnitureDetailActivity.class);
+            intent.putExtra("id", model.getFurniture_id());
+            intent.putExtra("url", model.getImage_url_preview());
+            startActivity(intent);
+        });
+        binding.sameCategoryRecycler.setAdapter(sameCategoryAdapter);
+
+
         recentlyViewedDB = new RecentlyViewedDB(this);
 
         List<RecentlyViewedModel> list = getDataFromDB();
@@ -166,6 +186,9 @@ public class FurnitureDetailActivity extends AppCompatActivity {
     public void onSuccessGetFurnitureDetail(FurnitureDetailModel item) {
         progressDialog.dismiss();
         if (item.getCode() == 200 && item.getData() != null) {
+
+            furnitureDetailsVM.getCategoryDetail(preferencesUtil.getTOKEN(), 1, 3, item.getData().getFurniture().getCategory().getId());
+
             if (item.getData().getImages().size() > 0) {
                 adapter.setItems(item.getData().getImages());
             }
@@ -393,6 +416,18 @@ public class FurnitureDetailActivity extends AppCompatActivity {
         }
 
         return list;
+    }
+
+    public void onSuccessGetCategoryDetail(CategoryDetailModel model) {
+        if (model.getCode() == 200 && model.getData().getItems().size() > 0) {
+
+            sameCategoryAdapter.setItems(model.getData().getItems());
+        } else if (model.getCode() == 200 && model.getData().getItems().size() == 0) {
+
+        }
+    }
+    public void onFailGetCategoryDetail(String error) {
+
     }
 
     public void showDialog() {

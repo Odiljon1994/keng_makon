@@ -93,8 +93,13 @@ public class MainActivity extends AppCompatActivity {
                     state = 1;
                     break;
                 case R.id.wishlist:
-                    changeState(2);
-                    state = 2;
+
+                    if (preferencesUtil.getIsIsSignedIn()) {
+                        changeState(2);
+                        state = 2;
+                    } else {
+                        showDialog();
+                    }
                     break;
                 case R.id.cashback:
                     if (preferencesUtil.getIsIsSignedIn()) {

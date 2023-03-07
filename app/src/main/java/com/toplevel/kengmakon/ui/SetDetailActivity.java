@@ -6,7 +6,9 @@ import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.text.Html;
 import android.text.TextUtils;
 import android.widget.Toast;
 
@@ -58,7 +60,14 @@ public class SetDetailActivity extends AppCompatActivity {
         furnitureDetailsVM.onFailSetLikeLiveData().observe(this, this::onFailLike);
 
         String description = getIntent().getStringExtra("description");
-        binding.description.setText(parseLanguage(description));
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            binding.description.setText(Html.fromHtml(parseLanguage(description), Html.FROM_HTML_MODE_COMPACT));
+        } else {
+            binding.description.setText(Html.fromHtml(parseLanguage(description)));
+        }
+
+     //   binding.description.setText(parseLanguage(description));
 
         try {
             binding.name.setText(getIntent().getStringExtra("name"));

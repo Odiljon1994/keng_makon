@@ -94,6 +94,8 @@ public class NotificationsModel {
         private String created_at;
         @SerializedName("updated_at")
         private String updated_at;
+        @SerializedName("is_seen")
+        private int is_seen;
 
         public int getId() {
             return id;
@@ -143,13 +145,22 @@ public class NotificationsModel {
             this.updated_at = updated_at;
         }
 
-        public NotificationsDataItems(int id, String title, String description, String type, String created_at, String updated_at) {
+        public int getIs_seen() {
+            return is_seen;
+        }
+
+        public void setIs_seen(int is_seen) {
+            this.is_seen = is_seen;
+        }
+
+        public NotificationsDataItems(int id, String title, String description, String type, String created_at, String updated_at, int is_seen) {
             this.id = id;
             this.title = title;
             this.description = description;
             this.type = type;
             this.created_at = created_at;
             this.updated_at = updated_at;
+            this.is_seen = is_seen;
         }
     }
 }

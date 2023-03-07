@@ -35,6 +35,7 @@ import com.toplevel.kengmakon.di.ViewModelFactory;
 import com.toplevel.kengmakon.models.CategoriesModel;
 import com.toplevel.kengmakon.models.FurnitureModel;
 import com.toplevel.kengmakon.models.LikeModel;
+import com.toplevel.kengmakon.models.NotificationsModel;
 import com.toplevel.kengmakon.models.PushNotificationModel;
 import com.toplevel.kengmakon.models.RecentlyViewedModel;
 import com.toplevel.kengmakon.models.SearchModel;
@@ -52,6 +53,7 @@ import com.toplevel.kengmakon.ui.adapters.SetAdapter;
 import com.toplevel.kengmakon.ui.dialogs.BaseDialog;
 import com.toplevel.kengmakon.ui.viewmodels.FurnitureDetailsVM;
 import com.toplevel.kengmakon.ui.viewmodels.FurnitureVM;
+import com.toplevel.kengmakon.ui.viewmodels.NotificationsVM;
 import com.toplevel.kengmakon.utils.PreferencesUtil;
 import com.toplevel.kengmakon.utils.RecentlyViewedDB;
 
@@ -84,6 +86,7 @@ public class HomeFragment extends Fragment {
     private List<SearchModel> furnitureSortedList = new ArrayList<>();
     private List<SearchModel> furnitureAllList = new ArrayList<>();
     private SearchAdapter searchAdapter;
+    private NotificationsVM notificationsVM;
 
     @Nullable
     @Override
@@ -104,7 +107,11 @@ public class HomeFragment extends Fragment {
         furnitureDetailsVM.likeModelLiveData().observe(getActivity(), this::onSuccessLike);
         furnitureDetailsVM.onFailSetLikeLiveData().observe(getActivity(), this::onFailLike);
 
+        notificationsVM = ViewModelProviders.of(this, viewModelFactory).get(NotificationsVM.class);
+        notificationsVM.notificationsModelLiveData().observe(getActivity(), this::onSuccessGetNotifications);
+        notificationsVM.onFailNotificationsModelLiveData().observe(getActivity(), this::onFailGetNotifications);
 
+        notificationsVM.getNotifications(1, 100, "uz");
 
         recentlyViewedDB = new RecentlyViewedDB(getActivity());
         binding.notifications.setOnClickListener(view1 -> startActivity(new Intent(getActivity(), NotificationsActivity.class)));
@@ -412,6 +419,29 @@ public class HomeFragment extends Fragment {
         } catch (Exception e) {
             return "";
         }
+
+    }
+
+    public void onSuccessGetNotifications(NotificationsModel model) {
+
+        if (model.getCode() == 200) {
+
+            if (model.getData().getItems().size() > 0) {
+                boolean isNotSeenExist = false;
+                for (int i = 0; i < model.getData().getItems().size(); i++) {
+                    if (model.getData().getItems().get(i).getIs_seen() == 0) {
+                        isNotSeenExist = true;
+                    }
+                }
+                if (isNotSeenExist == true) {
+                    binding.redDot.setVisibility(View.VISIBLE);
+                } else {
+                    binding.redDot.setVisibility(View.INVISIBLE);
+                }
+            }
+        }
+    }
+    public void onFailGetNotifications(String error) {
 
     }
 }

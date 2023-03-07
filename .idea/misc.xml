@@ -16,7 +16,7 @@
         <entry key="app/src/main/res/layout/activity_branches.xml" value="0.18101092896174864" />
         <entry key="app/src/main/res/layout/activity_category_detail.xml" value="0.2" />
         <entry key="app/src/main/res/layout/activity_choose_language.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/activity_create_account.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/activity_create_account.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_edit_account.xml" value="0.22" />
         <entry key="app/src/main/res/layout/activity_feedback.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_forgot_password.xml" value="0.2271174863387978" />
@@ -52,6 +52,7 @@
         <entry key="app/src/main/res/layout/item_notifications.xml" value="0.19296448087431695" />
         <entry key="app/src/main/res/layout/item_order_detail.xml" value="0.18101092896174864" />
         <entry key="app/src/main/res/layout/item_recently_viewed.xml" value="0.18125" />
+        <entry key="app/src/main/res/layout/item_same_category.xml" value="0.208203125" />
         <entry key="app/src/main/res/layout/item_search_data.xml" value="0.209375" />
         <entry key="app/src/main/res/layout/item_set.xml" value="0.2776268115942029" />
         <entry key="app/src/main/res/layout/item_set_detail.xml" value="0.33" />

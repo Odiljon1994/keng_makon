@@ -56,7 +56,7 @@ public class CategoryDetailActivity extends AppCompatActivity {
     private CategorySetDetailAdapter adapterSet;
     int id;
     private int page = 1;
-    private int size = 20;
+    private int size = 200;
     private boolean isItemSelected = true;
     String name = "";
     int totalItems = 0;
@@ -205,18 +205,18 @@ public class CategoryDetailActivity extends AppCompatActivity {
         furnitureDetailsVM.getCategoryDetail(preferencesUtil.getTOKEN(), 1, 200, id);
         furnitureDetailsVM.getCategorySetDetail(preferencesUtil.getTOKEN(), 1, 200, id);
 
-        binding.scrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
-            @Override
-            public void onScrollChange(@NonNull NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-                if (scrollY == v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight()) {
-//                    page++;
-//                    furnitureDetailsVM.getCategoryDetail(preferencesUtil.getTOKEN(), page, size, id);
-//                    furnitureDetailsVM.getCategorySetDetail(preferencesUtil.getTOKEN(), page, size, id);
-                    furnitureDetailsVM.getCategoryDetail(preferencesUtil.getTOKEN(), 1, 200, id);
-                    furnitureDetailsVM.getCategorySetDetail(preferencesUtil.getTOKEN(), 1, 200, id);
-                }
-            }
-        });
+//        binding.scrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+//            @Override
+//            public void onScrollChange(@NonNull NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+//                if (scrollY == v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight()) {
+////                    page++;
+////                    furnitureDetailsVM.getCategoryDetail(preferencesUtil.getTOKEN(), page, size, id);
+////                    furnitureDetailsVM.getCategorySetDetail(preferencesUtil.getTOKEN(), page, size, id);
+//                    furnitureDetailsVM.getCategoryDetail(preferencesUtil.getTOKEN(), 1, 200, id);
+//                    furnitureDetailsVM.getCategorySetDetail(preferencesUtil.getTOKEN(), 1, 200, id);
+//                }
+//            }
+//        });
     }
 
     public void onSuccessGetCategorySetDetail(SetModel model) {

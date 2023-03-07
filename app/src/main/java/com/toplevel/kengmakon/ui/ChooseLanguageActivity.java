@@ -52,6 +52,7 @@ public class ChooseLanguageActivity extends AppCompatActivity {
 
         binding.nextbtn.setOnClickListener(view -> {
             preferencesUtil.saveLanguage(language);
+            setAppLocale(preferencesUtil.getLANGUAGE());
             startActivity(new Intent(ChooseLanguageActivity.this, GetStartedActivity.class));
         });
 
