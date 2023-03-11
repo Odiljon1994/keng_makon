@@ -1,8 +1,11 @@
 package com.toplevel.kengmakon.ui;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
 import android.net.Uri;
@@ -27,6 +30,7 @@ import com.toplevel.kengmakon.di.ViewModelFactory;
 import com.toplevel.kengmakon.models.BaseResponse;
 import com.toplevel.kengmakon.models.LoginModel;
 import com.toplevel.kengmakon.models.UserInfoModel;
+import com.toplevel.kengmakon.ui.dialogs.LoadingDialog;
 import com.toplevel.kengmakon.ui.viewmodels.AuthVM;
 import com.toplevel.kengmakon.utils.NetworkChangeListener;
 import com.toplevel.kengmakon.utils.PreferencesUtil;
@@ -43,6 +47,7 @@ public class LoginActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private String appUniqueToken = "";
 
+    private AlertDialog dialog;
     AuthVM authVM;
 
     @Override
@@ -61,6 +66,15 @@ public class LoginActivity extends AppCompatActivity {
         binding.signUp.setOnClickListener(view -> {
             startActivity(new Intent(LoginActivity.this, CreateAccountActivity.class));
         });
+
+
+        binding.skipBtn.setOnClickListener(view -> {
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            finish();
+        });
+
         String videoPath = "android.resource://" + getPackageName() + "/" + R.raw.video_llop;
         Uri uri = Uri.parse(videoPath);
         binding.videoView.setVideoURI(uri);
@@ -73,7 +87,8 @@ public class LoginActivity extends AppCompatActivity {
         binding.loginBtn.setOnClickListener(view -> {
             if (!TextUtils.isEmpty(binding.email.getText().toString())
                     && !TextUtils.isEmpty(binding.password.getText().toString())) {
-                progressDialog = ProgressDialog.show(this, "", "Loading...", true);
+               // progressDialog = ProgressDialog.show(this, "", "Loading...", true);
+                showLoadingDialog();
                 authVM.login(binding.email.getText().toString(), binding.password.getText().toString());
             } else if (TextUtils.isEmpty(binding.email.getText().toString())) {
                 binding.email.setError("");
@@ -88,6 +103,20 @@ public class LoginActivity extends AppCompatActivity {
                 mediaPlayer.setLooping(true);
             }
         });
+    }
+
+    public void showLoadingDialog() {
+        LoadingDialog loadingDialog = new LoadingDialog(this);
+
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this, R.style.DialogTheme);
+        alertBuilder.setView(loadingDialog);
+        dialog = alertBuilder.create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
+
+
     }
 
     @Override
@@ -119,7 +148,8 @@ public class LoginActivity extends AppCompatActivity {
 
                 @Override
                 public void onFinish() {
-                    progressDialog.dismiss();
+                   // progressDialog.dismiss();
+                    dialog.dismiss();
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
@@ -134,11 +164,13 @@ public class LoginActivity extends AppCompatActivity {
             //authVM.getUserInfo(model.getData().getToken());
 
         } else if (model.getCode() == 1000) {
-            progressDialog.dismiss();
+           // progressDialog.dismiss();
+            dialog.dismiss();
             binding.error.setText(getResources().getString(R.string.incorrect_login_details));
         }
         else {
-            progressDialog.dismiss();
+            dialog.dismiss();
+           // progressDialog.dismiss();
             binding.error.setText(model.getMessage());
         }
     }

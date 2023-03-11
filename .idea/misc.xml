@@ -8,6 +8,7 @@
         <entry key="app/src/main/res/drawable/bot_nav_profile_selector.xml" value="0.1825" />
         <entry key="app/src/main/res/drawable/bottom_nav_chat_selector.xml" value="0.1825" />
         <entry key="app/src/main/res/drawable/bottom_navigation_wishlist_selector.xml" value="0.1825" />
+        <entry key="app/src/main/res/drawable/button_border.xml" value="0.2045" />
         <entry key="app/src/main/res/drawable/transparent_background.xml" value="0.1825" />
         <entry key="app/src/main/res/layout/activity_about.xml" value="0.24003623188405798" />
         <entry key="app/src/main/res/layout/activity_action_detail.xml" value="0.19296448087431695" />

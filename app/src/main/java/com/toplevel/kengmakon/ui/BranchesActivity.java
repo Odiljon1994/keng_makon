@@ -1,8 +1,11 @@
 package com.toplevel.kengmakon.ui;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
@@ -27,6 +30,7 @@ import com.toplevel.kengmakon.di.ViewModelFactory;
 import com.toplevel.kengmakon.models.BranchesModel;
 import com.toplevel.kengmakon.ui.adapters.BranchesCitiesAdapter;
 import com.toplevel.kengmakon.ui.adapters.BranchesImageAdapter;
+import com.toplevel.kengmakon.ui.dialogs.LoadingDialog;
 import com.toplevel.kengmakon.ui.viewmodels.AuthVM;
 import com.toplevel.kengmakon.ui.viewmodels.InfoVM;
 import com.toplevel.kengmakon.utils.NetworkChangeListener;
@@ -51,6 +55,7 @@ public class BranchesActivity extends AppCompatActivity {
 
     private BranchesCitiesAdapter adapter;
     private BranchesImageAdapter imageAdapter;
+    private AlertDialog dialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -109,15 +114,31 @@ public class BranchesActivity extends AppCompatActivity {
         });
         binding.viewPager.setPageTransformer(transformer);
 
-        progressDialog = ProgressDialog.show(this, "", "Loading...", true);
+      //  progressDialog = ProgressDialog.show(this, "", "Loading...", true);
+        showLoadingDialog();
         infoVM.getBranches(preferencesUtil.getLANGUAGE());
         binding.indicator.setViewPager(binding.viewPager);
         imageAdapter.registerAdapterDataObserver(binding.indicator.getAdapterDataObserver());
 
     }
 
+    public void showLoadingDialog() {
+        LoadingDialog loadingDialog = new LoadingDialog(this);
+
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this, R.style.DialogTheme);
+        alertBuilder.setView(loadingDialog);
+        dialog = alertBuilder.create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
+
+
+    }
+
     public void onSuccessGetBranches(BranchesModel model) {
-        progressDialog.dismiss();
+      //  progressDialog.dismiss();
+        dialog.dismiss();
         cities = new ArrayList<>();
         imageItems = new ArrayList<>();
 
@@ -161,7 +182,8 @@ public class BranchesActivity extends AppCompatActivity {
         }
     }
     public void onFailGetBranches(String error) {
-        progressDialog.dismiss();
+        dialog.dismiss();
+     //   progressDialog.dismiss();
     }
 
     NetworkChangeListener networkChangeListener = new NetworkChangeListener();

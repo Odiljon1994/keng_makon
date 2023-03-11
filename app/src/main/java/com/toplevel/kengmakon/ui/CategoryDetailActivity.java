@@ -35,6 +35,7 @@ import com.toplevel.kengmakon.ui.adapters.CategoryDetailAdapter;
 import com.toplevel.kengmakon.ui.adapters.CategorySetDetailAdapter;
 import com.toplevel.kengmakon.ui.adapters.SetDetailAdapter;
 import com.toplevel.kengmakon.ui.dialogs.BaseDialog;
+import com.toplevel.kengmakon.ui.dialogs.LoadingDialog;
 import com.toplevel.kengmakon.ui.viewmodels.FurnitureDetailsVM;
 import com.toplevel.kengmakon.utils.NetworkChangeListener;
 import com.toplevel.kengmakon.utils.PreferencesUtil;
@@ -61,6 +62,8 @@ public class CategoryDetailActivity extends AppCompatActivity {
     String name = "";
     int totalItems = 0;
     int totalSets = 0;
+
+    private AlertDialog dialog;
 
     List<CategoryDetailModel.CategoryDetailDataItem> items = new ArrayList<>();
     List<SetModel.SetDataItem> sets = new ArrayList<>();
@@ -202,6 +205,7 @@ public class CategoryDetailActivity extends AppCompatActivity {
         id = getIntent().getIntExtra("id", 1);
 //        furnitureDetailsVM.getCategoryDetail(preferencesUtil.getTOKEN(), page, size, id);
 //        furnitureDetailsVM.getCategorySetDetail(preferencesUtil.getTOKEN(), page, size, id);
+        showLoadingDialog();
         furnitureDetailsVM.getCategoryDetail(preferencesUtil.getTOKEN(), 1, 200, id);
         furnitureDetailsVM.getCategorySetDetail(preferencesUtil.getTOKEN(), 1, 200, id);
 
@@ -219,7 +223,22 @@ public class CategoryDetailActivity extends AppCompatActivity {
 //        });
     }
 
+    public void showLoadingDialog() {
+        LoadingDialog loadingDialog = new LoadingDialog(this);
+
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this, R.style.DialogTheme);
+        alertBuilder.setView(loadingDialog);
+        dialog = alertBuilder.create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
+
+
+    }
+
     public void onSuccessGetCategorySetDetail(SetModel model) {
+        dialog.dismiss();
         if (model.getCode() == 200 && model.getData().getItems().size() > 0) {
             adapterSet.setItems(model.getData().getItems());
             sets = model.getData().getItems();
@@ -227,10 +246,11 @@ public class CategoryDetailActivity extends AppCompatActivity {
         }
     }
     public void onFailGetCategorySetDetail(String error) {
-
+        dialog.dismiss();
     }
 
     public void onSuccessGetCategoryDetail(CategoryDetailModel model) {
+        dialog.dismiss();
         if (model.getCode() == 200 && model.getData().getItems().size() > 0) {
 
 
@@ -252,7 +272,7 @@ public class CategoryDetailActivity extends AppCompatActivity {
         }
     }
     public void onFailGetCategoryDetail(String error) {
-
+        dialog.dismiss();
     }
 
     public void onSuccessLike(LikeModel likeModel) {

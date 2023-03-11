@@ -62,7 +62,7 @@ public class OrdersActivity extends AppCompatActivity {
         });
 
         if (preferencesUtil.getIsIsSignedIn()) {
-            showDialog();
+            showLoadingDialog();
             //progressDialog = ProgressDialog.show(this, "", "Loading...", true);
             ordersVM.getOrders(preferencesUtil.getTOKEN());
         }
@@ -79,7 +79,7 @@ public class OrdersActivity extends AppCompatActivity {
         binding.backBtn.setOnClickListener(view -> finish());
     }
 
-    public void showDialog() {
+    public void showLoadingDialog() {
         LoadingDialog loadingDialog = new LoadingDialog(this);
 
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this, R.style.DialogTheme);

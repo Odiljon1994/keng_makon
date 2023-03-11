@@ -1,8 +1,11 @@
 package com.toplevel.kengmakon.ui;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -19,6 +22,7 @@ import com.toplevel.kengmakon.databinding.ActivityCreateAccountBinding;
 import com.toplevel.kengmakon.di.ViewModelFactory;
 import com.toplevel.kengmakon.models.BaseResponse;
 import com.toplevel.kengmakon.models.LoginModel;
+import com.toplevel.kengmakon.ui.dialogs.LoadingDialog;
 import com.toplevel.kengmakon.ui.viewmodels.AuthVM;
 import com.toplevel.kengmakon.utils.NetworkChangeListener;
 import com.toplevel.kengmakon.utils.PreferencesUtil;
@@ -34,6 +38,7 @@ public class CreateAccountActivity extends AppCompatActivity {
     ViewModelFactory viewModelFactory;
     private ProgressDialog progressDialog;
 
+    private AlertDialog dialog;
     AuthVM authVM;
 
     @Override
@@ -56,7 +61,8 @@ public class CreateAccountActivity extends AppCompatActivity {
                     && !TextUtils.isEmpty(binding.password.getText().toString())
                     && binding.password.getText().toString().length() >= 6
                     && binding.password.getText().toString().equals(binding.confirmPassword.getText().toString())) {
-                progressDialog = ProgressDialog.show(this, "", "Loading...", true);
+                //progressDialog = ProgressDialog.show(this, "", "Loading...", true);
+                showLoadingDialog();
                 authVM.signUp(binding.name.getText().toString(),
                         binding.phoneNumber.getText().toString(),
                         binding.email.getText().toString(),
@@ -91,13 +97,15 @@ public class CreateAccountActivity extends AppCompatActivity {
 //            startActivity(intent);
 //            finish();
         } else {
-            progressDialog.dismiss();
+           // progressDialog.dismiss();
+            dialog.dismiss();
             binding.error.setText(response.getMessage());
         }
     }
 
     public void onFailSignUp(String error) {
-        progressDialog.dismiss();
+    //    progressDialog.dismiss();
+        dialog.dismiss();
         binding.error.setText(error);
     }
 
@@ -108,8 +116,23 @@ public class CreateAccountActivity extends AppCompatActivity {
         return false;
     }
 
+    public void showLoadingDialog() {
+        LoadingDialog loadingDialog = new LoadingDialog(this);
+
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this, R.style.DialogTheme);
+        alertBuilder.setView(loadingDialog);
+        dialog = alertBuilder.create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
+
+
+    }
+
     public void onLoginSuccess(LoginModel.LoginResModel model) {
-        progressDialog.dismiss();
+       // progressDialog.dismiss();
+        dialog.dismiss();
         if (model.getCode() == 200) {
             preferencesUtil.saveTOKEN(model.getData().getToken());
             preferencesUtil.saveIsSignedIn(true);
@@ -121,7 +144,8 @@ public class CreateAccountActivity extends AppCompatActivity {
     }
 
     public void onFailLogin(String error) {
-        progressDialog.dismiss();
+       // progressDialog.dismiss();
+        dialog.dismiss();
         binding.error.setText(error);
     }
 

@@ -22,6 +22,7 @@ import com.toplevel.kengmakon.di.ViewModelFactory;
 import com.toplevel.kengmakon.models.BaseResponse;
 import com.toplevel.kengmakon.models.LoginModel;
 import com.toplevel.kengmakon.ui.dialogs.BaseDialog;
+import com.toplevel.kengmakon.ui.dialogs.LoadingDialog;
 import com.toplevel.kengmakon.ui.viewmodels.AuthVM;
 import com.toplevel.kengmakon.ui.viewmodels.UserVM;
 import com.toplevel.kengmakon.utils.NetworkChangeListener;
@@ -40,6 +41,8 @@ public class FeedbackActivity extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private UserVM userVM;
     private AuthVM authVM;
+
+    private AlertDialog dialog;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,7 +64,8 @@ public class FeedbackActivity extends AppCompatActivity {
         binding.sendMessageBtn.setOnClickListener(view -> {
             if (!TextUtils.isEmpty(binding.title.getText().toString())
                     && !TextUtils.isEmpty(binding.body.getText().toString())) {
-                progressDialog = ProgressDialog.show(this, "", "Loading...", true);
+              //  progressDialog = ProgressDialog.show(this, "", "Loading...", true);
+                showLoadingDialog();
                 userVM.postFeedback(preferencesUtil.getTOKEN(), binding.title.getText().toString(), binding.body.getText().toString());
             } else if (TextUtils.isEmpty(binding.title.getText().toString())) {
                 binding.title.setError("");
@@ -79,14 +83,14 @@ public class FeedbackActivity extends AppCompatActivity {
         baseDialog.changeBtnText("", "ok");
         AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this);
         alertBuilder.setView(baseDialog);
-        AlertDialog dialog = alertBuilder.create();
-        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        dialog.show();
+        AlertDialog dialogAlert = alertBuilder.create();
+        dialogAlert.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialogAlert.show();
         BaseDialog.ClickListener clickListener = new BaseDialog.ClickListener() {
             @Override
             public void onClickOk() {
                 BaseDialog.ClickListener.super.onClickOk();
-                dialog.dismiss();
+                dialogAlert.dismiss();
                 finish();
 
             }
@@ -94,19 +98,34 @@ public class FeedbackActivity extends AppCompatActivity {
             @Override
             public void onClickNo() {
                 BaseDialog.ClickListener.super.onClickNo();
-                dialog.dismiss();
+                dialogAlert.dismiss();
             }
         };
         baseDialog.setClickListener(clickListener);
     }
 
     public void onSuccessFeedback(BaseResponse response) {
-        progressDialog.dismiss();
+      //  progressDialog.dismiss();
+        dialog.dismiss();
         if (response.getCode() == 200) {
             showDialog();
         } else {
             binding.error.setText("Hatolik yuz berdi");
         }
+
+
+    }
+
+    public void showLoadingDialog() {
+        LoadingDialog loadingDialog = new LoadingDialog(this);
+
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this, R.style.DialogTheme);
+        alertBuilder.setView(loadingDialog);
+        dialog = alertBuilder.create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
 
 
     }
@@ -229,7 +248,8 @@ public class FeedbackActivity extends AppCompatActivity {
     }
 
     public void onFailFeedback(String error) {
-        progressDialog.dismiss();
+       // progressDialog.dismiss();
+        dialog.dismiss();
         binding.error.setText("Hatolik yuz berdi");
     }
 

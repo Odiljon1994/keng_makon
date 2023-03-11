@@ -43,6 +43,7 @@ import com.toplevel.kengmakon.ui.adapters.FurnitureAdapter;
 import com.toplevel.kengmakon.ui.adapters.FurnitureDetailImgAdapter;
 import com.toplevel.kengmakon.ui.adapters.SameCategoryAdapter;
 import com.toplevel.kengmakon.ui.dialogs.BaseDialog;
+import com.toplevel.kengmakon.ui.dialogs.LoadingDialog;
 import com.toplevel.kengmakon.ui.fragments.HomeFragment;
 import com.toplevel.kengmakon.ui.viewmodels.FurnitureDetailsVM;
 import com.toplevel.kengmakon.ui.viewmodels.FurnitureVM;
@@ -68,7 +69,7 @@ public class FurnitureDetailActivity extends AppCompatActivity {
     private RecentlyViewedDB recentlyViewedDB;
     private FurnitureDetailImgAdapter adapter;
     private SameCategoryAdapter sameCategoryAdapter;
-
+    private AlertDialog dialog;
     int id;
     String url;
 
@@ -179,12 +180,28 @@ public class FurnitureDetailActivity extends AppCompatActivity {
         }
 
 
-        progressDialog = ProgressDialog.show(this, "", "Loading...", true);
+       // progressDialog = ProgressDialog.show(this, "", "Loading...", true);
+        showLoadingDialog();
         furnitureDetailsVM.getFurnitureDetail(preferencesUtil.getTOKEN(), id);
     }
 
+    public void showLoadingDialog() {
+        LoadingDialog loadingDialog = new LoadingDialog(this);
+
+        AlertDialog.Builder alertBuilder = new AlertDialog.Builder(this, R.style.DialogTheme);
+        alertBuilder.setView(loadingDialog);
+        dialog = alertBuilder.create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
+
+
+    }
+
     public void onSuccessGetFurnitureDetail(FurnitureDetailModel item) {
-        progressDialog.dismiss();
+        //progressDialog.dismiss();
+        dialog.dismiss();
         if (item.getCode() == 200 && item.getData() != null) {
 
             furnitureDetailsVM.getCategoryDetail(preferencesUtil.getTOKEN(), 1, 3, item.getData().getFurniture().getCategory().getId());
@@ -397,6 +414,8 @@ public class FurnitureDetailActivity extends AppCompatActivity {
 
     public void onFailGetFurnitureDetail(String error) {
 
+        //progressDialog.dismiss();
+        dialog.dismiss();
     }
 
     public void onSuccessLike(LikeModel likeModel) {

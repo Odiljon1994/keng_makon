@@ -5,11 +5,14 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Html;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -59,6 +62,25 @@ public class SetDetailActivity extends AppCompatActivity {
         furnitureDetailsVM.likeModelLiveData().observe(this, this::onSuccessLike);
         furnitureDetailsVM.onFailSetLikeLiveData().observe(this, this::onFailLike);
 
+
+        String videoPath = "android.resource://" + this.getPackageName() + "/" + R.raw.loading_video;
+        Uri uri = Uri.parse(videoPath);
+        binding.videoView.setVideoURI(uri);
+
+
+
+
+        binding.videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+            @Override
+            public void onPrepared(MediaPlayer mediaPlayer) {
+                mediaPlayer.setLooping(true);
+            }
+        });
+
+
+
+
+
         String description = getIntent().getStringExtra("description");
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -103,6 +125,9 @@ public class SetDetailActivity extends AppCompatActivity {
         binding.furnitureRecycler.setAdapter(adapter);
         id = getIntent().getIntExtra("id", 1);
 
+        binding.videoView.start();
+        binding.videoView.setVisibility(View.VISIBLE);
+        binding.mainLayout.setVisibility(View.INVISIBLE);
         furnitureDetailsVM.getSet(preferencesUtil.getTOKEN(), id);
 
     }
@@ -130,6 +155,10 @@ public class SetDetailActivity extends AppCompatActivity {
     }
 
     public void onSuccessGetSetDetails(SetDetailModel model) {
+        binding.videoView.stopPlayback();
+        binding.mainLayout.setVisibility(View.VISIBLE);
+        binding.videoView.setVisibility(View.INVISIBLE);
+
         if (model.getCode() == 200 && model.getData() != null) {
 
             try {
@@ -155,7 +184,9 @@ public class SetDetailActivity extends AppCompatActivity {
     }
 
     public void onFailGetSetDetailModel(String error) {
-
+        binding.videoView.stopPlayback();
+        binding.mainLayout.setVisibility(View.VISIBLE);
+        binding.videoView.setVisibility(View.INVISIBLE);
     }
 
     public void onSuccessLike(LikeModel likeModel) {
