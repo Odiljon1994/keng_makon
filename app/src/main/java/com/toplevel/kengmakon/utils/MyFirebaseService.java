@@ -44,42 +44,44 @@ public class MyFirebaseService extends FirebaseMessagingService {
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-        Log.d("myTag", "fdsa");
-        System.out.println("*** Remote Message ***");
-        Map<String, String> data = remoteMessage.getData();
-        System.out.println("*** Remote Message ***");
-        System.out.println(remoteMessage.toString());
-        System.out.println(data.toString());
 
+        System.out.println("*** Remote Message ***");
+//        Map<String, String> data = remoteMessage.getData();
+//        System.out.println("*** Remote Message ***");
+//        System.out.println(remoteMessage.toString());
+//        System.out.println(data.toString());
 
-        System.out.println("TITLE: " + remoteMessage.getNotification().getTitle());
-        System.out.println("BODY: " + remoteMessage.getNotification().getBody());
+//
+//        System.out.println("TITLE: " + remoteMessage.getNotification().getTitle());
+//        System.out.println("BODY: " + remoteMessage.getNotification().getBody());
 
 //        String title = data.get("title");
 //        String body =data.get("body");
+
+//        String title = remoteMessage.getNotification().getTitle();
+//        String body = remoteMessage.getNotification().getBody();
+
+
+
+
+//        String click_action = remoteMessage.getNotification().getClickAction();
+//        Intent intent = new Intent(click_action);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
+
+//        System.out.println("********* Language: " + preferencesUtil.getLANGUAGE());
+
+//        Gson parser = new Gson();
+//        PushNotificationModel pushNotificationTitleModel = parser.fromJson(title, PushNotificationModel.class);
+//        PushNotificationModel pushNotificationBodyModel = parser.fromJson(body, PushNotificationModel.class);
 //
-        String title = remoteMessage.getNotification().getTitle();
-        String body = remoteMessage.getNotification().getBody();
-
-
-        String click_action = remoteMessage.getNotification().getClickAction();
-        Intent intent = new Intent(click_action);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_ONE_SHOT);
-
-        System.out.println("********* Language: " + preferencesUtil.getLANGUAGE());
-
-        Gson parser = new Gson();
-        PushNotificationModel pushNotificationTitleModel = parser.fromJson(title, PushNotificationModel.class);
-        PushNotificationModel pushNotificationBodyModel = parser.fromJson(body, PushNotificationModel.class);
-
-        System.out.println("Parsed title: " + pushNotificationTitleModel.getUz());
-        System.out.println("Parsed body: " + pushNotificationBodyModel.getUz());
+//        System.out.println("Parsed title: " + pushNotificationTitleModel.getUz());
+//        System.out.println("Parsed body: " + pushNotificationBodyModel.getUz());
 
         final String CHANNEL_ID = "HEADS_UP_NOTIFICATION";
 
-        String parsedTitle = pushNotificationTitleModel.getEn();
-        String parsedBody = pushNotificationBodyModel.getEn();
+//        String parsedTitle = pushNotificationTitleModel.getEn();
+//        String parsedBody = pushNotificationBodyModel.getEn();
 
 
         NotificationChannel channel = new NotificationChannel(
@@ -95,8 +97,8 @@ public class MyFirebaseService extends FirebaseMessagingService {
 
         Notification.Builder notification =
                 new Notification.Builder(this, CHANNEL_ID)
-                        .setContentTitle(parsedTitle)
-                        .setContentText(parsedBody)
+                        .setContentTitle(remoteMessage.getNotification().getTitle())
+                        .setContentText(remoteMessage.getNotification().getBody())
                         .setSmallIcon(R.drawable.keng_makon_logo)
                         .setDefaults(Notification.DEFAULT_ALL)
                         .setAutoCancel(true);

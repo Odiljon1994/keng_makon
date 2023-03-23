@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         binding.bottomNavigationView.setItemIconTintList(null);
-        if (!preferencesUtil.getIsPushTokenDone()) {
+        if (!preferencesUtil.getIsPushTokenDone() && preferencesUtil.getIsIsSignedIn()) {
             getAppUniqueToken();
         }
         changeState(1);

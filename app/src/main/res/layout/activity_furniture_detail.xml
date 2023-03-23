@@ -306,6 +306,17 @@
                     android:layout_marginEnd="20dp"
                     android:background="#EFEFEF" />
 
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/you_may_like_these_furnitures"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginTop="20dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:textSize="23dp"/>
+
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/sameCategoryRecycler"
                     android:layout_width="match_parent"

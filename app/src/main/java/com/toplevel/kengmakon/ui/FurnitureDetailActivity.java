@@ -53,6 +53,7 @@ import com.toplevel.kengmakon.utils.RecentlyViewedDB;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import javax.inject.Inject;
 
@@ -204,7 +205,7 @@ public class FurnitureDetailActivity extends AppCompatActivity {
         dialog.dismiss();
         if (item.getCode() == 200 && item.getData() != null) {
 
-            furnitureDetailsVM.getCategoryDetail(preferencesUtil.getTOKEN(), 1, 3, item.getData().getFurniture().getCategory().getId());
+            furnitureDetailsVM.getCategoryDetail(preferencesUtil.getTOKEN(), 1, 200, item.getData().getFurniture().getCategory().getId());
 
             if (item.getData().getImages().size() > 0) {
                 adapter.setItems(item.getData().getImages());
@@ -440,7 +441,40 @@ public class FurnitureDetailActivity extends AppCompatActivity {
     public void onSuccessGetCategoryDetail(CategoryDetailModel model) {
         if (model.getCode() == 200 && model.getData().getItems().size() > 0) {
 
-            sameCategoryAdapter.setItems(model.getData().getItems());
+            if (model.getData().getItems().size() > 3) {
+
+                int firstItemID = 0;
+                int secondItemId = 0;
+                int thirdItemId = 0;
+
+                List<CategoryDetailModel.CategoryDetailDataItem> sortedCategoryDetailItems = new ArrayList<>();
+
+                boolean isSame = true;
+
+                Random random = new Random();
+                firstItemID = random.nextInt(model.getData().getItems().size());
+
+                while (isSame) {
+                    secondItemId = random.nextInt(model.getData().getItems().size());
+                    thirdItemId = random.nextInt(model.getData().getItems().size());
+
+                    if (firstItemID != secondItemId && secondItemId != thirdItemId) {
+                        isSame = false;
+                    }
+                }
+
+                sortedCategoryDetailItems.add(model.getData().getItems().get(firstItemID));
+                sortedCategoryDetailItems.add(model.getData().getItems().get(secondItemId));
+                sortedCategoryDetailItems.add(model.getData().getItems().get(thirdItemId));
+
+
+                sameCategoryAdapter.setItems(sortedCategoryDetailItems);
+            } else {
+                sameCategoryAdapter.setItems(model.getData().getItems());
+            }
+
+
+
         } else if (model.getCode() == 200 && model.getData().getItems().size() == 0) {
 
         }

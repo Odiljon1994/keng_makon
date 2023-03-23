@@ -114,5 +114,5 @@
     <string name="not_registered_email">Эта электронная почта не зарегистрирована.</string>
     <string name="enter_registered_email">Пожалуйста, введите свой адрес электронной почты, чтобы получить новый пароль.</string>
     <string name="renew_password">Запросить новый пароль</string>
-
+    <string name="you_may_like_these_furnitures">Вам может понравиться эта мебель</string>
 </resources>
