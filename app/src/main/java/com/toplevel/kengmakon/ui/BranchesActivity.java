@@ -74,6 +74,7 @@ public class BranchesActivity extends AppCompatActivity {
             Intent intent = new Intent(BranchesActivity.this, BranchDetailActivity.class);
             intent.putStringArrayListExtra("images", (ArrayList<String>) item.getStore().getImages());
             intent.putExtra("address", item.getStore().getAddress());
+            intent.putExtra("landmark", item.getStore().getLandmark());
             intent.putExtra("working_hours", item.getStore().getOpen_hours());
             intent.putExtra("phone_number", item.getStore().getPhone());
             intent.putExtra("is_parking_exist", item.getStore().getHas_parking());

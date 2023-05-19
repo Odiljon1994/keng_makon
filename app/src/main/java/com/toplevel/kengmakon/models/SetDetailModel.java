@@ -129,6 +129,8 @@ public class SetDetailModel {
     public class SetDetailDataFurniture {
         @SerializedName("id")
         private int id;
+        @SerializedName("amount")
+        private int amount;
         @SerializedName("category_id")
         private int category_id;
         @SerializedName("name")
@@ -148,6 +150,14 @@ public class SetDetailModel {
 
         public void setId(int id) {
             this.id = id;
+        }
+
+        public int getAmount() {
+            return amount;
+        }
+
+        public void setAmount(int amount) {
+            this.amount = amount;
         }
 
         public int getCategory_id() {
@@ -198,8 +208,9 @@ public class SetDetailModel {
             this.is_liked = is_liked;
         }
 
-        public SetDetailDataFurniture(int id, int category_id, String name, String description, String image_url, String image_url_preview, boolean is_liked) {
+        public SetDetailDataFurniture(int id, int amount, int category_id, String name, String description, String image_url, String image_url_preview, boolean is_liked) {
             this.id = id;
+            this.amount = amount;
             this.category_id = category_id;
             this.name = name;
             this.description = description;

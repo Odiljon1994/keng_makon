@@ -41,11 +41,27 @@ public class BranchDetailActivity extends AppCompatActivity {
         String address = getIntent().getStringExtra("address");
         String working_hours = getIntent().getStringExtra("working_hours");
         String phone_number = getIntent().getStringExtra("phone_number");
+        String landmark = getIntent().getStringExtra("landmark");
+
         int is_parking_exist = getIntent().getIntExtra("is_parking_exist", 0);
         String langtitude_longtitude = getIntent().getStringExtra("langtitude_longtitude");
         List<String> imageUrls = getIntent().getStringArrayListExtra("images");
         if (TextUtils.isEmpty(langtitude_longtitude)) {
             binding.showOnMapBtn.setVisibility(View.GONE);
+        }
+
+        if (!TextUtils.isEmpty(landmark)) {
+            Gson parser = new Gson();
+            PushNotificationModel pushNotificationTitleModel = parser.fromJson(landmark,  PushNotificationModel.class);
+
+            if (preferencesUtil.getLANGUAGE().equals("uz")) {
+                binding.landMarkTextView.setText(pushNotificationTitleModel.getUz());
+            } else if (preferencesUtil.getLANGUAGE().equals("ru")) {
+                binding.landMarkTextView.setText(pushNotificationTitleModel.getRu());
+            } else if (preferencesUtil.getLANGUAGE().equals("en")) {
+                binding.landMarkTextView.setText(pushNotificationTitleModel.getEn());
+            }
+
         }
 
         binding.showOnMapBtn.setOnClickListener(view -> {

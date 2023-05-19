@@ -20,6 +20,7 @@ import com.toplevel.kengmakon.databinding.ItemFurnitureDetailImgBinding;
 import com.toplevel.kengmakon.models.FurnitureDetailModel;
 import com.toplevel.kengmakon.models.FurnitureModel;
 import com.toplevel.kengmakon.models.PushNotificationModel;
+import com.toplevel.kengmakon.models.SetDetailModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,10 +28,12 @@ import java.util.List;
 public class FurnitureDetailImgAdapter extends RecyclerView.Adapter<FurnitureDetailImgAdapter.ViewHolder>{
     private Context context;
     private List<FurnitureDetailModel.FurnitureImages> items;
+    private ClickListener clickListener;
 
-    public FurnitureDetailImgAdapter(Context context) {
+    public FurnitureDetailImgAdapter(Context context, ClickListener clickListener) {
         this.context = context;
         this.items = new ArrayList<>();
+        this.clickListener = clickListener;
     }
 
     @NonNull
@@ -67,11 +70,17 @@ public class FurnitureDetailImgAdapter extends RecyclerView.Adapter<FurnitureDet
                 Glide.with(context).load(model.getImage_url_preview()).centerCrop().into(binding.image);
             }
             binding.count.setText((position+1) + "/" + items.size());
+            binding.image.setOnClickListener(view -> clickListener.onClick(model));
 
         }
     }
     public void setItems(List<FurnitureDetailModel.FurnitureImages> items) {
         this.items = items;
         notifyDataSetChanged();
+    }
+
+    public interface ClickListener {
+        void onClick(FurnitureDetailModel.FurnitureImages model);
+
     }
 }

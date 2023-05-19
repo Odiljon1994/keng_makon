@@ -24,7 +24,9 @@ import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SnapHelper;
 
 import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
@@ -121,8 +123,14 @@ public class FurnitureDetailActivity extends AppCompatActivity {
         });
 
         binding.recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-        adapter = new FurnitureDetailImgAdapter(this);
+        adapter = new FurnitureDetailImgAdapter(this, item -> {
+            Intent intent = new Intent(this, ZoomImageActivity.class);
+            intent.putExtra("url", item.getImage_url());
+            startActivity(intent);
+        });
         binding.recyclerView.setAdapter(adapter);
+        SnapHelper snapHelper = new LinearSnapHelper();
+        snapHelper.attachToRecyclerView(binding.recyclerView);
 
         binding.backBtn.setOnClickListener(view -> finish());
 

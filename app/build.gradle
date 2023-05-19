@@ -10,7 +10,7 @@ android {
         applicationId "com.toplevel.kengmakon"
         minSdk 21
         targetSdk 32
-        versionCode 4
+        versionCode 6
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -38,6 +38,8 @@ android {
             enableSplit = false
         }
     }
+
+
 }
 
 project.ext {
@@ -115,4 +117,6 @@ dependencies {
     implementation "me.relex:circleindicator:2.1.6"
 
     implementation 'com.google.maps.android:android-maps-utils:2.3.0'
+
+    implementation 'com.github.MikeOrtiz:TouchImageView:1.4.1'
 }

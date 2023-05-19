@@ -5,7 +5,7 @@
     <string name="next">Next</string>
     <string name="get_started">Get started</string>
     <string name="login">Login</string>
-    <string name="premium_furniture">Premium Class Furniture Showroom</string>
+    <string name="premium_furniture">Premium Class Furniture</string>
     <string name="no_account">Haven\'t account? Please</string>
     <string name="sign_up">Sign up</string>
     <string name="sign_in">Sign in</string>
@@ -114,4 +114,6 @@
     <string name="enter_registered_email">Please enter your email to get a new password.</string>
     <string name="renew_password">Request new password</string>
     <string name="you_may_like_these_furnitures">You may like these furniture</string>
+    <string name="top_sets">Top sets</string>
+    <string name="recently_viewed">Recently viewed</string>
 </resources>

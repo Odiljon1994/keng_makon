@@ -129,7 +129,9 @@ public class SetDetailAdapter extends RecyclerView.Adapter<SetDetailAdapter.View
 
 
             });
-            binding.id.setText(String.valueOf(position + 1));
+
+            binding.id.setText("x" + model.getFurniture().getAmount());
+            //binding.id.setText(String.valueOf(position + 1));
             binding.getRoot().setOnClickListener(v -> clickListener.onClick(model));
 
         }

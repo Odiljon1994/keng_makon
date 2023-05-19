@@ -13,7 +13,7 @@
     <string name="email">Email</string>
     <string name="password">Parol</string>
     <string name="confirm_password">Parolni takroran kiriting</string>
-    <string name="have_account">Ro’yhatdan o’tganmisiz?</string>
+    <string name="have_account">Ro’yxatdan o’tganmisiz?</string>
     <string name="find_perfect_furniture_title">Barcha turdagi mebellar</string>
     <string name="all_categories_title">Kategoriyalar to’plami</string>
     <string name="cashback_title">Keshbek</string>
@@ -115,4 +115,6 @@
     <string name="enter_registered_email">Yangi parol olish uchun elektron pochtangizni kiriting.</string>
     <string name="renew_password">Yangi parol olish</string>
     <string name="you_may_like_these_furnitures">Bu mebellarni yoqtirishingiz mumkin</string>
+    <string name="top_sets">Eng yaxshi toʻplamlar</string>
+    <string name="recently_viewed">Yaqinda koʻrilganlar</string>
 </resources>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -15,8 +15,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="60dp"
-            android:elevation="5dp"
             android:layout_marginEnd="20dp"
+            android:elevation="5dp"
             app:cardCornerRadius="8dp">
 
 
@@ -90,21 +90,45 @@
 
                     </LinearLayout>
 
+                    <TextView
+                        android:id="@+id/recentlyViewedText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginEnd="20dp"
+                        android:text="@string/recently_viewed"
+                        android:visibility="gone"
+                        android:textColor="#191A26"
+                        android:textSize="18dp"
+                        android:textStyle="bold" />
+
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recentlyViewedRecyclerView"
                         android:layout_width="match_parent"
                         android:layout_height="75dp"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginTop="3dp"
                         android:visibility="gone"
                         tools:listitem="@layout/item_recently_viewed">
 
                     </androidx.recyclerview.widget.RecyclerView>
 
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="20dp"
+                        android:text="@string/top_sets"
+                        android:textColor="#191A26"
+                        android:textSize="18dp"
+                        android:textStyle="bold" />
+
                     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
                         android:id="@+id/swipeRefreshLayout"
                         android:layout_width="match_parent"
                         android:layout_height="340dp"
-                        android:layout_marginTop="8dp">
+                        android:layout_marginTop="4dp">
 
                         <androidx.core.widget.NestedScrollView
                             android:id="@+id/scrollView"
@@ -128,11 +152,21 @@
                         </androidx.core.widget.NestedScrollView>
                     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="20dp"
+                        android:text="@string/all_categories_title"
+                        android:textColor="#191A26"
+                        android:textSize="18dp"
+                        android:textStyle="bold" />
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/categoryRecycler"
                         android:layout_width="match_parent"
-                        android:layout_height="90dp"
+                        android:layout_height="86dp"
 
                         android:layout_marginTop="5dp"
                         tools:listitem="@layout/item_categories">

@@ -139,7 +139,7 @@ public class HomeFragment extends Fragment {
                     binding.searchRecyclerView.setVisibility(View.GONE);
                 } else {
                     for (int i = 0; i < furnitureAllList.size(); i++) {
-                        if (furnitureAllList.get(i).getName().toUpperCase().contains(editable.toString().toUpperCase())) {
+                        if (furnitureAllList.get(i).getName().trim().toUpperCase().contains(editable.toString().trim().toUpperCase())) {
                             furnitureSortedList.add(furnitureAllList.get(i));
                         }
                     }
@@ -151,8 +151,7 @@ public class HomeFragment extends Fragment {
                         furnitureSortedList = new ArrayList<>();
                         searchAdapter.setItems(furnitureSortedList);
                         binding.searchRecyclerView.setVisibility(View.GONE);
-                    }
-                    else {
+                    } else {
                         furnitureSortedList.clear();
                         searchAdapter.setItems(furnitureSortedList);
                         binding.searchRecyclerView.setVisibility(View.GONE);
@@ -178,13 +177,13 @@ public class HomeFragment extends Fragment {
             intent.putExtra("id", item.getId());
 
             Gson parser = new Gson();
-            PushNotificationModel pushNotificationTitleModel = parser.fromJson(item.getName(),  PushNotificationModel.class);
+            PushNotificationModel pushNotificationTitleModel = parser.fromJson(item.getName(), PushNotificationModel.class);
 
             if (preferencesUtil.getLANGUAGE().equals("uz") && !TextUtils.isEmpty(pushNotificationTitleModel.getUz())) {
                 intent.putExtra("name", pushNotificationTitleModel.getUz());
             } else if (preferencesUtil.getLANGUAGE().equals("en") && !TextUtils.isEmpty(pushNotificationTitleModel.getEn())) {
                 intent.putExtra("name", pushNotificationTitleModel.getEn());
-            } else if (preferencesUtil.getLANGUAGE().equals("ru") && !TextUtils.isEmpty(pushNotificationTitleModel.getRu())){
+            } else if (preferencesUtil.getLANGUAGE().equals("ru") && !TextUtils.isEmpty(pushNotificationTitleModel.getRu())) {
                 intent.putExtra("name", pushNotificationTitleModel.getRu());
             }
 
@@ -202,13 +201,13 @@ public class HomeFragment extends Fragment {
             Intent intent = new Intent(getActivity(), CategoryDetailActivity.class);
             intent.putExtra("id", item.getId());
             Gson parser = new Gson();
-            PushNotificationModel pushNotificationTitleModel = parser.fromJson(item.getName(),  PushNotificationModel.class);
+            PushNotificationModel pushNotificationTitleModel = parser.fromJson(item.getName(), PushNotificationModel.class);
 
             if (preferencesUtil.getLANGUAGE().equals("uz") && !TextUtils.isEmpty(pushNotificationTitleModel.getUz())) {
                 intent.putExtra("name", pushNotificationTitleModel.getUz());
             } else if (preferencesUtil.getLANGUAGE().equals("en") && !TextUtils.isEmpty(pushNotificationTitleModel.getEn())) {
                 intent.putExtra("name", pushNotificationTitleModel.getEn());
-            } else if (preferencesUtil.getLANGUAGE().equals("ru") && !TextUtils.isEmpty(pushNotificationTitleModel.getRu())){
+            } else if (preferencesUtil.getLANGUAGE().equals("ru") && !TextUtils.isEmpty(pushNotificationTitleModel.getRu())) {
                 intent.putExtra("name", pushNotificationTitleModel.getRu());
             }
 
@@ -242,7 +241,7 @@ public class HomeFragment extends Fragment {
         binding.swipeRefreshLayout.setRefreshing(true);
         furnitureVM.getTopSet();
         //furnitureVM.getSet(page, size);
-        furnitureVM.getCategories(1, 200);
+        furnitureVM.getCategories(1, 2000);
         furnitureVM.getFurnitureTopList(preferencesUtil.getTOKEN());
         furnitureVM.getFurniture(preferencesUtil.getTOKEN(), 1, 2000);
         //furnitureVM.getFurniture(preferencesUtil.getTOKEN(), 1, 20);
@@ -309,17 +308,22 @@ public class HomeFragment extends Fragment {
                     Gson parser = new Gson();
                     PushNotificationModel pushNotificationTitleModel = parser.fromJson(model.getData().getItems().get(i).getName(), PushNotificationModel.class);
 
-                    furnitureAllList.add(new SearchModel(model.getData().getItems().get(i).getId(), pushNotificationTitleModel.getUz(),
-                            model.getData().getItems().get(i).getImage_url()));
-                    furnitureAllList.add(new SearchModel(model.getData().getItems().get(i).getId(), pushNotificationTitleModel.getRu(),
-                            model.getData().getItems().get(i).getImage_url()));
-                    furnitureAllList.add(new SearchModel(model.getData().getItems().get(i).getId(), pushNotificationTitleModel.getEn(),
-                            model.getData().getItems().get(i).getImage_url()));
+                    if (!TextUtils.isEmpty(pushNotificationTitleModel.getUz())) {
+                        furnitureAllList.add(new SearchModel(model.getData().getItems().get(i).getId(), pushNotificationTitleModel.getUz(),
+                                model.getData().getItems().get(i).getImage_url()));
+                    }
+                    if (!TextUtils.isEmpty(pushNotificationTitleModel.getRu())) {
+                        furnitureAllList.add(new SearchModel(model.getData().getItems().get(i).getId(), pushNotificationTitleModel.getRu(),
+                                model.getData().getItems().get(i).getImage_url()));
+                    }
+                    if (!TextUtils.isEmpty(pushNotificationTitleModel.getEn())) {
+                        furnitureAllList.add(new SearchModel(model.getData().getItems().get(i).getId(), pushNotificationTitleModel.getEn(),
+                                model.getData().getItems().get(i).getImage_url()));
+                    }
 
                 } catch (Exception e) {
-                   continue;
+                    continue;
                 }
-
 
 
             }
@@ -395,8 +399,10 @@ public class HomeFragment extends Fragment {
         binding.recentlyViewedRecyclerView.setAdapter(recentlyViewedAdapter);
         if (list.size() > 0) {
             binding.recentlyViewedRecyclerView.setVisibility(View.VISIBLE);
+            binding.recentlyViewedText.setVisibility(View.VISIBLE);
         } else {
             binding.recentlyViewedRecyclerView.setVisibility(View.GONE);
+            binding.recentlyViewedText.setVisibility(View.GONE);
         }
     }
 
@@ -441,6 +447,7 @@ public class HomeFragment extends Fragment {
             }
         }
     }
+
     public void onFailGetNotifications(String error) {
 
     }

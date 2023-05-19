@@ -51,6 +51,7 @@ public class SetDetailActivity extends AppCompatActivity {
     private SetDetailAdapter adapter;
     int id;
 
+    private String url = "";
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +69,11 @@ public class SetDetailActivity extends AppCompatActivity {
         binding.videoView.setVideoURI(uri);
 
 
+        binding.currentImage.setOnClickListener(view -> {
+            Intent intent = new Intent(this, ZoomImageActivity.class);
+            intent.putExtra("url", url);
+            startActivity(intent);
+        });
 
 
         binding.videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
@@ -178,6 +184,7 @@ public class SetDetailActivity extends AppCompatActivity {
             } catch (Exception e) {
                 System.out.println(e);
             }
+            url = model.getData().getSet().getImage_url();
             Glide.with(this).load(model.getData().getSet().getImage_url()).centerCrop().into(binding.currentImage);
             adapter.setItems(model.getData().getItems());
         }

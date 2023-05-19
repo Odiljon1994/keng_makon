@@ -85,7 +85,7 @@ public class BranchesImageAdapter extends RecyclerView.Adapter<BranchesImageAdap
 
             if (!TextUtils.isEmpty(model.getStore().getAddress())) {
                 Gson parser = new Gson();
-                PushNotificationModel pushNotificationTitleModel = parser.fromJson(model.getStore().getAddress(),  PushNotificationModel.class);
+                PushNotificationModel pushNotificationTitleModel = parser.fromJson(model.getStore().getName(),  PushNotificationModel.class);
 
                 if (language.equals("uz") && !TextUtils.isEmpty(pushNotificationTitleModel.getUz())) {
                     binding.branchRegion.setText(pushNotificationTitleModel.getUz());
