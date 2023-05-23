@@ -9,10 +9,13 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.inputmethod.EditorInfo;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -44,6 +47,7 @@ import com.toplevel.kengmakon.ui.CategoryDetailActivity;
 import com.toplevel.kengmakon.ui.FurnitureDetailActivity;
 import com.toplevel.kengmakon.ui.LoginActivity;
 import com.toplevel.kengmakon.ui.NotificationsActivity;
+import com.toplevel.kengmakon.ui.SearchActivity;
 import com.toplevel.kengmakon.ui.SetDetailActivity;
 import com.toplevel.kengmakon.ui.adapters.CategoriesAdapter;
 import com.toplevel.kengmakon.ui.adapters.FurnitureAdapter;
@@ -118,48 +122,62 @@ public class HomeFragment extends Fragment {
 
         TOKEN = preferencesUtil.getTOKEN();
 
-        binding.search.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        binding.search.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
 
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                System.out.println(editable);
-                furnitureSortedList = new ArrayList<>();
-                if (TextUtils.isEmpty(binding.search.getText().toString()) == true) {
-                    furnitureSortedList = new ArrayList<>();
-                    searchAdapter.setItems(furnitureSortedList);
-                    binding.searchRecyclerView.setVisibility(View.GONE);
-                } else {
-                    for (int i = 0; i < furnitureAllList.size(); i++) {
-                        if (furnitureAllList.get(i).getName().trim().toUpperCase().contains(editable.toString().trim().toUpperCase())) {
-                            furnitureSortedList.add(furnitureAllList.get(i));
-                        }
-                    }
-                    if (furnitureSortedList.size() > 0) {
-                        searchAdapter.setItems(furnitureSortedList);
-                        binding.searchRecyclerView.setVisibility(View.VISIBLE);
-                    } else if (TextUtils.isEmpty(editable.toString())) {
-                        furnitureSortedList.clear();
-                        furnitureSortedList = new ArrayList<>();
-                        searchAdapter.setItems(furnitureSortedList);
-                        binding.searchRecyclerView.setVisibility(View.GONE);
-                    } else {
-                        furnitureSortedList.clear();
-                        searchAdapter.setItems(furnitureSortedList);
-                        binding.searchRecyclerView.setVisibility(View.GONE);
-                    }
+                if(!TextUtils.isEmpty(binding.search.getText().toString())) {
+                    Intent intent = new Intent(getActivity(), SearchActivity.class);
+                    intent.putExtra("search", binding.search.getText().toString());
+                    startActivity(intent);
                 }
 
+                return true;
             }
+            return false;
         });
+
+//        binding.search.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable editable) {
+//                System.out.println(editable);
+//                furnitureSortedList = new ArrayList<>();
+//                if (TextUtils.isEmpty(binding.search.getText().toString()) == true) {
+//                    furnitureSortedList = new ArrayList<>();
+//                    searchAdapter.setItems(furnitureSortedList);
+//                    binding.searchRecyclerView.setVisibility(View.GONE);
+//                } else {
+//                    for (int i = 0; i < furnitureAllList.size(); i++) {
+//                        if (furnitureAllList.get(i).getName().trim().toUpperCase().contains(editable.toString().trim().toUpperCase())) {
+//                            furnitureSortedList.add(furnitureAllList.get(i));
+//                        }
+//                    }
+//                    if (furnitureSortedList.size() > 0) {
+//                        searchAdapter.setItems(furnitureSortedList);
+//                        binding.searchRecyclerView.setVisibility(View.VISIBLE);
+//                    } else if (TextUtils.isEmpty(editable.toString())) {
+//                        furnitureSortedList.clear();
+//                        furnitureSortedList = new ArrayList<>();
+//                        searchAdapter.setItems(furnitureSortedList);
+//                        binding.searchRecyclerView.setVisibility(View.GONE);
+//                    } else {
+//                        furnitureSortedList.clear();
+//                        searchAdapter.setItems(furnitureSortedList);
+//                        binding.searchRecyclerView.setVisibility(View.GONE);
+//                    }
+//                }
+//
+//            }
+//        });
 
 
         binding.searchRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));

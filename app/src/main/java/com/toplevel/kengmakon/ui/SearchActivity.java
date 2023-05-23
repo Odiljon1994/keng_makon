@@ -2,83 +2,92 @@ package com.toplevel.kengmakon.ui;
 
 import android.app.AlertDialog;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
-import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.widget.NestedScrollView;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.bumptech.glide.Glide;
 import com.google.gson.Gson;
 import com.toplevel.kengmakon.MyApp;
 import com.toplevel.kengmakon.R;
 import com.toplevel.kengmakon.databinding.ActivityCategoryDetailBinding;
 import com.toplevel.kengmakon.di.ViewModelFactory;
 import com.toplevel.kengmakon.models.CategoryDetailModel;
+import com.toplevel.kengmakon.models.FurnitureModel;
 import com.toplevel.kengmakon.models.LikeModel;
 import com.toplevel.kengmakon.models.PushNotificationModel;
+import com.toplevel.kengmakon.models.SearchModel;
 import com.toplevel.kengmakon.models.SetModel;
 import com.toplevel.kengmakon.ui.adapters.CategoryDetailAdapter;
 import com.toplevel.kengmakon.ui.adapters.CategorySetDetailAdapter;
-import com.toplevel.kengmakon.ui.adapters.SetDetailAdapter;
+import com.toplevel.kengmakon.ui.adapters.FurnitureAdapter;
 import com.toplevel.kengmakon.ui.dialogs.BaseDialog;
 import com.toplevel.kengmakon.ui.dialogs.LoadingDialog;
 import com.toplevel.kengmakon.ui.viewmodels.FurnitureDetailsVM;
-import com.toplevel.kengmakon.utils.NetworkChangeListener;
+import com.toplevel.kengmakon.ui.viewmodels.FurnitureVM;
 import com.toplevel.kengmakon.utils.PreferencesUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
-public class CategoryDetailActivity extends AppCompatActivity {
+public class SearchActivity extends AppCompatActivity {
 
-    ActivityCategoryDetailBinding binding;
+    private ActivityCategoryDetailBinding binding;
+
     private FurnitureDetailsVM furnitureDetailsVM;
+    private FurnitureVM furnitureVM;
     @Inject
     ViewModelFactory viewModelFactory;
     @Inject
     PreferencesUtil preferencesUtil;
     private CategoryDetailAdapter adapter;
     private CategorySetDetailAdapter adapterSet;
+    private FurnitureAdapter furnitureAdapter;
     int id;
     private int page = 1;
     private int size = 200;
     private boolean isItemSelected = true;
-    String name = "";
+    String searchKey = "";
     int totalItems = 0;
     int totalSets = 0;
 
     private AlertDialog dialog;
 
-    List<CategoryDetailModel.CategoryDetailDataItem> items = new ArrayList<>();
+    private List<SearchModel> furnitureAllList = new ArrayList<>();
+
+    List<FurnitureModel.FurnitureDataItem> items = new ArrayList<>();
     List<SetModel.SetDataItem> sets = new ArrayList<>();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ((MyApp) getApplication()).getAppComponent().inject(this);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_category_detail);
+        furnitureVM = ViewModelProviders.of(this, viewModelFactory).get(FurnitureVM.class);
+        furnitureVM.furnitureSearchModelLiveData().observe(this, this::onSuccessGetFurnitureSearch);
+        furnitureVM.onFailGetFurnitureSearchLiveData().observe(this, this::onFailGetFurnitureSearchModel);
         furnitureDetailsVM = ViewModelProviders.of(this, viewModelFactory).get(FurnitureDetailsVM.class);
-        furnitureDetailsVM.successCategoryDetailLiveData().observe(this, this::onSuccessGetCategoryDetail);
-        furnitureDetailsVM.onFailGetCategoryDetailLiveData().observe(this, this::onFailGetCategoryDetail);
         furnitureDetailsVM.likeModelLiveData().observe(this, this::onSuccessLike);
         furnitureDetailsVM.onFailSetLikeLiveData().observe(this, this::onFailLike);
-        furnitureDetailsVM.onSuccessCategorySetDetailLiveData().observe(this, this::onSuccessGetCategorySetDetail);
-        furnitureDetailsVM.onFailCategorySetDetailLiveData().observe(this, this::onFailGetCategorySetDetail);
+        furnitureVM.setModelLiveData().observe(this, this::onSuccessGetSet);
+        furnitureVM.onFailGetSetLiveData().observe(this, this::onFailGetSet);
+
+        searchKey = getIntent().getStringExtra("search");
+        binding.backBtn.setOnClickListener(view -> finish());
+
+        binding.totalItemLayout.setVisibility(View.GONE);
+        binding.title.setText(searchKey + " ...");
 
         binding.setLayout.setOnClickListener(view1 -> {
 
@@ -123,41 +132,35 @@ public class CategoryDetailActivity extends AppCompatActivity {
 
         });
 
-        binding.backBtn.setOnClickListener(view -> finish());
 
-        try {
-            name = getIntent().getStringExtra("name");
-            binding.categoryName.setText(name);
-        } catch (Exception e) {
-
-        }
 
         binding.furnitureRecycler.setLayoutManager(new GridLayoutManager(this, 2));
-        adapter = new CategoryDetailAdapter(this, preferencesUtil.getLANGUAGE(), preferencesUtil.getIsIsSignedIn(), new CategoryDetailAdapter.ClickListener() {
+        furnitureAdapter = new FurnitureAdapter(this, preferencesUtil.getLANGUAGE(), preferencesUtil.getIsIsSignedIn(), new FurnitureAdapter.ClickListener() {
             @Override
-            public void onClick(CategoryDetailModel.CategoryDetailDataItem model) {
-                Intent intent = new Intent(CategoryDetailActivity.this, FurnitureDetailActivity.class);
-                intent.putExtra("id", model.getFurniture_id());
+            public void onClick(FurnitureModel.FurnitureDataItem model) {
+                Intent intent = new Intent(SearchActivity.this, FurnitureDetailActivity.class);
+                intent.putExtra("id", model.getId());
                 intent.putExtra("url", model.getImage_url_preview());
                 startActivity(intent);
             }
 
             @Override
-            public void onClickLikeBtn(CategoryDetailModel.CategoryDetailDataItem model, boolean isLiked) {
+            public void onClickLikeBtn(FurnitureModel.FurnitureDataItem model, boolean isLiked) {
                 if (preferencesUtil.getIsIsSignedIn()) {
-                    furnitureDetailsVM.setLikeDislike(preferencesUtil.getTOKEN(), model.getFurniture_id());
+                    furnitureDetailsVM.setLikeDislike(preferencesUtil.getTOKEN(), model.getId());
                 } else {
                     showDialog();
                 }
             }
         });
-        binding.furnitureRecycler.setAdapter(adapter);
+
+        binding.furnitureRecycler.setAdapter(furnitureAdapter);
 
         binding.setDetailRecycler.setLayoutManager(new GridLayoutManager(this, 2));
         adapterSet = new CategorySetDetailAdapter(this, preferencesUtil.getLANGUAGE(), preferencesUtil.getIsIsSignedIn(), new CategorySetDetailAdapter.ClickListener() {
             @Override
             public void onClick(SetModel.SetDataItem model) {
-                Intent intent = new Intent(CategoryDetailActivity.this, SetDetailActivity.class);
+                Intent intent = new Intent(SearchActivity.this, SetDetailActivity.class);
                 intent.putExtra("id", model.getId());
 
                 Gson parser = new Gson();
@@ -184,25 +187,70 @@ public class CategoryDetailActivity extends AppCompatActivity {
         });
         binding.setDetailRecycler.setAdapter(adapterSet);
 
-        id = getIntent().getIntExtra("id", 1);
-//        furnitureDetailsVM.getCategoryDetail(preferencesUtil.getTOKEN(), page, size, id);
-//        furnitureDetailsVM.getCategorySetDetail(preferencesUtil.getTOKEN(), page, size, id);
-        showLoadingDialog();
-        furnitureDetailsVM.getCategoryDetail(preferencesUtil.getTOKEN(), 1, 200, id);
-        furnitureDetailsVM.getCategorySetDetail(preferencesUtil.getTOKEN(), 1, 200, id);
 
-//        binding.scrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
-//            @Override
-//            public void onScrollChange(@NonNull NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-//                if (scrollY == v.getChildAt(0).getMeasuredHeight() - v.getMeasuredHeight()) {
-////                    page++;
-////                    furnitureDetailsVM.getCategoryDetail(preferencesUtil.getTOKEN(), page, size, id);
-////                    furnitureDetailsVM.getCategorySetDetail(preferencesUtil.getTOKEN(), page, size, id);
-//                    furnitureDetailsVM.getCategoryDetail(preferencesUtil.getTOKEN(), 1, 200, id);
-//                    furnitureDetailsVM.getCategorySetDetail(preferencesUtil.getTOKEN(), 1, 200, id);
-//                }
-//            }
-//        });
+        showLoadingDialog();
+        furnitureVM.getFurniture(preferencesUtil.getTOKEN(), 1, 2000);
+        furnitureVM.getSet(1, 2000);
+    }
+
+    public void onSuccessGetFurnitureSearch(FurnitureModel model) {
+        if (model.getCode() == 200 && model.getData().getItems().size() > 0) {
+
+            for (int i = 0; i < model.getData().getItems().size(); i++) {
+
+                if (model.getData().getItems().get(i).getName().toUpperCase(Locale.ROOT).contains(searchKey.toUpperCase(Locale.ROOT))) {
+                    items.add(model.getData().getItems().get(i));
+                }
+            }
+
+            dialog.dismiss();
+            if (items.size() > 0) {
+                binding.furnitureRecycler.setVisibility(View.VISIBLE);
+                furnitureAdapter.setItems(items);
+            } else {
+                binding.furnitureRecycler.setVisibility(View.GONE);
+                binding.emptyLayout.setVisibility(View.VISIBLE);
+            }
+        } else {
+            dialog.dismiss();
+            System.out.println("Furniture fail: " + model.getMessage());
+        }
+    }
+
+    public void onFailGetFurnitureSearchModel(String error) {
+
+        System.out.println("Furniture fail: " + error);
+    }
+
+
+    public void onSuccessLike(LikeModel likeModel) {
+
+    }
+    public void onFailLike(String error) {
+
+    }
+
+    public void onSuccessGetSet(SetModel model) {
+
+        if (model.getCode() == 200 && model.getData().getItems().size() > 0) {
+
+
+            for (int i = 0; i < model.getData().getItems().size(); i++) {
+
+                if (model.getData().getItems().get(i).getName().toUpperCase(Locale.ROOT).contains(searchKey.toUpperCase(Locale.ROOT))) {
+                    sets.add(model.getData().getItems().get(i));
+                }
+
+                //setDataItems.add(model.getData().getItems().get(i));
+            }
+            adapterSet.setItems(sets);
+            //adapter.setItems(model.getData().getItems());
+        }
+    }
+
+    public void onFailGetSet(String error) {
+
+        System.out.println(error);
     }
 
     public void showLoadingDialog() {
@@ -215,52 +263,6 @@ public class CategoryDetailActivity extends AppCompatActivity {
         dialog.setCancelable(false);
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
-
-
-    }
-
-    public void onSuccessGetCategorySetDetail(SetModel model) {
-        dialog.dismiss();
-        if (model.getCode() == 200 && model.getData().getItems().size() > 0) {
-            adapterSet.setItems(model.getData().getItems());
-            sets = model.getData().getItems();
-            totalSets = model.getData().getItems().size();
-        }
-    }
-    public void onFailGetCategorySetDetail(String error) {
-        dialog.dismiss();
-    }
-
-    public void onSuccessGetCategoryDetail(CategoryDetailModel model) {
-        dialog.dismiss();
-        if (model.getCode() == 200 && model.getData().getItems().size() > 0) {
-
-
-            if (model.getData().getTotalPages() > 1) {
-                totalItems = size * model.getData().getTotalPages();
-                binding.totalItem.setText(String.valueOf(totalItems) + " " + getString(R.string.products));
-            } else {
-                totalItems = model.getData().getItems().size();
-                binding.totalItem.setText(String.valueOf(model.getData().getItems().size()) + " " + getString(R.string.products));
-            }
-
-            for (int i = 0; i < model.getData().getItems().size(); i++) {
-                items.add(model.getData().getItems().get(i));
-            }
-            adapter.setItems(items);
-        } else if (model.getCode() == 200 && model.getData().getItems().size() == 0) {
-            binding.furnitureRecycler.setVisibility(View.GONE);
-            binding.emptyLayout.setVisibility(View.VISIBLE);
-        }
-    }
-    public void onFailGetCategoryDetail(String error) {
-        dialog.dismiss();
-    }
-
-    public void onSuccessLike(LikeModel likeModel) {
-
-    }
-    public void onFailLike(String error) {
 
     }
 
@@ -277,7 +279,7 @@ public class CategoryDetailActivity extends AppCompatActivity {
             public void onClickOk() {
                 BaseDialog.ClickListener.super.onClickOk();
                 dialog.dismiss();
-                startActivity(new Intent(CategoryDetailActivity.this, LoginActivity.class));
+                startActivity(new Intent(SearchActivity.this, LoginActivity.class));
 
             }
 
@@ -288,19 +290,5 @@ public class CategoryDetailActivity extends AppCompatActivity {
             }
         };
         baseDialog.setClickListener(clickListener);
-    }
-
-    NetworkChangeListener networkChangeListener = new NetworkChangeListener();
-    @Override
-    protected void onStart() {
-        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
-        registerReceiver(networkChangeListener, filter);
-        super.onStart();
-    }
-
-    @Override
-    protected void onStop() {
-        unregisterReceiver(networkChangeListener);
-        super.onStop();
     }
 }

@@ -117,4 +117,7 @@
     <string name="you_may_like_these_furnitures">Bu mebellarni yoqtirishingiz mumkin</string>
     <string name="top_sets">Eng yaxshi toʻplamlar</string>
     <string name="recently_viewed">Yaqinda koʻrilganlar</string>
+
+    <string name="items">Mebellar</string>
+    <string name="sets">Toʻplamlar</string>
 </resources>

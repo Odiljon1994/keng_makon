@@ -116,4 +116,7 @@
     <string name="you_may_like_these_furnitures">You may like these furniture</string>
     <string name="top_sets">Top sets</string>
     <string name="recently_viewed">Recently viewed</string>
+
+    <string name="items">Items</string>
+    <string name="sets">Sets</string>
 </resources>
