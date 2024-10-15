@@ -86,7 +86,7 @@ public class SearchActivity extends AppCompatActivity {
         searchKey = getIntent().getStringExtra("search");
         binding.backBtn.setOnClickListener(view -> finish());
 
-        binding.totalItemLayout.setVisibility(View.GONE);
+
         binding.title.setText(searchKey + " ...");
 
         binding.setLayout.setOnClickListener(view1 -> {
@@ -97,7 +97,7 @@ public class SearchActivity extends AppCompatActivity {
             binding.setBottomView.setBackgroundColor(Color.parseColor("#385B96"));
             binding.itemBottomView.setBackgroundColor(Color.parseColor("#ffffff"));
 
-            binding.totalItem.setText(String.valueOf(totalSets) + " " + getString(R.string.products));
+            binding.totalItem.setText(sets.size() + " " + getString(R.string.products));
 
             binding.furnitureRecycler.setVisibility(View.GONE);
 
@@ -118,7 +118,7 @@ public class SearchActivity extends AppCompatActivity {
             binding.setBottomView.setBackgroundColor(Color.parseColor("#ffffff"));
             binding.itemBottomView.setBackgroundColor(Color.parseColor("#385B96"));
 
-            binding.totalItem.setText(String.valueOf(totalItems) + " " + getString(R.string.products));
+            binding.totalItem.setText(items.size() + " " + getString(R.string.products));
 
             binding.setDetailRecycler.setVisibility(View.GONE);
 
@@ -204,6 +204,7 @@ public class SearchActivity extends AppCompatActivity {
             }
 
             dialog.dismiss();
+            binding.totalItem.setText(items.size() + " " + getString(R.string.products));
             if (items.size() > 0) {
                 binding.furnitureRecycler.setVisibility(View.VISIBLE);
                 furnitureAdapter.setItems(items);

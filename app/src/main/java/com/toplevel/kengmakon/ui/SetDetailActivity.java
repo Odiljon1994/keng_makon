@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.net.ConnectivityManager;
 import android.net.Uri;
@@ -13,6 +14,7 @@ import android.os.Bundle;
 import android.text.Html;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -88,6 +90,9 @@ public class SetDetailActivity extends AppCompatActivity {
 
 
         String description = getIntent().getStringExtra("description");
+
+       // binding.description.setHtml(parseLanguage(description));
+
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             binding.description.setText(Html.fromHtml(parseLanguage(description), Html.FROM_HTML_MODE_COMPACT));
