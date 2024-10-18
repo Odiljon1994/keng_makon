@@ -57,7 +57,7 @@ public class SearchActivity extends AppCompatActivity {
     int id;
     private int page = 1;
     private int size = 200;
-    private boolean isItemSelected = true;
+    private boolean isItemSelected = false;
     String searchKey = "";
     int totalItems = 0;
     int totalSets = 0;
@@ -204,7 +204,7 @@ public class SearchActivity extends AppCompatActivity {
             }
 
             dialog.dismiss();
-            binding.totalItem.setText(items.size() + " " + getString(R.string.products));
+            //binding.totalItem.setText(items.size() + " " + getString(R.string.products));
             if (items.size() > 0) {
                 binding.furnitureRecycler.setVisibility(View.VISIBLE);
                 furnitureAdapter.setItems(items);
@@ -244,6 +244,7 @@ public class SearchActivity extends AppCompatActivity {
 
                 //setDataItems.add(model.getData().getItems().get(i));
             }
+            binding.totalItem.setText(sets.size() + " " + getString(R.string.products));
             adapterSet.setItems(sets);
             //adapter.setItems(model.getData().getItems());
         }

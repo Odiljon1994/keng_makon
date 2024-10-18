@@ -47,7 +47,7 @@
     <string name="enter_subject">Введите тему.</string>
     <string name="enter_body">Напишите содержание текста</string>
     <string name="my_orders">Мои заказы</string>
-    <string name="branches">Магазины</string>
+    <string name="branches">Выставочные залы</string>
     <string name="settings">Настройки</string>
     <string name="support">Помощь</string>
     <string name="about">О нас</string>
@@ -120,4 +120,7 @@
 
     <string name="items">Мебель</string>
     <string name="sets">Коллекции</string>
+    <string name="more">Подробно</string>
+    <string name="more_buy_more_discount">Чем больше вы покупаете, тем больше скидка вы получаете</string>
+    <string name="discount">Скидка</string>
 </resources>

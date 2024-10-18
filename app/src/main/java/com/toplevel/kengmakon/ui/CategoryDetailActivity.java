@@ -58,7 +58,7 @@ public class CategoryDetailActivity extends AppCompatActivity {
     int id;
     private int page = 1;
     private int size = 200;
-    private boolean isItemSelected = true;
+    private boolean isItemSelected = false;
     String name = "";
     int totalItems = 0;
     int totalSets = 0;
@@ -225,6 +225,7 @@ public class CategoryDetailActivity extends AppCompatActivity {
             adapterSet.setItems(model.getData().getItems());
             sets = model.getData().getItems();
             totalSets = model.getData().getItems().size();
+            binding.totalItem.setText(totalSets + " " + getString(R.string.products));
         }
     }
     public void onFailGetCategorySetDetail(String error) {
@@ -241,7 +242,7 @@ public class CategoryDetailActivity extends AppCompatActivity {
                 binding.totalItem.setText(String.valueOf(totalItems) + " " + getString(R.string.products));
             } else {
                 totalItems = model.getData().getItems().size();
-                binding.totalItem.setText(String.valueOf(model.getData().getItems().size()) + " " + getString(R.string.products));
+                //binding.totalItem.setText(String.valueOf(model.getData().getItems().size()) + " " + getString(R.string.products));
             }
 
             for (int i = 0; i < model.getData().getItems().size(); i++) {

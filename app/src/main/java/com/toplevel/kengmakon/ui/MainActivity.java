@@ -27,6 +27,7 @@ import com.toplevel.kengmakon.ui.dialogs.BaseDialog;
 import com.toplevel.kengmakon.ui.fragments.ActionsFragment;
 import com.toplevel.kengmakon.ui.fragments.CashbackFragment;
 import com.toplevel.kengmakon.ui.fragments.HomeFragment;
+import com.toplevel.kengmakon.ui.fragments.NewCashbackFragment;
 import com.toplevel.kengmakon.ui.fragments.SettingsFragment;
 import com.toplevel.kengmakon.ui.fragments.WishlistFragment;
 import com.toplevel.kengmakon.ui.viewmodels.AuthVM;
@@ -45,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
     private HomeFragment homeFragment;
     private WishlistFragment wishlistFragment;
     private SettingsFragment settingsFragment;
-    private CashbackFragment cashbackFragment;
+    private NewCashbackFragment cashbackFragment;
     private ActionsFragment actionsFragment;
     private String appUniqueToken = "";
     private AuthVM authVM;
@@ -67,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         Utils.setAppLocale(this, preferencesUtil.getLANGUAGE());
         homeFragment = new HomeFragment();
         wishlistFragment = new WishlistFragment();
-        cashbackFragment = new CashbackFragment();
+        cashbackFragment = new NewCashbackFragment();
         settingsFragment = new SettingsFragment();
         actionsFragment = new ActionsFragment();
 
@@ -131,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction().remove(actionsFragment).commit();
             homeFragment = new HomeFragment();
             wishlistFragment = new WishlistFragment();
-            cashbackFragment = new CashbackFragment();
+            cashbackFragment = new NewCashbackFragment();
             settingsFragment = new SettingsFragment();
             actionsFragment = new ActionsFragment();
 

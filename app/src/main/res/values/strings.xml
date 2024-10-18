@@ -119,4 +119,7 @@
 
     <string name="items">Items</string>
     <string name="sets">Sets</string>
+    <string name="more">More</string>
+    <string name="more_buy_more_discount">The more you buy, the more discount you get</string>
+    <string name="discount">Discount</string>
 </resources>

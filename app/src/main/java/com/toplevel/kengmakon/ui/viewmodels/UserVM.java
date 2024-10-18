@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 import com.toplevel.kengmakon.api.Api;
 import com.toplevel.kengmakon.models.BaseResponse;
 import com.toplevel.kengmakon.models.CashbackModel;
+import com.toplevel.kengmakon.models.DiscountModel;
 import com.toplevel.kengmakon.models.FeedbackModel;
 import com.toplevel.kengmakon.models.SetModel;
 
@@ -25,6 +26,9 @@ public class UserVM extends BaseVM {
 
     private MutableLiveData<CashbackModel> cashbackModelMutableLiveData = new MutableLiveData<>();
     private MutableLiveData<String> onFailCashbackMutableLiveData = new MutableLiveData<>();
+
+    private MutableLiveData<DiscountModel> discountModelMutableLiveData = new MutableLiveData<>();
+    private MutableLiveData<String> onFailDiscountMutableLiveData = new MutableLiveData<>();
 
     @Inject
     public UserVM(Api api, Context context) {
@@ -44,6 +48,11 @@ public class UserVM extends BaseVM {
         return cashbackModelMutableLiveData;
     }
     public LiveData<String> onFailCashbackLiveData() {return onFailCashbackMutableLiveData;}
+
+    public LiveData<DiscountModel> onSuccessDiscountLiveData() {
+        return discountModelMutableLiveData;
+    }
+    public LiveData<String> onFailDiscountLiveData() {return onFailDiscountMutableLiveData;}
 
     public void postFeedback(String token, String subject, String message) {
 
@@ -68,6 +77,18 @@ public class UserVM extends BaseVM {
                     cashbackModelMutableLiveData.postValue(response);
                 }, error -> {
                     onFailCashbackMutableLiveData.postValue(error.getMessage());
+                }));
+    }
+
+    public void getDiscount(String token) {
+
+        addToSubscribe(api.getDiscount("Bearer " + token)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response -> {
+                    discountModelMutableLiveData.postValue(response);
+                }, error -> {
+                    onFailDiscountMutableLiveData.postValue(error.getMessage());
                 }));
     }
 }

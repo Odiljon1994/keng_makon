@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools">
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -30,7 +31,7 @@
                     android:layout_marginEnd="20dp"
                     android:textSize="22dp"
                     android:layout_marginTop="20dp"
-                    android:text="@string/cashback_title"
+                    android:text="@string/discount"
                     android:textColor="@color/white"
                     android:textStyle="bold" />
 
@@ -47,142 +48,139 @@
             </FrameLayout>
 
 
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginEnd="20dp"
-                android:textSize="14dp"
                 android:text="@string/cashback_best_solution"
-                android:textColor="#748CB5" />
+                android:textColor="#748CB5"
+                android:textSize="14dp" />
 
             <View
                 android:layout_width="match_parent"
-                android:background="#808D9E"
-                android:layout_marginTop="5dp"
+                android:layout_height="1dp"
                 android:layout_marginStart="20dp"
+                android:layout_marginTop="5dp"
                 android:layout_marginEnd="20dp"
-                android:layout_height="1dp"/>
+                android:background="#808D9E" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
-                android:layout_marginTop="20dp"
-                android:gravity="bottom"
-                android:layout_marginBottom="30dp"
-                android:weightSum="4"
-                android:orientation="vertical"
-                android:background="@drawable/cashback_card"
                 android:layout_marginStart="30dp"
-                android:layout_marginEnd="30dp">
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginBottom="30dp"
+                android:layout_weight="1"
+                android:background="@drawable/cashback_card"
+                android:gravity="bottom"
+                android:orientation="vertical"
+                android:weightSum="4">
 
                 <TextView
                     android:id="@+id/userName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
-                    android:text=""
+                    android:layout_marginEnd="20dp"
                     android:layout_marginBottom="2dp"
-                    android:textSize="14dp"
+                    android:text=""
                     android:textColor="#1A202C"
-                    android:layout_marginEnd="20dp"/>
+                    android:textSize="14dp" />
+
                 <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:textStyle="bold"
-                    android:textColor="@color/black"
-                    android:textSize="18dp"
-                    android:text="Keng Makon"
-                    android:layout_marginBottom="20dp"
-                    android:layout_marginEnd="20dp"/>
-                <TextView
-                    android:id="@+id/totalCashback"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="20dp"
                     android:layout_marginBottom="20dp"
-                    android:textSize="22dp"
-                    android:text="0 sum"
+                    android:text="Keng Makon"
+                    android:textColor="@color/black"
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/totalDiscount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:text=""
                     android:textColor="#8690A3"
-                    android:textStyle="bold"/>
+                    android:textSize="22dp"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
         </LinearLayout>
 
-        <LinearLayout
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:background="@color/white"
+            android:layout_height="50dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
             >
+            <TextView
+                android:id="@+id/prevPercent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|start"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:textSize="24dp"
+                android:text=""/>
+            <TextView
+                android:id="@+id/prevAmount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|start"
+                android:textColor="@color/black"
+                android:textSize="18dp"
+                android:text=""/>
 
             <TextView
-                android:layout_width="match_parent"
+                android:id="@+id/nextPercent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#191A26"
-                android:textSize="17dp"
-                android:text="Keng Makon Cashback"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:textStyle="bold"/>
-
+                android:layout_gravity="top|end"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:textSize="24dp"
+                android:text=""/>
             <TextView
-                android:layout_width="match_parent"
+                android:id="@+id/nextAmount"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#808D9E"
-                android:textSize="14dp"
-                android:lineSpacingExtra="1dp"
-                android:layout_marginTop="5dp"
-                android:text="@string/cashback_description"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                />
+                android:layout_gravity="bottom|end"
+                android:textColor="@color/black"
+                android:textSize="18dp"
+                android:text=""/>
+        </FrameLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:background="#EFEFEF"
-                android:layout_marginTop="10dp"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:layout_height="1dp"/>
+        <ProgressBar
+            android:id="@+id/progressbar"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginStart="20dp"
+            android:progressTint="@color/colorPrimary"
+            android:indeterminate="true"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            android:background="@color/grayColor"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="10dp"/>
 
-            <TextView
-                android:id="@+id/cashbackHistory"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="#191A26"
-                android:textSize="17dp"
-                android:visibility="gone"
-                android:layout_marginTop="5dp"
-                android:text="@string/cashback_history"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
-                android:textStyle="bold"/>
-
-            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-                android:id="@+id/swipeRefreshLayout"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginTop="5dp"
-                android:layout_weight="1">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerView"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    tools:listitem="@layout/item_cashback">
-
-                </androidx.recyclerview.widget.RecyclerView>
-
-            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-        </LinearLayout>
-
+        <TextView
+            android:id="@+id/amount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorPrimary"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"/>
 
     </LinearLayout>
+
 </layout>

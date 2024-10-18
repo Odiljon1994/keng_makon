@@ -6,6 +6,7 @@ import com.toplevel.kengmakon.models.BranchesModel;
 import com.toplevel.kengmakon.models.CashbackModel;
 import com.toplevel.kengmakon.models.CategoriesModel;
 import com.toplevel.kengmakon.models.CategoryDetailModel;
+import com.toplevel.kengmakon.models.DiscountModel;
 import com.toplevel.kengmakon.models.FeedbackModel;
 import com.toplevel.kengmakon.models.ForgotPasswordReqModel;
 import com.toplevel.kengmakon.models.FurnitureDetailModel;
@@ -99,6 +100,9 @@ public interface Api {
 
     @GET("/api/user/cashback")
     Single<CashbackModel> getCashback(@Header("Authorization") String token, @Query("user_id") int user_id);
+
+    @GET("/api/user/discount-detailed")
+    Single<DiscountModel> getDiscount(@Header("Authorization") String token);
 
     @GET("/api/order/list")
     Single<OrdersModel> getOrders(@Header("Authorization") String token);
