@@ -4,13 +4,17 @@
 
     package="com.toplevel.kengmakon">
 
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
-        android:name=".MyApp"
+        android:name="com.furniture.kengmakon.MyApp"
         android:allowBackup="false"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -26,7 +30,7 @@
         tools:replace="android:allowBackup"
         >
         <service
-            android:name=".utils.MyFirebaseService"
+            android:name="com.furniture.kengmakon.utils.MyFirebaseService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
@@ -38,7 +42,7 @@
             android:value="AIzaSyDKTd2IGDgzgHMpD-JeUFSgjXEqTH9NnlA" />
 
         <activity
-            android:name=".ui.SplashActivity"
+            android:name="com.furniture.kengmakon.ui.SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -48,7 +52,7 @@
         </activity>
 
         <activity
-            android:name=".ui.MainActivity"
+            android:name="com.furniture.kengmakon.ui.MainActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"
@@ -56,120 +60,120 @@
             />
 <!--        android:theme="@style/AppThemeTwo"-->
         <activity
-            android:name=".ui.GetStartedActivity"
+            android:name="com.furniture.kengmakon.ui.GetStartedActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"
             />
 
         <activity
-            android:name=".ui.CashbackDetailActivity"
+            android:name="com.furniture.kengmakon.ui.CashbackDetailActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"
             />
 
         <activity
-            android:name=".ui.DiscountDetailActivity"
+            android:name="com.furniture.kengmakon.ui.DiscountDetailActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"
             />
 
         <activity
-            android:name=".ui.LoginActivity"
+            android:name="com.furniture.kengmakon.ui.LoginActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"
             />
         <activity
-            android:name=".ui.ChooseLanguageActivity"
+            android:name="com.furniture.kengmakon.ui.ChooseLanguageActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"
             />
         <activity
-            android:name=".ui.CreateAccountActivity"
+            android:name="com.furniture.kengmakon.ui.CreateAccountActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"
             />
         <activity
-            android:name=".ui.SetDetailActivity"
+            android:name="com.furniture.kengmakon.ui.SetDetailActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"
             />
         <activity
-            android:name=".ui.CategoryDetailActivity"
+            android:name="com.furniture.kengmakon.ui.CategoryDetailActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"
             />
         <activity
-            android:name=".ui.BaseActivity"
+            android:name="com.furniture.kengmakon.ui.BaseActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"
             />
         <activity
-            android:name=".ui.FeedbackActivity"
-            android:exported="true"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"
-            />
-
-        <activity
-            android:name=".ui.AboutActivity"
-            android:exported="true"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"
-            />
-        <activity
-            android:name=".ui.OrdersActivity"
-            android:exported="true"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"
-            />
-        <activity
-            android:name=".ui.OrderDetailActivity"
-            android:exported="true"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"
-            />
-        <activity
-            android:name=".ui.BranchesActivity"
-            android:exported="true"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"
-            />
-        <activity
-            android:name=".ui.BranchDetailActivity"
-            android:exported="true"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"
-            />
-        <activity
-            android:name=".ui.BranchLocationActivity"
+            android:name="com.furniture.kengmakon.ui.FeedbackActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"
             />
 
         <activity
-            android:name=".ui.ActionsDetailActivity"
+            android:name="com.furniture.kengmakon.ui.AboutActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"
             />
         <activity
-            android:name=".ui.FurnitureDetailActivity"
+            android:name="com.furniture.kengmakon.ui.OrdersActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"
             />
         <activity
-            android:name=".ui.NotificationsActivity"
+            android:name="com.furniture.kengmakon.ui.OrderDetailActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"
+            />
+        <activity
+            android:name="com.furniture.kengmakon.ui.BranchesActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"
+            />
+        <activity
+            android:name="com.furniture.kengmakon.ui.BranchDetailActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"
+            />
+        <activity
+            android:name="com.furniture.kengmakon.ui.BranchLocationActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"
+            />
+
+        <activity
+            android:name="com.furniture.kengmakon.ui.ActionsDetailActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"
+            />
+        <activity
+            android:name="com.furniture.kengmakon.ui.FurnitureDetailActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"
+            />
+        <activity
+            android:name="com.furniture.kengmakon.ui.NotificationsActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan">
@@ -184,34 +188,34 @@
 
 
         <activity
-            android:name=".ui.NotificationDetailActivity"
+            android:name="com.furniture.kengmakon.ui.NotificationDetailActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"
             />
 
         <activity
-            android:name=".ui.ForgotPasswordActivity"
+            android:name="com.furniture.kengmakon.ui.ForgotPasswordActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"
             />
 
         <activity
-            android:name=".ui.EditAccountActivity"
+            android:name="com.furniture.kengmakon.ui.EditAccountActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize"
             />
 
         <activity
-            android:name=".ui.ZoomImageActivity"
+            android:name="com.furniture.kengmakon.ui.ZoomImageActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize"
             />
         <activity
-            android:name=".ui.SearchActivity"
+            android:name="com.furniture.kengmakon.ui.SearchActivity"
             android:exported="true"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize"
